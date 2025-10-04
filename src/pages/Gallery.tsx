@@ -32,13 +32,17 @@ const Gallery = () => {
           {images.map((image, index) => (
             <div
               key={index}
-              className="aspect-video overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow group"
+              className="aspect-video overflow-hidden rounded-xl shadow-lg hover-lift group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative"
+              style={{ animationDelay: `${index * 100}ms` }}
             >
               <img
                 src={image.src}
                 alt={image.alt}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
               />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                <span className="text-white font-medium">{image.alt}</span>
+              </div>
             </div>
           ))}
         </div>

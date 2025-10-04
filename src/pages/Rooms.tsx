@@ -32,20 +32,29 @@ const Rooms = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background py-16">
+    <div className="min-h-screen bg-background py-20">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold font-serif text-foreground mb-4">
+        <div className="text-center mb-16 animate-fade-in-up">
+          <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
+            <span className="text-sm font-medium text-primary tracking-wide">Nos Hébergements</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold font-serif text-foreground mb-6">
             {t('rooms.title')}
           </h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             {t('rooms.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {rooms.map((room, index) => (
-            <RoomCard key={index} {...room} />
+            <div
+              key={index}
+              className="animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+              style={{ animationDelay: `${index * 150}ms` }}
+            >
+              <RoomCard {...room} />
+            </div>
           ))}
         </div>
       </div>

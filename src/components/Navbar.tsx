@@ -24,7 +24,7 @@ const Navbar = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-md">
+    <nav className="sticky top-0 z-50 bg-primary text-primary-foreground shadow-lg backdrop-blur-sm bg-primary/95">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -40,13 +40,16 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 relative ${
                   location.pathname === link.path
-                    ? 'bg-primary-foreground/20'
+                    ? 'bg-primary-foreground/20 shadow-sm'
                     : 'hover:bg-primary-foreground/10'
                 }`}
               >
                 {link.label}
+                {location.pathname === link.path && (
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary-foreground rounded-full" />
+                )}
               </Link>
             ))}
           </div>
