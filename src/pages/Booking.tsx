@@ -42,26 +42,26 @@ const Booking = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold font-serif text-foreground mb-4">
+    <div className="min-h-screen bg-background py-12 sm:py-16">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-8 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-foreground mb-4">
             {t('booking.title')}
           </h1>
         </div>
 
         <Card className="max-w-2xl mx-auto">
           <CardHeader>
-            <CardTitle className="text-2xl font-serif">{t('booking.title')}</CardTitle>
-            <CardDescription>{t('hero.subtitle')}</CardDescription>
+            <CardTitle className="text-xl sm:text-2xl font-serif">{t('booking.title')}</CardTitle>
+            <CardDescription className="text-sm sm:text-base">{t('hero.subtitle')}</CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
               {/* Dates */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="checkin" className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-2" />
+                  <Label htmlFor="checkin" className="flex items-center text-sm sm:text-base">
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                     {t('booking.checkin')}
                   </Label>
                   <Input
@@ -71,11 +71,12 @@ const Booking = () => {
                     value={formData.checkin}
                     onChange={handleChange}
                     required
+                    className="text-sm sm:text-base"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="checkout" className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-2" />
+                  <Label htmlFor="checkout" className="flex items-center text-sm sm:text-base">
+                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
                     {t('booking.checkout')}
                   </Label>
                   <Input
@@ -85,13 +86,14 @@ const Booking = () => {
                     value={formData.checkout}
                     onChange={handleChange}
                     required
+                    className="text-sm sm:text-base"
                   />
                 </div>
               </div>
 
               {/* Guests */}
               <div className="space-y-2">
-                <Label htmlFor="guests">{t('booking.guests')}</Label>
+                <Label htmlFor="guests" className="text-sm sm:text-base">{t('booking.guests')}</Label>
                 <Input
                   id="guests"
                   name="guests"
@@ -100,12 +102,13 @@ const Booking = () => {
                   value={formData.guests}
                   onChange={handleChange}
                   required
+                  className="text-sm sm:text-base"
                 />
               </div>
 
               {/* Personal Info */}
               <div className="space-y-2">
-                <Label htmlFor="name">{t('booking.name')}</Label>
+                <Label htmlFor="name" className="text-sm sm:text-base">{t('booking.name')}</Label>
                 <Input
                   id="name"
                   name="name"
@@ -113,12 +116,13 @@ const Booking = () => {
                   value={formData.name}
                   onChange={handleChange}
                   required
+                  className="text-sm sm:text-base"
                 />
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="email">{t('booking.email')}</Label>
+                  <Label htmlFor="email" className="text-sm sm:text-base">{t('booking.email')}</Label>
                   <Input
                     id="email"
                     name="email"
@@ -126,10 +130,11 @@ const Booking = () => {
                     value={formData.email}
                     onChange={handleChange}
                     required
+                    className="text-sm sm:text-base"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="phone">{t('booking.phone')}</Label>
+                  <Label htmlFor="phone" className="text-sm sm:text-base">{t('booking.phone')}</Label>
                   <Input
                     id="phone"
                     name="phone"
@@ -137,19 +142,21 @@ const Booking = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     required
+                    className="text-sm sm:text-base"
                   />
                 </div>
               </div>
 
               {/* Message */}
               <div className="space-y-2">
-                <Label htmlFor="message">{t('booking.message')}</Label>
+                <Label htmlFor="message" className="text-sm sm:text-base">{t('booking.message')}</Label>
                 <Textarea
                   id="message"
                   name="message"
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
+                  className="text-sm sm:text-base"
                 />
               </div>
 

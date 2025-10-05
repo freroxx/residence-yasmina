@@ -46,6 +46,11 @@ const translations = {
     'rooms.amenities': 'Équipements',
     'rooms.capacity': 'Capacité',
     'rooms.persons': 'personnes',
+    'rooms.amenity.ac': 'Climatisation',
+    'rooms.amenity.bathroom': 'Salle de bain',
+    'rooms.amenity.balcony': 'Balcon',
+    'rooms.amenity.kitchen': 'Cuisine équipée',
+    'rooms.amenity.living': 'Salon',
     
     // Booking
     'booking.title': 'Réservation',
@@ -70,6 +75,16 @@ const translations = {
     // Gallery
     'gallery.title': 'Galerie Photos',
     'gallery.subtitle': 'Découvrez notre résidence',
+    'gallery.aerial': 'Vue aérienne de la résidence',
+    'gallery.pool': 'Piscine avec parasols',
+    'gallery.poolArea': 'Espace piscine et détente',
+    'gallery.bedroom': 'Chambre avec lits jumeaux',
+    'gallery.standardRoom': 'Chambre standard',
+    'gallery.livingRoom': 'Salon confortable',
+    'gallery.apartment': 'Appartement avec coin cuisine',
+    'gallery.garden': 'Jardin tropical',
+    'gallery.tennis': 'Court de tennis et jardins',
+    'gallery.view': 'Vue depuis le balcon',
     
     // About
     'about.title': 'À Propos de Nous',
@@ -134,6 +149,11 @@ const translations = {
     'rooms.amenities': 'Amenities',
     'rooms.capacity': 'Capacity',
     'rooms.persons': 'persons',
+    'rooms.amenity.ac': 'Air Conditioning',
+    'rooms.amenity.bathroom': 'Bathroom',
+    'rooms.amenity.balcony': 'Balcony',
+    'rooms.amenity.kitchen': 'Equipped Kitchen',
+    'rooms.amenity.living': 'Living Room',
     
     // Booking
     'booking.title': 'Booking',
@@ -158,6 +178,16 @@ const translations = {
     // Gallery
     'gallery.title': 'Photo Gallery',
     'gallery.subtitle': 'Discover our residence',
+    'gallery.aerial': 'Aerial view of the residence',
+    'gallery.pool': 'Pool with umbrellas',
+    'gallery.poolArea': 'Pool and relaxation area',
+    'gallery.bedroom': 'Twin bedroom',
+    'gallery.standardRoom': 'Standard room',
+    'gallery.livingRoom': 'Comfortable living room',
+    'gallery.apartment': 'Apartment with kitchenette',
+    'gallery.garden': 'Tropical garden',
+    'gallery.tennis': 'Tennis court and gardens',
+    'gallery.view': 'View from balcony',
     
     // About
     'about.title': 'About Us',
