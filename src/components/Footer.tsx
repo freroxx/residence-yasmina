@@ -48,17 +48,29 @@ const Footer = () => {
           <div>
             <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">{t('footer.contact')}</h4>
             <ul className="space-y-2 text-xs sm:text-sm opacity-90">
-              <li className="flex items-center space-x-2">
-                <MapPin className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span>Agadir, Maroc</span>
+              <li className="flex items-start space-x-2">
+                <MapPin className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 mt-1" />
+                <span>Rue de la Jeunesse<br />80000 Agadir, Maroc</span>
               </li>
-              <li className="flex items-center space-x-2">
-                <Phone className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span>+212 XXX-XXXXXX</span>
+              <li className="flex items-start space-x-2">
+                <Phone className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 mt-1" />
+                <div className="flex flex-col gap-1">
+                  <a href="tel:+212528843131" className="hover:text-primary-foreground transition-colors">
+                    +212.528.84.3131
+                  </a>
+                  <a href="tel:+212528842660" className="hover:text-primary-foreground transition-colors">
+                    +212.528.84.2660
+                  </a>
+                  <a href="tel:+212528842565" className="hover:text-primary-foreground transition-colors">
+                    +212.528.84.2565
+                  </a>
+                </div>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
-                <span>contact@residence-yasmina.com</span>
+                <a href="mailto:ReservationYasmina@gmail.com" className="hover:text-primary-foreground transition-colors">
+                  ReservationYasmina@gmail.com
+                </a>
               </li>
             </ul>
             

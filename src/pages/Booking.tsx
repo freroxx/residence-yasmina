@@ -1,169 +1,58 @@
-import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Label } from '@/components/ui/label';
-import { Calendar } from 'lucide-react';
-import { toast } from 'sonner';
+import { ExternalLink } from 'lucide-react';
 
 const Booking = () => {
   const { t } = useLanguage();
-  const [formData, setFormData] = useState({
-    checkin: '',
-    checkout: '',
-    guests: '',
-    name: '',
-    email: '',
-    phone: '',
-    message: '',
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    toast.success(t('booking.success'));
-    setFormData({
-      checkin: '',
-      checkout: '',
-      guests: '',
-      name: '',
-      email: '',
-      phone: '',
-      message: '',
-    });
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   return (
     <div className="min-h-screen bg-background py-12 sm:py-16">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-8 sm:mb-12">
+        <div className="text-center mb-8 sm:mb-12 animate-fade-in">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-foreground mb-4">
             {t('booking.title')}
           </h1>
+          <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+            {t('hero.subtitle')}
+          </p>
         </div>
 
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle className="text-xl sm:text-2xl font-serif">{t('booking.title')}</CardTitle>
-            <CardDescription className="text-sm sm:text-base">{t('hero.subtitle')}</CardDescription>
+        <Card className="max-w-4xl mx-auto shadow-lg">
+          <CardHeader className="text-center">
+            <CardTitle className="text-xl sm:text-2xl font-serif mb-2">{t('booking.form.title')}</CardTitle>
+            <CardDescription className="text-sm sm:text-base">
+              {t('booking.form.description')}
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
-              {/* Dates */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="checkin" className="flex items-center text-sm sm:text-base">
-                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                    {t('booking.checkin')}
-                  </Label>
-                  <Input
-                    id="checkin"
-                    name="checkin"
-                    type="date"
-                    value={formData.checkin}
-                    onChange={handleChange}
-                    required
-                    className="text-sm sm:text-base"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="checkout" className="flex items-center text-sm sm:text-base">
-                    <Calendar className="h-3 w-3 sm:h-4 sm:w-4 mr-2" />
-                    {t('booking.checkout')}
-                  </Label>
-                  <Input
-                    id="checkout"
-                    name="checkout"
-                    type="date"
-                    value={formData.checkout}
-                    onChange={handleChange}
-                    required
-                    className="text-sm sm:text-base"
-                  />
-                </div>
-              </div>
+            {/* Google Form Embed */}
+            <div className="w-full overflow-hidden rounded-lg border border-border">
+              <iframe
+                src="https://docs.google.com/forms/d/e/1FAIpQLSfnp64jbdhSWsZqQQciqin96KKwzJQE42nBFpWTEOrGCGDgcQ/viewform?embedded=true"
+                width="100%"
+                height="1200"
+                frameBorder="0"
+                marginHeight={0}
+                marginWidth={0}
+                className="w-full"
+                title="Booking Form"
+              >
+                {t('booking.loading')}
+              </iframe>
+            </div>
 
-              {/* Guests */}
-              <div className="space-y-2">
-                <Label htmlFor="guests" className="text-sm sm:text-base">{t('booking.guests')}</Label>
-                <Input
-                  id="guests"
-                  name="guests"
-                  type="number"
-                  min="1"
-                  value={formData.guests}
-                  onChange={handleChange}
-                  required
-                  className="text-sm sm:text-base"
-                />
-              </div>
-
-              {/* Personal Info */}
-              <div className="space-y-2">
-                <Label htmlFor="name" className="text-sm sm:text-base">{t('booking.name')}</Label>
-                <Input
-                  id="name"
-                  name="name"
-                  type="text"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                  className="text-sm sm:text-base"
-                />
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email" className="text-sm sm:text-base">{t('booking.email')}</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                    className="text-sm sm:text-base"
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="phone" className="text-sm sm:text-base">{t('booking.phone')}</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    required
-                    className="text-sm sm:text-base"
-                  />
-                </div>
-              </div>
-
-              {/* Message */}
-              <div className="space-y-2">
-                <Label htmlFor="message" className="text-sm sm:text-base">{t('booking.message')}</Label>
-                <Textarea
-                  id="message"
-                  name="message"
-                  rows={4}
-                  value={formData.message}
-                  onChange={handleChange}
-                  className="text-sm sm:text-base"
-                />
-              </div>
-
-              <Button type="submit" className="w-full" size="lg">
-                {t('booking.submit')}
-              </Button>
-            </form>
+            {/* Alternative: Open in new tab link */}
+            <div className="mt-6 text-center">
+              <a
+                href="https://docs.google.com/forms/d/e/1FAIpQLSfnp64jbdhSWsZqQQciqin96KKwzJQE42nBFpWTEOrGCGDgcQ/viewform"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-primary hover:text-primary/80 transition-colors font-medium"
+              >
+                <ExternalLink className="h-4 w-4" />
+                {t('booking.openNewTab')}
+              </a>
+            </div>
           </CardContent>
         </Card>
       </div>

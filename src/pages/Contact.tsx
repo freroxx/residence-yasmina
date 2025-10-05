@@ -63,7 +63,8 @@ const Contact = () => {
                     <h3 className="font-semibold mb-1">{t('contact.address')}</h3>
                     <p className="text-muted-foreground">
                       Résidence Yasmina<br />
-                      Agadir, Maroc
+                      Rue de la Jeunesse<br />
+                      80000 Agadir, Maroc
                     </p>
                   </div>
                 </div>
@@ -74,7 +75,23 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">{t('contact.phone')}</h3>
-                    <p className="text-muted-foreground">+212 XXX-XXXXXX</p>
+                    <div className="text-muted-foreground space-y-1">
+                      <p>
+                        <a href="tel:+212528843131" className="hover:text-primary transition-colors">
+                          +212.528.84.3131
+                        </a>
+                      </p>
+                      <p>
+                        <a href="tel:+212528842660" className="hover:text-primary transition-colors">
+                          +212.528.84.2660
+                        </a>
+                      </p>
+                      <p>
+                        <a href="tel:+212528842565" className="hover:text-primary transition-colors">
+                          +212.528.84.2565
+                        </a>
+                      </p>
+                    </div>
                   </div>
                 </div>
 
@@ -84,17 +101,28 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">{t('contact.email')}</h3>
-                    <p className="text-muted-foreground">contact@residence-yasmina.com</p>
+                    <p className="text-muted-foreground">
+                      <a href="mailto:ReservationYasmina@gmail.com" className="hover:text-primary transition-colors">
+                        ReservationYasmina@gmail.com
+                      </a>
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Google Maps placeholder */}
+            {/* Google Maps */}
             <Card className="h-[300px] overflow-hidden">
-              <div className="w-full h-full bg-secondary flex items-center justify-center">
-                <p className="text-muted-foreground">Google Maps</p>
-              </div>
+              <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.5!2d-9.5981!3d30.4202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDI1JzEyLjciTiA5wrAzNScwOS4xIlc!5e0!3m2!1sen!2sma!4v1234567890"
+                width="100%"
+                height="100%"
+                style={{ border: 0 }}
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                title="Résidence Yasmina Location"
+              />
             </Card>
           </div>
 

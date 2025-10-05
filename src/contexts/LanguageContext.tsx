@@ -54,6 +54,10 @@ const translations = {
     
     // Booking
     'booking.title': 'Réservation',
+    'booking.form.title': 'Formulaire de Réservation',
+    'booking.form.description': 'Remplissez le formulaire ci-dessous pour réserver votre séjour',
+    'booking.loading': 'Chargement du formulaire...',
+    'booking.openNewTab': 'Ouvrir dans un nouvel onglet',
     'booking.checkin': 'Date d\'arrivée',
     'booking.checkout': 'Date de départ',
     'booking.guests': 'Nombre de personnes',
@@ -157,6 +161,10 @@ const translations = {
     
     // Booking
     'booking.title': 'Booking',
+    'booking.form.title': 'Booking Form',
+    'booking.form.description': 'Fill out the form below to book your stay',
+    'booking.loading': 'Loading form...',
+    'booking.openNewTab': 'Open in new tab',
     'booking.checkin': 'Check-in Date',
     'booking.checkout': 'Check-out Date',
     'booking.guests': 'Number of Guests',
