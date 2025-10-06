@@ -1,13 +1,28 @@
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Menu, X, Globe } from 'lucide-react';
-import { useState } from 'react';
+import { Menu, X, Globe, User } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { supabase } from '@/integrations/supabase/client';
+import { User as SupabaseUser } from '@supabase/supabase-js';
 
 const Navbar = () => {
   const { t, language, setLanguage } = useLanguage();
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setUser(session?.user ?? null);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const navLinks = [
     { path: '/', label: t('nav.home') },
@@ -54,8 +69,31 @@ const Navbar = () => {
             ))}
           </div>
 
-          {/* Language Toggle & Mobile Menu */}
+          {/* Language Toggle, Auth & Mobile Menu */}
           <div className="flex items-center space-x-2">
+            {user ? (
+              <Link to="/profile" className="hidden lg:block">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  <User className="h-4 w-4 mr-1" />
+                  {t('nav.profile')}
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/auth" className="hidden lg:block">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-primary-foreground hover:bg-primary-foreground/10"
+                >
+                  {t('nav.login')}
+                </Button>
+              </Link>
+            )}
+            
             <Button
               variant="ghost"
               size="sm"
@@ -97,6 +135,26 @@ const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            <div className="border-t border-primary-foreground/20 mt-2 pt-2">
+              {user ? (
+                <Link
+                  to="/profile"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-4 py-3 text-sm font-medium hover:bg-primary-foreground/10"
+                >
+                  <User className="h-4 w-4 inline mr-2" />
+                  {t('nav.profile')}
+                </Link>
+              ) : (
+                <Link
+                  to="/auth"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="block px-4 py-3 text-sm font-medium hover:bg-primary-foreground/10"
+                >
+                  {t('nav.login')}
+                </Link>
+              )}
+            </div>
           </div>
         )}
       </div>

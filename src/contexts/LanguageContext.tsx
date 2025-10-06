@@ -18,6 +18,8 @@ const translations = {
     'nav.gallery': 'Galerie',
     'nav.about': 'À Propos',
     'nav.contact': 'Contact',
+    'nav.login': 'Connexion',
+    'nav.profile': 'Profil',
     
     // Hero
     'hero.title': 'Résidence Yasmina Agadir',
@@ -136,6 +138,42 @@ const translations = {
     'footer.follow': 'Suivez-nous',
     'footer.rights': 'Tous droits réservés',
     'footer.legal': 'Mentions Légales',
+
+    // Auth
+    'auth.login': 'Connexion',
+    'auth.signup': 'Inscription',
+    'auth.loginSubtitle': 'Connectez-vous à votre compte',
+    'auth.signupSubtitle': 'Créez votre compte',
+    'auth.fullName': 'Nom complet',
+    'auth.fullNamePlaceholder': 'Votre nom complet',
+    'auth.email': 'Email',
+    'auth.emailPlaceholder': 'votre@email.com',
+    'auth.password': 'Mot de passe',
+    'auth.passwordPlaceholder': 'Au moins 6 caractères',
+    'auth.loading': 'Chargement...',
+    'auth.or': 'ou',
+    'auth.continueWithGoogle': 'Continuer avec Google',
+    'auth.noAccount': 'Pas de compte ? Inscrivez-vous',
+    'auth.hasAccount': 'Déjà un compte ? Connectez-vous',
+    'auth.loginSuccess': 'Connexion réussie !',
+    'auth.signupSuccess': 'Inscription réussie !',
+    'auth.checkEmail': 'Vérifiez votre email pour confirmer votre compte',
+    'auth.error': 'Erreur',
+
+    // Profile
+    'profile.title': 'Mon Profil',
+    'profile.email': 'Adresse email',
+    'profile.fullName': 'Nom complet',
+    'profile.fullNamePlaceholder': 'Votre nom',
+    'profile.description': 'Description',
+    'profile.descriptionPlaceholder': 'Parlez-nous de vous...',
+    'profile.save': 'Enregistrer',
+    'profile.saving': 'Enregistrement...',
+    'profile.cancel': 'Annuler',
+    'profile.signOut': 'Déconnexion',
+    'profile.saveSuccess': 'Profil mis à jour avec succès !',
+    'profile.saveError': 'Erreur lors de la mise à jour',
+    'profile.loading': 'Chargement...',
   },
   en: {
     // Navigation
@@ -146,6 +184,8 @@ const translations = {
     'nav.gallery': 'Gallery',
     'nav.about': 'About',
     'nav.contact': 'Contact',
+    'nav.login': 'Login',
+    'nav.profile': 'Profile',
     
     // Hero
     'hero.title': 'Résidence Yasmina Agadir',
@@ -264,6 +304,42 @@ const translations = {
     'footer.follow': 'Follow Us',
     'footer.rights': 'All rights reserved',
     'footer.legal': 'Legal Notice',
+
+    // Auth
+    'auth.login': 'Login',
+    'auth.signup': 'Sign Up',
+    'auth.loginSubtitle': 'Sign in to your account',
+    'auth.signupSubtitle': 'Create your account',
+    'auth.fullName': 'Full Name',
+    'auth.fullNamePlaceholder': 'Your full name',
+    'auth.email': 'Email',
+    'auth.emailPlaceholder': 'your@email.com',
+    'auth.password': 'Password',
+    'auth.passwordPlaceholder': 'At least 6 characters',
+    'auth.loading': 'Loading...',
+    'auth.or': 'or',
+    'auth.continueWithGoogle': 'Continue with Google',
+    'auth.noAccount': 'No account? Sign up',
+    'auth.hasAccount': 'Already have an account? Login',
+    'auth.loginSuccess': 'Successfully logged in!',
+    'auth.signupSuccess': 'Successfully signed up!',
+    'auth.checkEmail': 'Check your email to confirm your account',
+    'auth.error': 'Error',
+
+    // Profile
+    'profile.title': 'My Profile',
+    'profile.email': 'Email address',
+    'profile.fullName': 'Full Name',
+    'profile.fullNamePlaceholder': 'Your name',
+    'profile.description': 'Description',
+    'profile.descriptionPlaceholder': 'Tell us about yourself...',
+    'profile.save': 'Save',
+    'profile.saving': 'Saving...',
+    'profile.cancel': 'Cancel',
+    'profile.signOut': 'Sign Out',
+    'profile.saveSuccess': 'Profile updated successfully!',
+    'profile.saveError': 'Error updating profile',
+    'profile.loading': 'Loading...',
   },
 };
 
