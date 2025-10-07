@@ -1,9 +1,12 @@
 import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Wifi, Car, Waves, UtensilsCrossed, Star, Award, Heart } from 'lucide-react';
+import { Wifi, Car, Waves, UtensilsCrossed, Star, Award, Heart, Home as HomeIcon, Users, MapPin } from 'lucide-react';
 import { useEffect, useRef } from 'react';
 import aerialBuilding from '@/assets/aerial-building.jpg';
+import poolPatio from '@/assets/pool-patio.jpg';
+import suiteC2 from '@/assets/suite-c-2.png';
 
 const Home = () => {
   const { t } = useLanguage();
@@ -149,6 +152,92 @@ const Home = () => {
                 <span className="font-semibold text-sm sm:text-base lg:text-lg">{feature.label}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Rooms Preview Section */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-background">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16 animate-on-scroll">
+            <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
+              <span className="text-sm font-medium text-primary tracking-wide">Nos Logements</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-foreground mb-4">
+              Choisissez Votre Hébergement Idéal
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+              Suites spacieuses et appartements confortables pour tous vos besoins
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
+            {[
+              { icon: HomeIcon, title: 'Suite A', desc: 'Jusqu\'à 7 personnes', size: '64m²' },
+              { icon: Users, title: 'Suite B & C', desc: 'Jusqu\'à 5 personnes', size: '58-59m²' },
+              { icon: MapPin, title: 'Appartement', desc: 'Jusqu\'à 5 personnes', size: '42m²' },
+            ].map((room, index) => (
+              <Card key={index} className="hover-lift animate-fade-in-up opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: `${index * 100}ms` }}>
+                <CardContent className="p-6 text-center">
+                  <div className="inline-flex p-4 bg-primary/10 rounded-full mb-4">
+                    <room.icon className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="text-xl font-bold mb-2">{room.title}</h3>
+                  <p className="text-muted-foreground mb-1">{room.desc}</p>
+                  <p className="text-sm text-primary font-semibold">{room.size}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+
+          <div className="text-center">
+            <Link to="/rooms">
+              <Button size="lg" className="hover-lift">
+                Voir Tous les Logements
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Image Gallery Preview */}
+      <section className="py-12 sm:py-16 lg:py-20 bg-secondary/20">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif mb-4">
+              Découvrez Notre Résidence
+            </h2>
+            <p className="text-base sm:text-lg text-muted-foreground">
+              Un cadre idéal pour vos vacances à Agadir
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+            {[
+              { src: aerialBuilding, alt: 'Vue aérienne' },
+              { src: poolPatio, alt: 'Espace piscine' },
+              { src: suiteC2, alt: 'Intérieur suite' },
+            ].map((img, index) => (
+              <div 
+                key={index}
+                className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <Link to="/gallery">
+              <Button size="lg" variant="outline" className="hover-lift">
+                Voir Toute la Galerie
+              </Button>
+            </Link>
           </div>
         </div>
       </section>

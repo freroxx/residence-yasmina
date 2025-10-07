@@ -1,17 +1,17 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import RoomDetailCard from '@/components/RoomDetailCard';
-import apartmentSuite from '@/assets/apartment-suite.jpg';
-import roomDeluxe from '@/assets/room-deluxe.jpg';
-import standardRoom from '@/assets/standard-room.jpg';
-import apartmentInterior from '@/assets/apartment-interior.jpg';
+import suiteA from '@/assets/suite-a.png';
+import suiteB from '@/assets/suite-b.png';
+import suiteC from '@/assets/suite-c.png';
+import appart from '@/assets/appart.png';
 
 const Rooms = () => {
   const { t } = useLanguage();
 
   const rooms = [
     {
-      image: apartmentSuite,
-      title: t('rooms.suiteA.title'),
+      image: suiteA,
+      title: 'Suite A',
       subtitle: t('rooms.suiteA.subtitle'),
       description: t('rooms.suiteA.description'),
       size: '64',
@@ -29,8 +29,8 @@ const Rooms = () => {
       ],
     },
     {
-      image: roomDeluxe,
-      title: t('rooms.suiteB.title'),
+      image: suiteB,
+      title: 'Suite B',
       subtitle: t('rooms.suiteB.subtitle'),
       description: t('rooms.suiteB.description'),
       size: '59',
@@ -46,8 +46,8 @@ const Rooms = () => {
       ],
     },
     {
-      image: standardRoom,
-      title: t('rooms.suiteC.title'),
+      image: suiteC,
+      title: 'Suite C',
       subtitle: t('rooms.suiteC.subtitle'),
       description: t('rooms.suiteC.description'),
       size: '58',
@@ -62,8 +62,8 @@ const Rooms = () => {
       ],
     },
     {
-      image: apartmentInterior,
-      title: t('rooms.apartment.title'),
+      image: appart,
+      title: 'Appartement',
       subtitle: t('rooms.apartment.subtitle'),
       description: t('rooms.apartment.description'),
       size: '42',
