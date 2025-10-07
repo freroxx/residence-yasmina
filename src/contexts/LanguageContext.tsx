@@ -38,16 +38,50 @@ const translations = {
     
     // Rooms
     'rooms.title': 'Nos Logements',
-    'rooms.subtitle': 'Choisissez l\'hébergement qui vous convient',
-    'rooms.standard.title': 'Chambre Standard',
-    'rooms.standard.desc': 'Chambre confortable avec lits jumeaux, idéale pour 2 personnes',
-    'rooms.deluxe.title': 'Chambre Deluxe',
-    'rooms.deluxe.desc': 'Chambre spacieuse avec lit double et équipements premium',
-    'rooms.suite.title': 'Appartement Suite',
-    'rooms.suite.desc': 'Appartement complet avec salon, cuisine et chambres séparées',
+    'rooms.subtitle': 'Découvrez nos appartements meublés avec tarifs détaillés selon la saison et le nombre de personnes',
+    'rooms.persons': 'personnes',
+    'rooms.detail.balcony': 'balcon',
+    
+    // Suite A
+    'rooms.suiteA.title': 'Suite "A"',
+    'rooms.suiteA.subtitle': 'Suite Familiale Premium',
+    'rooms.suiteA.description': 'Suite "A" 64 m² plus balcon 7 m² capacité pour une famille de 7 personnes. Elle a une grande chambre à coucher avec 2 grands lits.',
+    'rooms.suiteA.beds': 'Chambre avec 2 grands lits',
+    
+    // Suite B
+    'rooms.suiteB.title': 'Suite "B"',
+    'rooms.suiteB.subtitle': 'Suite Confort',
+    'rooms.suiteB.description': 'Suite "B" 59 m² + balcon 7m² capacité pour une famille de 5 personnes. La chambre à coucher avec un grand lit ou deux lits single.',
+    'rooms.suiteB.beds': 'Chambre avec 1 grand lit ou 2 lits single',
+    
+    // Suite C
+    'rooms.suiteC.title': 'Suite "C"',
+    'rooms.suiteC.subtitle': 'Suite Élégante',
+    'rooms.suiteC.description': 'Suite "C" 58 m² + balcon 10m² capacité pour une famille de 4 personnes. La chambre à coucher avec un grand lit.',
+    'rooms.suiteC.beds': 'Chambre avec 1 grand lit',
+    
+    // Apartment
+    'rooms.apartment.title': 'Appartement',
+    'rooms.apartment.subtitle': 'Appartement Cosy',
+    'rooms.apartment.description': 'Appartement avec 42 m² + balcon 4 à 6 m² ou terrasse directe sur le jardin, capacité cinq personnes.',
+    'rooms.apartment.beds': 'Configuration flexible',
+    
+    // Pricing
+    'rooms.pricing.title': 'Tarifs en Dirhams (TTC)',
+    'rooms.pricing.persons': 'Nombre de personnes',
+    'rooms.pricing.person': 'personne',
+    'rooms.pricing.highSeason': 'Du 18/12 au 16/04',
+    'rooms.pricing.midSeason': '17/04 - 30/06 | 01/09 - 17/12',
+    'rooms.pricing.lowSeason': 'Du 01/07 au 31/08',
+    'rooms.pricing.note1': 'Tarifs en TTC',
+    'rooms.pricing.note2': 'Location lit bébé à la demande : 38 dhs TTC / jour',
+    
+    // Additional Info
+    'rooms.additionalInfo.title': 'Informations Importantes',
+    
+    // Legacy (kept for backward compatibility)
     'rooms.amenities': 'Équipements',
     'rooms.capacity': 'Capacité',
-    'rooms.persons': 'personnes',
     'rooms.amenity.ac': 'Climatisation',
     'rooms.amenity.bathroom': 'Salle de bain',
     'rooms.amenity.balcony': 'Balcon',
@@ -204,16 +238,50 @@ const translations = {
     
     // Rooms
     'rooms.title': 'Our Accommodations',
-    'rooms.subtitle': 'Choose the accommodation that suits you',
-    'rooms.standard.title': 'Standard Room',
-    'rooms.standard.desc': 'Comfortable room with twin beds, ideal for 2 people',
-    'rooms.deluxe.title': 'Deluxe Room',
-    'rooms.deluxe.desc': 'Spacious room with double bed and premium amenities',
-    'rooms.suite.title': 'Suite Apartment',
-    'rooms.suite.desc': 'Complete apartment with living room, kitchen and separate bedrooms',
+    'rooms.subtitle': 'Discover our furnished apartments with detailed rates by season and number of guests',
+    'rooms.persons': 'persons',
+    'rooms.detail.balcony': 'balcony',
+    
+    // Suite A
+    'rooms.suiteA.title': 'Suite "A"',
+    'rooms.suiteA.subtitle': 'Premium Family Suite',
+    'rooms.suiteA.description': 'Suite "A" 64 m² plus 7 m² balcony capacity for a family of 7 people. It has a large bedroom with 2 large beds.',
+    'rooms.suiteA.beds': 'Bedroom with 2 large beds',
+    
+    // Suite B
+    'rooms.suiteB.title': 'Suite "B"',
+    'rooms.suiteB.subtitle': 'Comfort Suite',
+    'rooms.suiteB.description': 'Suite "B" 59 m² + 7m² balcony capacity for a family of 5 people. The bedroom with one large bed or two single beds.',
+    'rooms.suiteB.beds': 'Bedroom with 1 large bed or 2 single beds',
+    
+    // Suite C
+    'rooms.suiteC.title': 'Suite "C"',
+    'rooms.suiteC.subtitle': 'Elegant Suite',
+    'rooms.suiteC.description': 'Suite "C" 58 m² + 10m² balcony capacity for a family of 4 people. The bedroom with one large bed.',
+    'rooms.suiteC.beds': 'Bedroom with 1 large bed',
+    
+    // Apartment
+    'rooms.apartment.title': 'Apartment',
+    'rooms.apartment.subtitle': 'Cozy Apartment',
+    'rooms.apartment.description': 'Apartment with 42 m² + 4 to 6 m² balcony or direct garden terrace, capacity five persons.',
+    'rooms.apartment.beds': 'Flexible configuration',
+    
+    // Pricing
+    'rooms.pricing.title': 'Rates in Dirhams (All Taxes Included)',
+    'rooms.pricing.persons': 'Number of persons',
+    'rooms.pricing.person': 'person',
+    'rooms.pricing.highSeason': 'From 18/12 to 16/04',
+    'rooms.pricing.midSeason': '17/04 - 30/06 | 01/09 - 17/12',
+    'rooms.pricing.lowSeason': 'From 01/07 to 31/08',
+    'rooms.pricing.note1': 'All taxes included',
+    'rooms.pricing.note2': 'Baby cot rental on request: 38 dhs including tax / day',
+    
+    // Additional Info
+    'rooms.additionalInfo.title': 'Important Information',
+    
+    // Legacy (kept for backward compatibility)
     'rooms.amenities': 'Amenities',
     'rooms.capacity': 'Capacity',
-    'rooms.persons': 'persons',
     'rooms.amenity.ac': 'Air Conditioning',
     'rooms.amenity.bathroom': 'Bathroom',
     'rooms.amenity.balcony': 'Balcony',
