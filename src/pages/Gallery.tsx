@@ -1,6 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useState } from 'react';
-import { X } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { X, Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
 import aerialBuilding from '@/assets/aerial-building.jpg';
 import poolUmbrellas from '@/assets/pool-umbrellas.jpg';
 import poolPatio from '@/assets/pool-patio.jpg';
@@ -25,6 +26,7 @@ import appart from '@/assets/appart.png';
 const Gallery = () => {
   const { t } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const images = [
     { src: aerialBuilding, alt: t('gallery.aerial'), category: 'residence' },
@@ -49,10 +51,20 @@ const Gallery = () => {
     { src: balconyView, alt: t('gallery.view'), category: 'rooms' },
   ];
 
+  const filteredImages = useMemo(() => {
+    if (!searchQuery.trim()) return images;
+    
+    const query = searchQuery.toLowerCase();
+    return images.filter(img => 
+      img.alt.toLowerCase().includes(query) ||
+      img.category.toLowerCase().includes(query)
+    );
+  }, [searchQuery, images]);
+
   return (
     <div className="min-h-screen bg-background py-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12 animate-fade-in-up">
+        <div className="text-center mb-8 animate-fade-in-up">
           <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
             <span className="text-sm font-medium text-primary tracking-wide">
               {images.length} Photos
@@ -61,13 +73,30 @@ const Gallery = () => {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-4">
             {t('gallery.title')}
           </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             {t('gallery.subtitle')}
           </p>
+          
+          {/* Search Bar */}
+          <div className="max-w-md mx-auto relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <Input
+              type="text"
+              placeholder="Rechercher dans la galerie..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pl-10 h-12 text-base shadow-lg"
+            />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
-          {images.map((image, index) => (
+        {filteredImages.length === 0 ? (
+          <div className="text-center py-16">
+            <p className="text-lg text-muted-foreground">Aucune photo trouvée pour "{searchQuery}"</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
+            {filteredImages.map((image, index) => (
             <div
               key={index}
               className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg hover-lift group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative cursor-pointer"
@@ -84,8 +113,9 @@ const Gallery = () => {
                 <span className="text-white font-medium text-sm sm:text-base">{image.alt}</span>
               </div>
             </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Lightbox Modal */}

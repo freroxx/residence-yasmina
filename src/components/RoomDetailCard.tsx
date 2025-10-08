@@ -5,6 +5,7 @@ import { Users, Maximize2, Bed } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import PricingTable from './PricingTable';
+import RoomImageCarousel from './RoomImageCarousel';
 
 interface PricingData {
   persons: number;
@@ -14,7 +15,7 @@ interface PricingData {
 }
 
 interface RoomDetailCardProps {
-  image: string;
+  images: string[];
   title: string;
   subtitle: string;
   description: string;
@@ -26,7 +27,7 @@ interface RoomDetailCardProps {
 }
 
 const RoomDetailCard = ({
-  image,
+  images,
   title,
   subtitle,
   description,
@@ -41,18 +42,9 @@ const RoomDetailCard = ({
   return (
     <Card className="overflow-hidden border-2 hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
       <div className="grid md:grid-cols-2 gap-0">
-        {/* Image Section */}
-        <div className="relative h-[300px] md:h-full overflow-hidden">
-          <img
-            src={image}
-            alt={title}
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-700"
-          />
-          <div className="absolute top-4 left-4">
-            <Badge className="bg-primary text-primary-foreground px-4 py-2 text-sm font-semibold shadow-lg">
-              {title}
-            </Badge>
-          </div>
+        {/* Image Carousel Section */}
+        <div className="relative h-[300px] md:h-full overflow-hidden p-4">
+          <RoomImageCarousel images={images} alt={title} />
         </div>
 
         {/* Content Section */}

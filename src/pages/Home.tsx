@@ -94,39 +94,39 @@ const Home = () => {
       </section>
 
       {/* Welcome Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-background relative overflow-hidden">
+      <section className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div ref={welcomeRef} className="max-w-4xl mx-auto text-center animate-on-scroll">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-foreground mb-6 sm:mb-8">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-6 sm:mb-8">
               {t('home.welcome')}
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-6 sm:mb-8 leading-relaxed px-4">
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground mb-8 sm:mb-10 leading-relaxed px-4">
               {t('home.description')}
             </p>
-            <div className="inline-block p-6 sm:p-8 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl border border-primary/20 mx-4">
-              <p className="text-lg sm:text-xl md:text-2xl font-medium text-primary italic">
+            <div className="inline-block p-8 sm:p-10 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl border border-primary/20 mx-4 hover-lift">
+              <p className="text-xl sm:text-2xl md:text-3xl font-medium text-primary italic">
                 {t('home.highlight')}
               </p>
             </div>
           </div>
 
           {/* Stats Section */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto mt-12 sm:mt-16">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 max-w-4xl mx-auto mt-16 sm:mt-20">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center p-6 bg-card rounded-xl hover-lift animate-on-scroll"
+                className="text-center p-8 bg-card rounded-xl hover-lift-lg animate-on-scroll border border-border"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <div className="inline-flex p-3 sm:p-4 bg-primary/10 rounded-full mb-3 sm:mb-4">
-                  <stat.icon className="h-6 w-6 sm:h-8 sm:w-8 text-primary" />
+                <div className="inline-flex p-4 sm:p-5 bg-primary/10 rounded-full mb-4 sm:mb-5">
+                  <stat.icon className="h-7 w-7 sm:h-9 sm:w-9 text-primary" />
                 </div>
-                <div className="text-2xl sm:text-3xl font-bold text-primary mb-2">{stat.value}</div>
-                <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
+                <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stat.value}</div>
+                <div className="text-sm sm:text-base text-muted-foreground font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -134,22 +134,22 @@ const Home = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-secondary/30 relative">
+      <section className="py-16 sm:py-20 lg:py-24 bg-secondary/30 relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif text-center mb-12 sm:mb-16 animate-on-scroll">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-center mb-14 sm:mb-18 animate-on-scroll">
             {t('home.features.title')}
           </h2>
-          <div ref={featuresRef} className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 lg:gap-8 max-w-5xl mx-auto">
+          <div ref={featuresRef} className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7 lg:gap-9 max-w-5xl mx-auto">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="animate-on-scroll flex flex-col items-center text-center space-y-3 sm:space-y-4 p-4 sm:p-6 lg:p-8 bg-card rounded-xl hover-lift group"
+                className="animate-on-scroll flex flex-col items-center text-center space-y-4 sm:space-y-5 p-5 sm:p-7 lg:p-9 bg-card rounded-xl hover-lift-lg group border border-border"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="p-3 sm:p-4 lg:p-5 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors duration-300">
-                  <feature.icon className="h-6 w-6 sm:h-8 sm:w-8 lg:h-10 lg:w-10 text-primary group-hover:scale-110 transition-transform duration-300" />
+                <div className="p-4 sm:p-5 lg:p-6 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors duration-300">
+                  <feature.icon className="h-7 w-7 sm:h-9 sm:w-9 lg:h-11 lg:w-11 text-primary group-hover:scale-110 transition-transform duration-300" />
                 </div>
-                <span className="font-semibold text-sm sm:text-base lg:text-lg">{feature.label}</span>
+                <span className="font-semibold text-base sm:text-lg lg:text-xl">{feature.label}</span>
               </div>
             ))}
           </div>
@@ -157,34 +157,34 @@ const Home = () => {
       </section>
 
       {/* Rooms Preview Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-background">
+      <section className="py-16 sm:py-20 lg:py-24 bg-background">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16 animate-on-scroll">
-            <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
-              <span className="text-sm font-medium text-primary tracking-wide">Nos Logements</span>
+          <div className="text-center mb-14 sm:mb-18 animate-on-scroll">
+            <div className="inline-block mb-5 px-5 py-2.5 bg-primary/10 rounded-full">
+              <span className="text-sm font-semibold text-primary tracking-wide uppercase">Nos Logements</span>
             </div>
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-serif text-foreground mb-4">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-5">
               Choisissez Votre Hébergement Idéal
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
               Suites spacieuses et appartements confortables pour tous vos besoins
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
+          <div className="grid md:grid-cols-3 gap-7 max-w-6xl mx-auto mb-10">
             {[
               { icon: HomeIcon, title: 'Suite A', desc: 'Jusqu\'à 7 personnes', size: '64m²' },
               { icon: Users, title: 'Suite B & C', desc: 'Jusqu\'à 5 personnes', size: '58-59m²' },
               { icon: MapPin, title: 'Appartement', desc: 'Jusqu\'à 5 personnes', size: '42m²' },
             ].map((room, index) => (
-              <Card key={index} className="hover-lift animate-fade-in-up opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: `${index * 100}ms` }}>
-                <CardContent className="p-6 text-center">
-                  <div className="inline-flex p-4 bg-primary/10 rounded-full mb-4">
-                    <room.icon className="h-8 w-8 text-primary" />
+              <Card key={index} className="hover-lift-lg animate-fade-in-up opacity-0 [animation-fill-mode:forwards] border-2 hover:border-primary/30 transition-all duration-300" style={{ animationDelay: `${index * 100}ms` }}>
+                <CardContent className="p-8 text-center">
+                  <div className="inline-flex p-5 bg-primary/10 rounded-full mb-5 hover:bg-primary/20 transition-colors duration-300">
+                    <room.icon className="h-9 w-9 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">{room.title}</h3>
-                  <p className="text-muted-foreground mb-1">{room.desc}</p>
-                  <p className="text-sm text-primary font-semibold">{room.size}</p>
+                  <h3 className="text-2xl font-bold mb-3">{room.title}</h3>
+                  <p className="text-muted-foreground mb-2 text-base">{room.desc}</p>
+                  <p className="text-base text-primary font-bold">{room.size}</p>
                 </CardContent>
               </Card>
             ))}
@@ -192,7 +192,7 @@ const Home = () => {
 
           <div className="text-center">
             <Link to="/rooms">
-              <Button size="lg" className="hover-lift">
+              <Button size="lg" className="hover-lift-lg text-lg px-10 py-6">
                 Voir Tous les Logements
               </Button>
             </Link>
@@ -201,18 +201,18 @@ const Home = () => {
       </section>
 
       {/* Image Gallery Preview */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-secondary/20">
+      <section className="py-16 sm:py-20 lg:py-24 bg-secondary/20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold font-serif mb-4">
+          <div className="text-center mb-14 sm:mb-18">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-5">
               Découvrez Notre Résidence
             </h2>
-            <p className="text-base sm:text-lg text-muted-foreground">
+            <p className="text-lg sm:text-xl text-muted-foreground">
               Un cadre idéal pour vos vacances à Agadir
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
             {[
               { src: aerialBuilding, alt: 'Vue aérienne' },
               { src: poolPatio, alt: 'Espace piscine' },
@@ -220,21 +220,21 @@ const Home = () => {
             ].map((img, index) => (
               <div 
                 key={index}
-                className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+                className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] hover-lift-lg"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 hover-brightness"
                 />
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-8">
+          <div className="text-center mt-10">
             <Link to="/gallery">
-              <Button size="lg" variant="outline" className="hover-lift">
+              <Button size="lg" variant="outline" className="hover-lift-lg text-lg px-10 py-6">
                 Voir Toute la Galerie
               </Button>
             </Link>
@@ -243,27 +243,27 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 sm:py-16 lg:py-20 bg-primary text-primary-foreground relative overflow-hidden">
+      <section className="py-16 sm:py-20 lg:py-24 bg-primary text-primary-foreground relative overflow-hidden">
         {/* Decorative gradient orbs */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-foreground/10 rounded-full blur-3xl" />
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative">
           <div className="max-w-3xl mx-auto">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-serif mb-6 sm:mb-8 animate-fade-in">
               Réservez Votre Séjour Idéal
             </h2>
-            <p className="text-base sm:text-lg md:text-xl mb-8 sm:mb-10 opacity-90 animate-fade-in-up [animation-delay:200ms] px-4">
+            <p className="text-lg sm:text-xl md:text-2xl mb-10 sm:mb-12 opacity-90 animate-fade-in-up [animation-delay:200ms] px-4">
               Profitez d'un hébergement confortable au cœur d'Agadir avec tous les équipements nécessaires pour un séjour mémorable
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-fade-in-up [animation-delay:400ms]">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center animate-fade-in-up [animation-delay:400ms]">
               <Link to="/booking">
-                <Button size="lg" variant="secondary" className="text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-6 hover-lift w-full sm:w-auto">
+                <Button size="lg" variant="secondary" className="text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto">
                   {t('hero.cta')}
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="text-base sm:text-lg px-8 sm:px-10 py-4 sm:py-6 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover-lift w-full sm:w-auto">
+                <Button size="lg" variant="outline" className="text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-7 border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover-lift-lg w-full sm:w-auto">
                   Nous Contacter
                 </Button>
               </Link>

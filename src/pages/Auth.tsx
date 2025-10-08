@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { Turnstile } from '@marsidev/react-turnstile';
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +14,8 @@ const Auth = () => {
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<any>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
@@ -36,9 +39,28 @@ const Auth = () => {
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!turnstileToken) {
+      toast({
+        title: t('auth.error'),
+        description: 'Veuillez compléter la vérification de sécurité',
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
+      // Verify Turnstile token
+      const verifyResponse = await supabase.functions.invoke('verify-turnstile', {
+        body: { token: turnstileToken }
+      });
+
+      if (!verifyResponse.data?.success) {
+        throw new Error('Vérification de sécurité échouée. Veuillez réessayer.');
+      }
+
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
           email,
@@ -69,6 +91,9 @@ const Auth = () => {
         description: error.message,
         variant: 'destructive',
       });
+      // Reset Turnstile
+      turnstileRef.current?.reset();
+      setTurnstileToken('');
     } finally {
       setLoading(false);
     }
@@ -143,9 +168,21 @@ const Auth = () => {
               />
             </div>
 
-            <Button type="submit" className="w-full" disabled={loading}>
-              {loading ? t('auth.loading') : (isLogin ? t('auth.login') : t('auth.signup'))}
-            </Button>
+            <div className="space-y-4">
+              <div className="flex justify-center">
+                <Turnstile
+                  ref={turnstileRef}
+                  siteKey="0x4AAAAAAAzXeCqSjJOLsVv8"
+                  onSuccess={(token) => setTurnstileToken(token)}
+                  onError={() => setTurnstileToken('')}
+                  onExpire={() => setTurnstileToken('')}
+                />
+              </div>
+              
+              <Button type="submit" className="w-full" disabled={loading || !turnstileToken}>
+                {loading ? t('auth.loading') : (isLogin ? t('auth.login') : t('auth.signup'))}
+              </Button>
+            </div>
           </form>
 
           <div className="relative my-6">
