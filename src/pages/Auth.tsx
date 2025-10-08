@@ -15,10 +15,14 @@ const Auth = () => {
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState('');
+  const [turnstileEnabled, setTurnstileEnabled] = useState(false);
   const turnstileRef = useRef<any>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
+
+  // Your Cloudflare Turnstile site key (get one at https://dash.cloudflare.com/turnstile)
+  const TURNSTILE_SITE_KEY = ''; // Leave empty to disable Turnstile
 
   useEffect(() => {
     // Check if user is already logged in
@@ -40,7 +44,8 @@ const Auth = () => {
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!turnstileToken) {
+    // Only check Turnstile if it's enabled
+    if (turnstileEnabled && !turnstileToken) {
       toast({
         title: t('auth.error'),
         description: 'Veuillez compléter la vérification de sécurité',
@@ -52,13 +57,15 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      // Verify Turnstile token
-      const verifyResponse = await supabase.functions.invoke('verify-turnstile', {
-        body: { token: turnstileToken }
-      });
+      // Verify Turnstile token only if enabled
+      if (turnstileEnabled && turnstileToken) {
+        const verifyResponse = await supabase.functions.invoke('verify-turnstile', {
+          body: { token: turnstileToken }
+        });
 
-      if (!verifyResponse.data?.success) {
-        throw new Error('Vérification de sécurité échouée. Veuillez réessayer.');
+        if (!verifyResponse.data?.success) {
+          throw new Error('Vérification de sécurité échouée. Veuillez réessayer.');
+        }
       }
 
       if (isLogin) {
@@ -169,19 +176,38 @@ const Auth = () => {
             </div>
 
             <div className="space-y-4">
-              <div className="flex justify-center">
-                <Turnstile
-                  ref={turnstileRef}
-                  siteKey="0x4AAAAAAAzXeCqSjJOLsVv8"
-                  onSuccess={(token) => setTurnstileToken(token)}
-                  onError={() => setTurnstileToken('')}
-                  onExpire={() => setTurnstileToken('')}
-                />
-              </div>
+              {/* Turnstile CAPTCHA - Only show if site key is configured */}
+              {TURNSTILE_SITE_KEY && (
+                <div className="flex justify-center">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={TURNSTILE_SITE_KEY}
+                    onSuccess={(token) => {
+                      setTurnstileToken(token);
+                      setTurnstileEnabled(true);
+                    }}
+                    onError={() => {
+                      setTurnstileToken('');
+                      setTurnstileEnabled(false);
+                    }}
+                    onExpire={() => setTurnstileToken('')}
+                  />
+                </div>
+              )}
               
-              <Button type="submit" className="w-full" disabled={loading || !turnstileToken}>
+              <Button 
+                type="submit" 
+                className="w-full" 
+                disabled={loading || (turnstileEnabled && !turnstileToken)}
+              >
                 {loading ? t('auth.loading') : (isLogin ? t('auth.login') : t('auth.signup'))}
               </Button>
+
+              {!TURNSTILE_SITE_KEY && (
+                <p className="text-xs text-muted-foreground text-center">
+                  Pour activer Turnstile CAPTCHA, ajoutez votre clé de site dans le code
+                </p>
+              )}
             </div>
           </form>
 
