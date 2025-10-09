@@ -14,13 +14,26 @@ serve(async (req) => {
     const { token } = await req.json()
     
     if (!token) {
-      throw new Error('Token manquant')
+      return new Response(
+        JSON.stringify({ success: false }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400 
+        }
+      )
     }
 
     const TURNSTILE_SECRET_KEY = Deno.env.get('TURNSTILE_SECRET_KEY')
     
     if (!TURNSTILE_SECRET_KEY) {
-      throw new Error('Clé secrète Turnstile non configurée')
+      console.error('Turnstile secret key not configured')
+      return new Response(
+        JSON.stringify({ success: false }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 500 
+        }
+      )
     }
 
     // Verify the token with Cloudflare
@@ -46,15 +59,12 @@ serve(async (req) => {
       }
     )
   } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue'
+    console.error('Turnstile verification error:', error)
     return new Response(
-      JSON.stringify({ 
-        success: false, 
-        error: errorMessage 
-      }),
+      JSON.stringify({ success: false }),
       { 
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 400 
+        status: 500 
       }
     )
   }

@@ -3,10 +3,21 @@ import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Turnstile } from '@marsidev/react-turnstile';
+import { z } from 'zod';
+import { Mail, Lock, User, ShieldCheck } from 'lucide-react';
+
+// Add your Cloudflare Turnstile site key here
+// Get one at: https://dash.cloudflare.com/turnstile
+const TURNSTILE_SITE_KEY = '0x4AAAAAAAzXeCqSjJOLsVv8';
+
+const authSchema = z.object({
+  email: z.string().trim().email({ message: 'auth.invalidEmail' }).max(255),
+  password: z.string().min(6, { message: 'auth.weakPassword' }),
+  fullName: z.string().trim().min(1, { message: 'auth.nameRequired' }).max(100).optional(),
+});
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -15,17 +26,12 @@ const Auth = () => {
   const [fullName, setFullName] = useState('');
   const [loading, setLoading] = useState(false);
   const [turnstileToken, setTurnstileToken] = useState('');
-  const [turnstileEnabled, setTurnstileEnabled] = useState(false);
   const turnstileRef = useRef<any>(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { t } = useLanguage();
 
-  // Your Cloudflare Turnstile site key (get one at https://dash.cloudflare.com/turnstile)
-  const TURNSTILE_SITE_KEY = ''; // Leave empty to disable Turnstile
-
   useEffect(() => {
-    // Check if user is already logged in
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (session) {
         navigate('/profile');
@@ -33,7 +39,7 @@ const Auth = () => {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN' && session) {
+      if (session) {
         navigate('/profile');
       }
     });
@@ -44,11 +50,11 @@ const Auth = () => {
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Only check Turnstile if it's enabled
-    if (turnstileEnabled && !turnstileToken) {
+    // Validate Turnstile
+    if (!turnstileToken) {
       toast({
         title: t('auth.error'),
-        description: 'Veuillez compléter la vérification de sécurité',
+        description: t('auth.turnstileRequired'),
         variant: 'destructive',
       });
       return;
@@ -57,39 +63,72 @@ const Auth = () => {
     setLoading(true);
 
     try {
-      // Verify Turnstile token only if enabled
-      if (turnstileEnabled && turnstileToken) {
-        const verifyResponse = await supabase.functions.invoke('verify-turnstile', {
-          body: { token: turnstileToken }
+      // Validate inputs
+      const validationData = isLogin 
+        ? { email, password }
+        : { email, password, fullName };
+      
+      const result = authSchema.safeParse(validationData);
+      
+      if (!result.success) {
+        const firstError = result.error.errors[0];
+        toast({
+          title: t('auth.error'),
+          description: t(firstError.message),
+          variant: 'destructive',
         });
-
-        if (!verifyResponse.data?.success) {
-          throw new Error('Vérification de sécurité échouée. Veuillez réessayer.');
-        }
+        setLoading(false);
+        return;
       }
 
+      // Verify Turnstile token
+      const verifyResponse = await supabase.functions.invoke('verify-turnstile', {
+        body: { token: turnstileToken }
+      });
+
+      if (!verifyResponse.data?.success) {
+        toast({
+          title: t('auth.error'),
+          description: t('auth.turnstileFailed'),
+          variant: 'destructive',
+        });
+        turnstileRef.current?.reset();
+        setTurnstileToken('');
+        setLoading(false);
+        return;
+      }
+
+      // Proceed with authentication
       if (isLogin) {
         const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
+          email: result.data.email,
+          password: result.data.password,
         });
+
         if (error) throw error;
-        toast({ title: t('auth.loginSuccess') });
+
+        toast({
+          title: t('auth.loginSuccess'),
+        });
       } else {
+        const redirectUrl = `${window.location.origin}/`;
+        
         const { error } = await supabase.auth.signUp({
-          email,
-          password,
+          email: result.data.email,
+          password: result.data.password,
           options: {
-            emailRedirectTo: `${window.location.origin}/profile`,
+            emailRedirectTo: redirectUrl,
             data: {
-              full_name: fullName,
-            },
-          },
+              full_name: result.data.fullName,
+            }
+          }
         });
+
         if (error) throw error;
-        toast({ 
+
+        toast({
           title: t('auth.signupSuccess'),
-          description: t('auth.checkEmail')
+          description: t('auth.checkEmail'),
         });
       }
     } catch (error: any) {
@@ -98,7 +137,6 @@ const Auth = () => {
         description: error.message,
         variant: 'destructive',
       });
-      // Reset Turnstile
       turnstileRef.current?.reset();
       setTurnstileToken('');
     } finally {
@@ -111,9 +149,10 @@ const Auth = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/profile`,
-        },
+          redirectTo: `${window.location.origin}/`,
+        }
       });
+
       if (error) throw error;
     } catch (error: any) {
       toast({
@@ -127,104 +166,105 @@ const Auth = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-muted/20 px-4 py-12">
       <div className="w-full max-w-md">
-        <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
-          <h1 className="text-3xl font-bold text-center mb-2 text-foreground">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-primary/10 mb-4">
+            <ShieldCheck className="w-8 h-8 text-primary" />
+          </div>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
             {isLogin ? t('auth.login') : t('auth.signup')}
           </h1>
-          <p className="text-center text-muted-foreground mb-8">
+          <p className="text-muted-foreground">
             {isLogin ? t('auth.loginSubtitle') : t('auth.signupSubtitle')}
           </p>
+        </div>
 
-          <form onSubmit={handleEmailAuth} className="space-y-4">
+        {/* Form Card */}
+        <div className="bg-card border border-border rounded-lg shadow-lg p-8">
+          <form onSubmit={handleEmailAuth} className="space-y-5">
             {!isLogin && (
               <div className="space-y-2">
-                <Label htmlFor="fullName">{t('auth.fullName')}</Label>
+                <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  {t('auth.fullName')}
+                </label>
                 <Input
-                  id="fullName"
                   type="text"
+                  placeholder={t('auth.fullNamePlaceholder')}
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   required={!isLogin}
-                  placeholder={t('auth.fullNamePlaceholder')}
+                  className="h-11"
                 />
               </div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="email">{t('auth.email')}</Label>
+              <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                {t('auth.email')}
+              </label>
               <Input
-                id="email"
                 type="email"
+                placeholder={t('auth.emailPlaceholder')}
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                placeholder={t('auth.emailPlaceholder')}
+                className="h-11"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">{t('auth.password')}</Label>
+              <label className="text-sm font-medium text-foreground flex items-center gap-2">
+                <Lock className="w-4 h-4" />
+                {t('auth.password')}
+              </label>
               <Input
-                id="password"
                 type="password"
+                placeholder={t('auth.passwordPlaceholder')}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
-                minLength={6}
-                placeholder={t('auth.passwordPlaceholder')}
+                className="h-11"
               />
             </div>
 
-            <div className="space-y-4">
-              {/* Turnstile CAPTCHA - Only show if site key is configured */}
-              {TURNSTILE_SITE_KEY && (
-                <div className="flex justify-center">
-                  <Turnstile
-                    ref={turnstileRef}
-                    siteKey={TURNSTILE_SITE_KEY}
-                    onSuccess={(token) => {
-                      setTurnstileToken(token);
-                      setTurnstileEnabled(true);
-                    }}
-                    onError={() => {
-                      setTurnstileToken('');
-                      setTurnstileEnabled(false);
-                    }}
-                    onExpire={() => setTurnstileToken('')}
-                  />
-                </div>
-              )}
-              
-              <Button 
-                type="submit" 
-                className="w-full" 
-                disabled={loading || (turnstileEnabled && !turnstileToken)}
-              >
-                {loading ? t('auth.loading') : (isLogin ? t('auth.login') : t('auth.signup'))}
-              </Button>
-
-              {!TURNSTILE_SITE_KEY && (
-                <p className="text-xs text-muted-foreground text-center">
-                  Pour activer Turnstile CAPTCHA, ajoutez votre clé de site dans le code
-                </p>
-              )}
+            {/* Turnstile CAPTCHA */}
+            <div className="flex justify-center py-2">
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={TURNSTILE_SITE_KEY}
+                onSuccess={(token) => setTurnstileToken(token)}
+                onError={() => setTurnstileToken('')}
+                onExpire={() => setTurnstileToken('')}
+              />
             </div>
+
+            <Button 
+              type="submit" 
+              className="w-full h-11 font-medium" 
+              disabled={loading || !turnstileToken}
+            >
+              {loading ? t('auth.loading') : (isLogin ? t('auth.login') : t('auth.signup'))}
+            </Button>
           </form>
 
+          {/* Divider */}
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border"></div>
+              <div className="w-full border-t border-border" />
             </div>
             <div className="relative flex justify-center text-sm">
               <span className="px-2 bg-card text-muted-foreground">{t('auth.or')}</span>
             </div>
           </div>
 
+          {/* Google Auth */}
           <Button
             type="button"
             variant="outline"
-            className="w-full"
             onClick={handleGoogleAuth}
+            className="w-full h-11 font-medium"
           >
             <svg className="w-5 h-5 mr-2" viewBox="0 0 24 24">
               <path
@@ -247,16 +287,26 @@ const Auth = () => {
             {t('auth.continueWithGoogle')}
           </Button>
 
-          <div className="mt-6 text-center">
+          {/* Toggle Login/Signup */}
+          <div className="text-center mt-6">
             <button
               type="button"
-              onClick={() => setIsLogin(!isLogin)}
-              className="text-sm text-primary hover:underline"
+              onClick={() => {
+                setIsLogin(!isLogin);
+                turnstileRef.current?.reset();
+                setTurnstileToken('');
+              }}
+              className="text-sm text-primary hover:underline font-medium"
             >
               {isLogin ? t('auth.noAccount') : t('auth.hasAccount')}
             </button>
           </div>
         </div>
+
+        {/* Footer note */}
+        <p className="text-center text-xs text-muted-foreground mt-6">
+          Protected by Cloudflare Turnstile
+        </p>
       </div>
     </div>
   );

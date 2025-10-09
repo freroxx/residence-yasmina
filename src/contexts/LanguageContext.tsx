@@ -193,6 +193,11 @@ const translations = {
     'auth.signupSuccess': 'Inscription réussie !',
     'auth.checkEmail': 'Vérifiez votre email pour confirmer votre compte',
     'auth.error': 'Erreur',
+    'auth.turnstileRequired': 'Veuillez compléter la vérification de sécurité',
+    'auth.turnstileFailed': 'Vérification de sécurité échouée. Veuillez réessayer.',
+    'auth.invalidEmail': 'Adresse email invalide',
+    'auth.weakPassword': 'Le mot de passe doit contenir au moins 6 caractères',
+    'auth.nameRequired': 'Le nom complet est requis',
 
     // Profile
     'profile.title': 'Mon Profil',
@@ -393,6 +398,11 @@ const translations = {
     'auth.signupSuccess': 'Successfully signed up!',
     'auth.checkEmail': 'Check your email to confirm your account',
     'auth.error': 'Error',
+    'auth.turnstileRequired': 'Please complete the security verification',
+    'auth.turnstileFailed': 'Security verification failed. Please try again.',
+    'auth.invalidEmail': 'Invalid email address',
+    'auth.weakPassword': 'Password must be at least 6 characters',
+    'auth.nameRequired': 'Full name is required',
 
     // Profile
     'profile.title': 'My Profile',
