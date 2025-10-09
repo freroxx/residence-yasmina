@@ -2,8 +2,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Wifi, Car, Waves, UtensilsCrossed, Star, Award, Heart, Home as HomeIcon, Users, MapPin } from 'lucide-react';
-import { useEffect, useRef } from 'react';
+import { Wifi, Car, Waves, UtensilsCrossed, Star, Award, Heart, Home as HomeIcon, Users, MapPin, ArrowRight, Sparkles } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
 import aerialBuilding from '@/assets/aerial-building.jpg';
 import poolPatio from '@/assets/pool-patio.jpg';
 import suiteC2 from '@/assets/suite-c-2.png';
@@ -12,8 +12,15 @@ const Home = () => {
   const { t } = useLanguage();
   const featuresRef = useRef<HTMLDivElement>(null);
   const welcomeRef = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState(0);
 
   useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -34,7 +41,10 @@ const Home = () => {
       observer.observe(welcomeRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      observer.disconnect();
+    };
   }, []);
 
   const features = [
@@ -52,43 +62,49 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section */}
+      {/* Hero Section with Parallax */}
       <section className="relative h-[70vh] sm:h-[80vh] flex items-center justify-center overflow-hidden">
         <div
-          className="absolute inset-0 bg-cover bg-center transform scale-105 animate-[scale-in_1.5s_ease-out]"
-          style={{ backgroundImage: `url(${aerialBuilding})` }}
+          className="absolute inset-0 bg-cover bg-center parallax"
+          style={{ 
+            backgroundImage: `url(${aerialBuilding})`,
+            transform: `translateY(${scrollY * 0.5}px) scale(1.1)`
+          }}
         >
-          <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/70" />
+          <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80" />
         </div>
         
         <div className="relative z-10 text-center text-white px-4 sm:px-6 max-w-4xl">
-          <div className="inline-block mb-4 sm:mb-6 px-3 sm:px-4 py-2 bg-primary/20 backdrop-blur-sm rounded-full border border-white/30 animate-fade-in">
-            <span className="text-xs sm:text-sm font-medium tracking-wide">Appart'Hotel</span>
+          <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-4 sm:px-5 py-2.5 glass rounded-full animate-fade-in">
+            <Sparkles className="w-4 h-4" />
+            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase">Appart'Hotel de Luxe</span>
           </div>
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] leading-tight">
             {t('hero.title')}
           </h1>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 opacity-90 animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards] max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 opacity-95 animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards] max-w-2xl mx-auto leading-relaxed">
             {t('hero.subtitle')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center animate-fade-in-up [animation-delay:600ms] opacity-0 [animation-fill-mode:forwards]">
-            <Link to="/booking">
-              <Button size="lg" className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover-lift w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up [animation-delay:600ms] opacity-0 [animation-fill-mode:forwards]">
+            <Link to="/booking" className="group">
+              <Button size="lg" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto shadow-2xl">
                 {t('hero.cta')}
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link to="/rooms">
-              <Button size="lg" variant="secondary" className="text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 hover-lift w-full sm:w-auto">
+            <Link to="/rooms" className="group">
+              <Button size="lg" variant="secondary" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto glass-dark border-2">
                 {t('nav.rooms')}
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
         </div>
 
-        {/* Scroll indicator */}
-        <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-          <div className="w-6 h-10 border-2 border-white/50 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-white/50 rounded-full mt-2 animate-pulse" />
+        {/* Enhanced Scroll indicator */}
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float">
+          <div className="w-7 h-11 border-2 border-white/60 rounded-full flex justify-center backdrop-blur-sm">
+            <div className="w-1.5 h-3 bg-white rounded-full mt-2 animate-pulse-soft" />
           </div>
         </div>
       </section>
@@ -133,109 +149,149 @@ const Home = () => {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-secondary/30 relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif text-center mb-14 sm:mb-18 animate-on-scroll">
-            {t('home.features.title')}
-          </h2>
-          <div ref={featuresRef} className="grid grid-cols-2 md:grid-cols-4 gap-5 sm:gap-7 lg:gap-9 max-w-5xl mx-auto">
+      {/* Features Section with Enhanced Design */}
+      <section className="py-20 sm:py-24 lg:py-28 bg-gradient-to-b from-secondary/20 to-background relative overflow-hidden">
+        {/* Decorative background */}
+        <div className="absolute top-10 right-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse-soft" />
+        <div className="absolute bottom-10 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse-soft [animation-delay:1s]" />
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-16 sm:mb-20 animate-on-scroll">
+            <div className="inline-block mb-5 px-5 py-2.5 bg-primary/10 rounded-full">
+              <span className="text-sm font-semibold text-primary tracking-wide uppercase">Équipements Premium</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-serif mb-6">
+              {t('home.features.title')}
+            </h2>
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+              Tout le confort moderne pour un séjour inoubliable
+            </p>
+          </div>
+          <div ref={featuresRef} className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="animate-on-scroll flex flex-col items-center text-center space-y-4 sm:space-y-5 p-5 sm:p-7 lg:p-9 bg-card rounded-xl hover-lift-lg group border border-border"
+                className="animate-on-scroll relative flex flex-col items-center text-center space-y-5 p-8 lg:p-10 bg-card rounded-2xl hover-lift-lg group border-2 border-border hover:border-primary/30 transition-all duration-500 overflow-hidden"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="p-4 sm:p-5 lg:p-6 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors duration-300">
-                  <feature.icon className="h-7 w-7 sm:h-9 sm:w-9 lg:h-11 lg:w-11 text-primary group-hover:scale-110 transition-transform duration-300" />
+                {/* Hover gradient effect */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <div className="relative p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                  <feature.icon className="h-10 w-10 sm:h-12 sm:w-12 text-primary" />
                 </div>
-                <span className="font-semibold text-base sm:text-lg lg:text-xl">{feature.label}</span>
+                <span className="relative font-bold text-lg sm:text-xl">{feature.label}</span>
+                
+                {/* Decorative corner */}
+                <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-br from-accent/20 to-transparent rounded-bl-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Rooms Preview Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-background">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14 sm:mb-18 animate-on-scroll">
-            <div className="inline-block mb-5 px-5 py-2.5 bg-primary/10 rounded-full">
-              <span className="text-sm font-semibold text-primary tracking-wide uppercase">Nos Logements</span>
+      {/* Rooms Preview Section - Enhanced */}
+      <section className="py-20 sm:py-24 lg:py-28 bg-background relative overflow-hidden">
+        {/* Decorative elements */}
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-16 sm:mb-20 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 mb-5 px-6 py-3 glass rounded-full">
+              <HomeIcon className="w-4 h-4 text-primary" />
+              <span className="text-sm font-bold text-primary tracking-wider uppercase">Nos Logements</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-5">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-foreground mb-6 leading-tight">
               Choisissez Votre Hébergement Idéal
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               Suites spacieuses et appartements confortables pour tous vos besoins
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-7 max-w-6xl mx-auto mb-10">
+          <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-12">
             {[
-              { icon: HomeIcon, title: 'Suite A', desc: 'Jusqu\'à 7 personnes', size: '64m²' },
-              { icon: Users, title: 'Suite B & C', desc: 'Jusqu\'à 5 personnes', size: '58-59m²' },
-              { icon: MapPin, title: 'Appartement', desc: 'Jusqu\'à 5 personnes', size: '42m²' },
+              { icon: HomeIcon, title: 'Suite A', desc: 'Jusqu\'à 7 personnes', size: '64m²', color: 'from-primary/20 to-accent/20' },
+              { icon: Users, title: 'Suite B & C', desc: 'Jusqu\'à 5 personnes', size: '58-59m²', color: 'from-accent/20 to-primary/20' },
+              { icon: MapPin, title: 'Appartement', desc: 'Jusqu\'à 5 personnes', size: '42m²', color: 'from-primary/20 to-accent/20' },
             ].map((room, index) => (
-              <Card key={index} className="hover-lift-lg animate-fade-in-up opacity-0 [animation-fill-mode:forwards] border-2 hover:border-primary/30 transition-all duration-300" style={{ animationDelay: `${index * 100}ms` }}>
-                <CardContent className="p-8 text-center">
-                  <div className="inline-flex p-5 bg-primary/10 rounded-full mb-5 hover:bg-primary/20 transition-colors duration-300">
-                    <room.icon className="h-9 w-9 text-primary" />
+              <Card 
+                key={index} 
+                className="hover-lift-lg animate-fade-in-up opacity-0 [animation-fill-mode:forwards] border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative" 
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {/* Gradient background overlay */}
+                <div className={`absolute inset-0 bg-gradient-to-br ${room.color} opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                
+                <CardContent className="p-10 text-center relative z-10">
+                  <div className="inline-flex p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
+                    <room.icon className="h-10 w-10 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-3">{room.title}</h3>
-                  <p className="text-muted-foreground mb-2 text-base">{room.desc}</p>
-                  <p className="text-base text-primary font-bold">{room.size}</p>
+                  <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{room.title}</h3>
+                  <p className="text-muted-foreground mb-3 text-lg">{room.desc}</p>
+                  <div className="inline-block px-4 py-2 bg-primary/10 rounded-full">
+                    <p className="text-lg text-primary font-bold">{room.size}</p>
+                  </div>
                 </CardContent>
               </Card>
             ))}
           </div>
 
           <div className="text-center">
-            <Link to="/rooms">
-              <Button size="lg" className="hover-lift-lg text-lg px-10 py-6">
+            <Link to="/rooms" className="group inline-block">
+              <Button size="lg" className="hover-lift-lg text-xl px-12 py-7 shadow-xl">
                 Voir Tous les Logements
+                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Image Gallery Preview */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-secondary/20">
+      {/* Image Gallery Preview - Enhanced */}
+      <section className="py-20 sm:py-24 lg:py-28 bg-gradient-to-b from-secondary/30 to-background relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-14 sm:mb-18">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold font-serif mb-5">
+          <div className="text-center mb-16 sm:mb-20">
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-serif mb-6">
               Découvrez Notre Résidence
             </h2>
-            <p className="text-lg sm:text-xl text-muted-foreground">
+            <p className="text-xl sm:text-2xl text-muted-foreground max-w-2xl mx-auto">
               Un cadre idéal pour vos vacances à Agadir
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
             {[
-              { src: aerialBuilding, alt: 'Vue aérienne' },
-              { src: poolPatio, alt: 'Espace piscine' },
-              { src: suiteC2, alt: 'Intérieur suite' },
+              { src: aerialBuilding, alt: 'Vue aérienne', label: 'Vue aérienne' },
+              { src: poolPatio, alt: 'Espace piscine', label: 'Espace piscine' },
+              { src: suiteC2, alt: 'Intérieur suite', label: 'Intérieurs élégants' },
             ].map((img, index) => (
               <div 
                 key={index}
-                className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] hover-lift-lg"
+                className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] hover-lift-lg"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <img
                   src={img.src}
                   alt={img.alt}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 hover-brightness"
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 />
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                {/* Label */}
+                <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+                  <h3 className="text-white text-2xl font-bold">{img.label}</h3>
+                </div>
               </div>
             ))}
           </div>
 
-          <div className="text-center mt-10">
-            <Link to="/gallery">
-              <Button size="lg" variant="outline" className="hover-lift-lg text-lg px-10 py-6">
+          <div className="text-center mt-12">
+            <Link to="/gallery" className="group inline-block">
+              <Button size="lg" variant="outline" className="hover-lift-lg text-xl px-12 py-7 border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary">
                 Voir Toute la Galerie
+                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
           </div>
