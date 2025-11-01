@@ -85,7 +85,7 @@ const Home = () => {
         <div className="relative z-10 text-center text-white px-4 sm:px-6 max-w-4xl">
           <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-4 sm:px-5 py-2.5 glass rounded-full animate-fade-in hover-scale-sm">
             <Sparkles className="w-4 h-4 animate-pulse-soft" />
-            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase">Appart'Hotel de Luxe</span>
+            <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase">Appart'Hotel</span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] leading-tight hover-brightness">
             {t('hero.title')}

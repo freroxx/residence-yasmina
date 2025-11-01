@@ -141,10 +141,10 @@ const About = () => {
             </div>
 
             <div className="mt-8">
-              <Card>
-                <CardContent className="pt-6">
+              <Card className="overflow-hidden hover-lift transition-all duration-500">
+                <CardContent className="pt-6 p-0">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3429.2861917677574!2d-9.601156984886!3d30.418405081766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6f1e0a0e0e0%3A0x9e9a8a8a8a8a8a8a!2sR%C3%A9sidence%20Yasmina!5e0!3m2!1sfr!2sma!4v1635000000000!5m2!1sfr!2sma"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3429.2861917677574!2d-9.601156984886!3d30.418405081766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6e6c86b8d47%3A0x1a4a5a2c6e9b5e8f!2sR%C3%A9sidence%20Yasmina!5e0!3m2!1sfr!2sma!4v1635000000000!5m2!1sfr!2sma"
                     width="100%"
                     height="400"
                     style={{ border: 0 }}
@@ -152,6 +152,7 @@ const About = () => {
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
                     className="rounded-lg"
+                    title="Résidence Yasmina Location"
                   />
                 </CardContent>
               </Card>

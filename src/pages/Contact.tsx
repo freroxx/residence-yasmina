@@ -133,9 +133,9 @@ const Contact = () => {
             </Card>
 
             {/* Google Maps */}
-            <Card className="h-[300px] overflow-hidden">
+            <Card className="h-[300px] overflow-hidden hover-lift transition-all duration-500">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3444.5!2d-9.5981!3d30.4202!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDI1JzEyLjciTiA5wrAzNScwOS4xIlc!5e0!3m2!1sen!2sma!4v1234567890"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3429.2861917677574!2d-9.601156984886!3d30.418405081766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6e6c86b8d47%3A0x1a4a5a2c6e9b5e8f!2sR%C3%A9sidence%20Yasmina!5e0!3m2!1sfr!2sma!4v1635000000000!5m2!1sfr!2sma"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
