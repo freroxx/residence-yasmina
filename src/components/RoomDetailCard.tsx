@@ -40,11 +40,18 @@ const RoomDetailCard = ({
   const { t } = useLanguage();
 
   return (
-    <Card className="overflow-hidden border-2 hover:border-primary/30 transition-all duration-300 hover:shadow-xl">
-      <div className="grid md:grid-cols-2 gap-0">
+    <Card className="overflow-hidden border-2 hover:border-primary/30 transition-all duration-500 hover:shadow-2xl group relative">
+      {/* Decorative gradient overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      
+      <div className="grid md:grid-cols-2 gap-0 relative">
         {/* Image Carousel Section */}
         <div className="relative h-[300px] md:h-full overflow-hidden p-4">
           <RoomImageCarousel images={images} alt={title} />
+          {/* Overlay badge */}
+          <div className="absolute top-8 left-8 px-4 py-2 glass rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+            <span className="text-xs font-bold text-white">{title}</span>
+          </div>
         </div>
 
         {/* Content Section */}
@@ -91,9 +98,10 @@ const RoomDetailCard = ({
             </div>
 
             {/* CTA Button */}
-            <Link to="/booking">
-              <Button className="w-full" size="lg">
-                {t('hero.cta')}
+            <Link to="/booking" className="group/btn">
+              <Button className="w-full relative overflow-hidden" size="lg">
+                <span className="relative z-10">{t('hero.cta')}</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent/20 to-primary opacity-0 group-hover/btn:opacity-20 transition-opacity shimmer-fast" />
               </Button>
             </Link>
           </CardContent>

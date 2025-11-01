@@ -136,11 +136,11 @@ const Rooms = () => {
           {rooms.map((room, index) => (
             <div
               key={index}
-              className="animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative"
+              className="animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative group"
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              {/* Room number badge */}
-              <div className="absolute -top-4 -left-4 z-20 w-12 h-12 bg-primary text-primary-foreground rounded-full flex items-center justify-center font-bold text-lg shadow-lg">
+              {/* Room number badge with enhanced animation */}
+              <div className="absolute -top-4 -left-4 z-20 w-14 h-14 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
                 {index + 1}
               </div>
               <RoomDetailCard {...room} />

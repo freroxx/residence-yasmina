@@ -62,24 +62,32 @@ const Home = () => {
 
   return (
     <div className="min-h-screen">
-      {/* Hero Section with Parallax */}
+      {/* Hero Section with Enhanced Parallax */}
       <section className="relative h-[70vh] sm:h-[80vh] flex items-center justify-center overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center parallax"
           style={{ 
             backgroundImage: `url(${aerialBuilding})`,
-            transform: `translateY(${scrollY * 0.5}px) scale(1.1)`
+            transform: `translateY(${scrollY * 0.5}px) scale(1.1)`,
+            filter: `brightness(${1 - scrollY * 0.0005})`
           }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/80" />
         </div>
         
+        {/* Floating particles */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-accent/40 rounded-full animate-float-slow" />
+          <div className="absolute top-1/3 right-1/4 w-3 h-3 bg-primary/30 rounded-full animate-float-slower" />
+          <div className="absolute bottom-1/3 left-1/3 w-2 h-2 bg-accent/30 rounded-full animate-float" />
+        </div>
+        
         <div className="relative z-10 text-center text-white px-4 sm:px-6 max-w-4xl">
-          <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-4 sm:px-5 py-2.5 glass rounded-full animate-fade-in">
-            <Sparkles className="w-4 h-4" />
+          <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-4 sm:px-5 py-2.5 glass rounded-full animate-fade-in hover-scale-sm">
+            <Sparkles className="w-4 h-4 animate-pulse-soft" />
             <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase">Appart'Hotel de Luxe</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] leading-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] leading-tight hover-brightness">
             {t('hero.title')}
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 opacity-95 animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards] max-w-2xl mx-auto leading-relaxed">
@@ -87,15 +95,20 @@ const Home = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up [animation-delay:600ms] opacity-0 [animation-fill-mode:forwards]">
             <Link to="/booking" className="group">
-              <Button size="lg" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto shadow-2xl">
-                {t('hero.cta')}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Button size="lg" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto shadow-2xl relative overflow-hidden">
+                <span className="relative z-10 flex items-center justify-center">
+                  {t('hero.cta')}
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+                <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent/20 to-primary opacity-0 group-hover:opacity-20 transition-opacity shimmer-fast" />
               </Button>
             </Link>
             <Link to="/rooms" className="group">
-              <Button size="lg" variant="secondary" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto glass-dark border-2">
-                {t('nav.rooms')}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+              <Button size="lg" variant="secondary" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto glass-dark border-2 relative overflow-hidden">
+                <span className="relative z-10 flex items-center justify-center">
+                  {t('nav.rooms')}
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </span>
               </Button>
             </Link>
           </div>
@@ -103,7 +116,7 @@ const Home = () => {
 
         {/* Enhanced Scroll indicator */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-float">
-          <div className="w-7 h-11 border-2 border-white/60 rounded-full flex justify-center backdrop-blur-sm">
+          <div className="w-7 h-11 border-2 border-white/60 rounded-full flex justify-center backdrop-blur-sm hover-scale transition-all cursor-pointer">
             <div className="w-1.5 h-3 bg-white rounded-full mt-2 animate-pulse-soft" />
           </div>
         </div>
