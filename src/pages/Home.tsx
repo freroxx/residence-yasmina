@@ -104,7 +104,7 @@ const Home = () => {
               </Button>
             </Link>
             <Link to="/rooms" className="group">
-              <Button size="lg" variant="secondary" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto glass-dark border-2 relative overflow-hidden">
+              <Button size="lg" variant="outline" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto border-2 border-white/50 text-white hover:bg-white/10 backdrop-blur-sm relative overflow-hidden">
                 <span className="relative z-10 flex items-center justify-center">
                   {t('nav.rooms')}
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -123,7 +123,7 @@ const Home = () => {
       </section>
 
       {/* Welcome Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-background relative overflow-hidden">
+      <section className="py-12 sm:py-16 lg:py-20 bg-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
         <div className="absolute bottom-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3" />
@@ -163,7 +163,7 @@ const Home = () => {
       </section>
 
       {/* Features Section with Enhanced Design */}
-      <section className="py-20 sm:py-24 lg:py-28 bg-gradient-to-b from-secondary/20 to-background relative overflow-hidden">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-secondary/20 to-background relative overflow-hidden">
         {/* Decorative background */}
         <div className="absolute top-10 right-10 w-72 h-72 bg-accent/10 rounded-full blur-3xl animate-pulse-soft" />
         <div className="absolute bottom-10 left-10 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse-soft [animation-delay:1s]" />
@@ -204,7 +204,7 @@ const Home = () => {
       </section>
 
       {/* Rooms Preview Section - Enhanced */}
-      <section className="py-20 sm:py-24 lg:py-28 bg-background relative overflow-hidden">
+      <section className="py-12 sm:py-16 lg:py-20 bg-background relative overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
         <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
@@ -263,7 +263,7 @@ const Home = () => {
       </section>
 
       {/* Image Gallery Preview - Enhanced */}
-      <section className="py-20 sm:py-24 lg:py-28 bg-gradient-to-b from-secondary/30 to-background relative">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-b from-secondary/30 to-background relative">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16 sm:mb-20">
             <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-serif mb-6">
@@ -312,7 +312,7 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 sm:py-20 lg:py-24 bg-primary text-primary-foreground relative overflow-hidden">
+      <section className="py-12 sm:py-16 lg:py-20 bg-primary text-primary-foreground relative overflow-hidden">
         {/* Decorative gradient orbs */}
         <div className="absolute top-0 right-0 w-96 h-96 bg-accent/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-foreground/10 rounded-full blur-3xl" />
@@ -332,7 +332,7 @@ const Home = () => {
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-7 border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover-lift-lg w-full sm:w-auto">
+                <Button size="lg" variant="secondary" className="text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto">
                   Nous Contacter
                 </Button>
               </Link>

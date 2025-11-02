@@ -79,27 +79,30 @@ const Contact = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background py-16">
+    <div className="min-h-screen bg-background py-12 sm:py-16">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-bold font-serif text-foreground mb-4">
+        <div className="text-center mb-10 sm:mb-12 animate-fade-in-up">
+          <div className="inline-block px-6 py-3 bg-primary/10 rounded-full mb-6">
+            <span className="text-sm font-bold text-primary tracking-wide uppercase">Contactez-nous</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold font-serif text-foreground mb-4">
             {t('contact.title')}
           </h1>
-          <p className="text-xl text-muted-foreground">
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto">
             {t('contact.subtitle')}
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           {/* Contact Information */}
-          <div className="space-y-6">
-            <Card>
+          <div className="space-y-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards]">
+            <Card className="hover-lift border-2 hover:border-primary/40 transition-all duration-500">
               <CardHeader>
                 <CardTitle className="text-2xl font-serif">{t('footer.contact')}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
+                <div className="flex items-start space-x-4 group">
+                  <div className="p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl group-hover:scale-110 transition-all duration-300">
                     <MapPin className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -112,8 +115,8 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
+                <div className="flex items-start space-x-4 group">
+                  <div className="p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl group-hover:scale-110 transition-all duration-300">
                     <Phone className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -138,8 +141,8 @@ const Contact = () => {
                   </div>
                 </div>
 
-                <div className="flex items-start space-x-4">
-                  <div className="p-3 bg-primary/10 rounded-full">
+                <div className="flex items-start space-x-4 group">
+                  <div className="p-3 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl group-hover:scale-110 transition-all duration-300">
                     <Mail className="h-6 w-6 text-primary" />
                   </div>
                   <div>
@@ -155,7 +158,7 @@ const Contact = () => {
             </Card>
 
             {/* Google Maps */}
-            <Card className="h-[300px] overflow-hidden hover-lift transition-all duration-500">
+            <Card className="h-[350px] overflow-hidden hover-lift-lg transition-all duration-500 border-2 hover:border-primary/40 relative">
               <iframe
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3429.2861917677574!2d-9.601156984886!3d30.418405081766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdb3b6e6c86b8d47%3A0x1a4a5a2c6e9b5e8f!2sR%C3%A9sidence%20Yasmina!5e0!3m2!1sfr!2sma!4v1635000000000!5m2!1sfr!2sma"
                 width="100%"
@@ -170,9 +173,10 @@ const Contact = () => {
           </div>
 
           {/* Contact Form */}
-          <Card>
+          <Card className="hover-lift border-2 hover:border-primary/40 transition-all duration-500 animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards]">
             <CardHeader>
-              <CardTitle className="text-2xl font-serif">
+              <CardTitle className="text-2xl sm:text-3xl font-serif flex items-center gap-3">
+                <Mail className="h-7 w-7 text-primary" />
                 {t('contact.form.title')}
               </CardTitle>
             </CardHeader>
@@ -226,8 +230,11 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full" size="lg">
-                  {t('contact.form.send')}
+                <Button type="submit" className="w-full hover-lift group" size="lg">
+                  <span className="flex items-center justify-center">
+                    {t('contact.form.send')}
+                    <Mail className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                  </span>
                 </Button>
               </form>
             </CardContent>
