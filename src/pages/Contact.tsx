@@ -7,9 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { MapPin, Phone, Mail } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
+import { useToast } from '@/hooks/use-toast';
+import { z } from 'zod';
 
 const Contact = () => {
   const { t } = useLanguage();
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -42,8 +45,27 @@ const Contact = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    const mailtoLink = `mailto:ReservationYasmina@gmail.com?subject=${encodeURIComponent(formData.subject)}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
+    // Validate input
+    const contactSchema = z.object({
+      name: z.string().trim().min(1, 'Name is required').max(100, 'Name must be less than 100 characters'),
+      email: z.string().trim().email('Invalid email address').max(255, 'Email must be less than 255 characters'),
+      subject: z.string().trim().min(1, 'Subject is required').max(200, 'Subject must be less than 200 characters'),
+      message: z.string().trim().min(1, 'Message is required').max(2000, 'Message must be less than 2000 characters'),
+    });
+
+    const result = contactSchema.safeParse(formData);
+
+    if (!result.success) {
+      toast({
+        title: 'Validation Error',
+        description: result.error.errors[0].message,
+        variant: 'destructive',
+      });
+      return;
+    }
+    
+    const mailtoLink = `mailto:ReservationYasmina@gmail.com?subject=${encodeURIComponent(result.data.subject)}&body=${encodeURIComponent(
+      `Name: ${result.data.name}\nEmail: ${result.data.email}\n\nMessage:\n${result.data.message}`
     )}`;
     
     window.location.href = mailtoLink;

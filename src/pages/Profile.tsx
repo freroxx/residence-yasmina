@@ -9,6 +9,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { User } from '@supabase/supabase-js';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { z } from 'zod';
 
 interface Profile {
   full_name: string | null;
@@ -74,13 +75,33 @@ const Profile = () => {
     e.preventDefault();
     if (!user) return;
 
+    // Validate input
+    const profileSchema = z.object({
+      full_name: z.string().trim().max(100, 'Name must be less than 100 characters'),
+      description: z.string().trim().max(1000, 'Description must be less than 1000 characters'),
+    });
+
+    const result = profileSchema.safeParse({
+      full_name: profile.full_name || '',
+      description: profile.description || '',
+    });
+
+    if (!result.success) {
+      toast({
+        title: 'Validation Error',
+        description: result.error.errors[0].message,
+        variant: 'destructive',
+      });
+      return;
+    }
+
     setSaving(true);
     try {
       const { error } = await supabase
         .from('profiles')
         .update({
-          full_name: profile.full_name,
-          description: profile.description,
+          full_name: result.data.full_name,
+          description: result.data.description,
         })
         .eq('user_id', user.id);
 
