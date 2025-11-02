@@ -65,10 +65,10 @@ const About = () => {
                 <span className="text-sm font-bold text-primary tracking-wide uppercase">Notre Histoire</span>
               </div>
               <div className="prose prose-lg max-w-none space-y-6">
-                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                <p className="text-lg sm:text-xl md:text-2xl text-foreground leading-relaxed font-medium">
                   {t('about.text1')}
                 </p>
-                <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed">
+                <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
                   {t('about.text2')}
                 </p>
               </div>
@@ -77,9 +77,24 @@ const About = () => {
             {/* Features Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mt-12 sm:mt-16">
               {[
-                { icon: MapPin, title: t('about.location'), desc: t('about.location.desc'), color: 'from-primary/20 to-accent/20' },
-                { icon: Users, title: t('home.features.title'), desc: t('home.description').substring(0, 80) + '...', color: 'from-accent/20 to-primary/20' },
-                { icon: Star, title: 'Excellence', desc: t('home.highlight').substring(0, 80) + '...', color: 'from-primary/20 to-accent/20' },
+                { 
+                  icon: MapPin, 
+                  title: t('about.location'), 
+                  desc: t('about.location.desc'), 
+                  color: 'from-primary/20 to-accent/20' 
+                },
+                { 
+                  icon: Users, 
+                  title: t('home.features.title'), 
+                  desc: t('home.description').substring(0, 100) + '...', 
+                  color: 'from-accent/20 to-primary/20' 
+                },
+                { 
+                  icon: Star, 
+                  title: 'Excellence', 
+                  desc: t('home.highlight').substring(0, 100) + '...', 
+                  color: 'from-primary/20 to-accent/20' 
+                },
               ].map((feature, index) => (
                 <Card 
                   key={index}
@@ -120,35 +135,35 @@ const About = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 mb-12">
               {/* Nearby Places */}
               <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-on-scroll">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <CardContent className="pt-8 relative z-10">
+                <CardContent className="pt-8 pb-8 relative z-10">
                   <div className="inline-flex p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl mb-5 group-hover:scale-110 transition-all duration-500">
-                    <Building2 className="h-7 w-7 text-primary" />
+                    <Building2 className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-5 group-hover:text-primary transition-colors">{t('about.surroundings.places')}</h3>
+                  <h3 className="text-xl font-bold mb-6 group-hover:text-primary transition-colors">{t('about.surroundings.places')}</h3>
                   <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Musée du Patrimoine Amazigh: <strong className="text-primary">300 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Agadir Oufella Ruins: <strong className="text-primary">2.8 km</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Medina Polizzi: <strong className="text-primary">4.1 km</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Souss-Massa National Park: <strong className="text-primary">9 km</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Croco Parc Agadir: <strong className="text-primary">12 km</strong></span>
                     </li>
                   </ul>
@@ -159,81 +174,78 @@ const About = () => {
               <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-on-scroll [animation-delay:100ms]">
                 <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <CardContent className="pt-8 relative z-10">
+                <CardContent className="pt-8 pb-8 relative z-10">
                   <div className="inline-flex p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl mb-5 group-hover:scale-110 transition-all duration-500">
-                    <Utensils className="h-7 w-7 text-primary" />
+                    <Utensils className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-5 group-hover:text-primary transition-colors">{t('about.surroundings.restaurants')}</h3>
+                  <h3 className="text-xl font-bold mb-6 group-hover:text-primary transition-colors">{t('about.surroundings.restaurants')}</h3>
                   <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Restaurant Scampi: <strong className="text-primary">100 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Pâtisserie L'Atelier: <strong className="text-primary">200 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Café La Caverna: <strong className="text-primary">100 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Snack Chich Kabab: <strong className="text-primary">200 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Pizza Oumlil: <strong className="text-primary">200 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Mickey Burger: <strong className="text-primary">210 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Bar à salades 116: <strong className="text-primary">400 m</strong></span>
                     </li>
                   </ul>
                 </CardContent>
               </Card>
 
-              {/* Beaches */}
+              {/* Beaches & Airport */}
               <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-on-scroll [animation-delay:200ms]">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
-                <CardContent className="pt-8 relative z-10">
+                <CardContent className="pt-8 pb-8 relative z-10">
                   <div className="inline-flex p-4 bg-gradient-to-br from-primary/10 to-accent/10 rounded-xl mb-5 group-hover:scale-110 transition-all duration-500">
-                    <Waves className="h-7 w-7 text-primary" />
+                    <Waves className="h-8 w-8 text-primary" />
                   </div>
-                  <h3 className="text-xl font-bold mb-5 group-hover:text-primary transition-colors">{t('about.surroundings.beaches')}</h3>
-                  <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                  <h3 className="text-xl font-bold mb-6 group-hover:text-primary transition-colors">{t('about.surroundings.beaches')}</h3>
+                  <ul className="space-y-3 text-sm text-muted-foreground mb-8">
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Plage d'Agadir: <strong className="text-primary">700 m</strong></span>
                     </li>
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
+                    <li className="flex items-start hover:text-foreground transition-colors">
+                      <span className="mr-2 text-primary">•</span>
                       <span>Plage d'Anza: <strong className="text-primary">6 km</strong></span>
                     </li>
                   </ul>
-                </CardContent>
-              </Card>
-
-              {/* Airport */}
-              <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-on-scroll [animation-delay:300ms]">
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                
-                <CardContent className="pt-8 relative z-10">
-                  <div className="inline-flex p-4 bg-gradient-to-br from-accent/10 to-primary/10 rounded-xl mb-5 group-hover:scale-110 transition-all duration-500">
-                    <Plane className="h-7 w-7 text-primary" />
+                  
+                  <div className="pt-6 border-t border-border">
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="p-2 bg-gradient-to-br from-accent/10 to-primary/10 rounded-lg">
+                        <Plane className="h-6 w-6 text-primary" />
+                      </div>
+                      <h3 className="text-lg font-bold group-hover:text-primary transition-colors">{t('about.surroundings.airport')}</h3>
+                    </div>
+                    <ul className="space-y-3 text-sm text-muted-foreground">
+                      <li className="flex items-start hover:text-foreground transition-colors">
+                        <span className="mr-2 text-primary">•</span>
+                        <span>Aéroport d'Agadir-Al Massira: <strong className="text-primary">18 km</strong></span>
+                      </li>
+                    </ul>
                   </div>
-                  <h3 className="text-xl font-bold mb-5 group-hover:text-primary transition-colors">{t('about.surroundings.airport')}</h3>
-                  <ul className="space-y-3 text-sm text-muted-foreground">
-                    <li className="flex items-start">
-                      <span className="mr-2">•</span>
-                      <span>Aéroport d'Agadir-Al Massira: <strong className="text-primary">18 km</strong></span>
-                    </li>
-                  </ul>
                 </CardContent>
               </Card>
             </div>
