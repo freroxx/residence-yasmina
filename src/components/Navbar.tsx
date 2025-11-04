@@ -35,7 +35,12 @@ const Navbar = () => {
   ];
 
   const toggleLanguage = () => {
-    setLanguage(language === 'fr' ? 'en' : 'fr');
+    const newLang = language === 'fr' ? 'en' : 'fr';
+    setLanguage(newLang);
+    
+    // Optional: Show a subtle toast notification
+    // This is commented out to avoid being too intrusive
+    // toast({ title: `Language changed to ${newLang === 'fr' ? 'Français' : 'English'}` });
   };
 
   return (

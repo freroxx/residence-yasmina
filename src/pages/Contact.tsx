@@ -230,12 +230,16 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full hover-lift group" size="lg">
+                <Button type="submit" className="w-full hover-lift-lg group shadow-xl" size="lg">
                   <span className="flex items-center justify-center">
                     {t('contact.form.send')}
                     <Mail className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                   </span>
                 </Button>
+                
+                <p className="text-sm text-muted-foreground text-center mt-4">
+                  * Ce formulaire ouvrira votre client de messagerie par défaut
+                </p>
               </form>
             </CardContent>
           </Card>

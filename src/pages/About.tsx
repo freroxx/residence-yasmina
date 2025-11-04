@@ -71,6 +71,12 @@ const About = () => {
                 <p className="text-base sm:text-lg md:text-xl text-muted-foreground leading-relaxed">
                   {t('about.text2')}
                 </p>
+                <div className="mt-8 p-8 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl border-2 border-primary/20">
+                  <p className="text-xl sm:text-2xl text-primary font-semibold italic">
+                    Une résidence familiale où le confort rencontre l'authenticité marocaine, 
+                    offrant une expérience inoubliable au cœur d'Agadir.
+                  </p>
+                </div>
               </div>
             </div>
 

@@ -27,6 +27,14 @@ const Gallery = () => {
   const { t } = useLanguage();
   const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+
+  const categories = [
+    { id: 'all', label: 'Toutes les photos' },
+    { id: 'rooms', label: 'Chambres & Suites' },
+    { id: 'pool', label: 'Piscine' },
+    { id: 'residence', label: 'Résidence' },
+  ];
 
   const images = [
     { src: aerialBuilding, alt: t('gallery.aerial'), category: 'residence' },
@@ -52,14 +60,25 @@ const Gallery = () => {
   ];
 
   const filteredImages = useMemo(() => {
-    if (!searchQuery.trim()) return images;
+    let filtered = [...images];
     
-    const query = searchQuery.toLowerCase();
-    return images.filter(img => 
-      img.alt.toLowerCase().includes(query) ||
-      img.category.toLowerCase().includes(query)
-    );
-  }, [searchQuery, images]);
+    // Filter by category
+    if (selectedCategory !== 'all') {
+      filtered = filtered.filter(img => img.category === selectedCategory);
+    }
+    
+    // Filter by search query
+    if (searchQuery.trim()) {
+      const query = searchQuery.toLowerCase();
+      filtered = filtered.filter(img => 
+        img.alt.toLowerCase().includes(query) ||
+        img.category.toLowerCase().includes(query)
+      );
+    }
+    
+    return filtered;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, selectedCategory]);
 
   return (
     <div className="min-h-screen bg-background py-16">
@@ -78,21 +97,44 @@ const Gallery = () => {
           </p>
           
           {/* Search Bar */}
-          <div className="max-w-md mx-auto relative">
+          <div className="max-w-md mx-auto relative mb-8">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Rechercher dans la galerie..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-12 text-base shadow-lg"
+              className="pl-10 h-12 text-base shadow-lg hover:shadow-xl transition-shadow"
             />
+          </div>
+
+          {/* Category Filters */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8">
+            {categories.map((category) => (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                  selectedCategory === category.id
+                    ? 'bg-primary text-primary-foreground shadow-lg scale-105'
+                    : 'bg-card border-2 border-border hover:border-primary/40 hover:scale-105'
+                }`}
+              >
+                {category.label}
+              </button>
+            ))}
           </div>
         </div>
 
         {filteredImages.length === 0 ? (
-          <div className="text-center py-16">
-            <p className="text-lg text-muted-foreground">Aucune photo trouvée pour "{searchQuery}"</p>
+          <div className="text-center py-16 animate-fade-in">
+            <div className="inline-flex p-6 bg-muted rounded-full mb-4">
+              <Search className="h-12 w-12 text-muted-foreground" />
+            </div>
+            <p className="text-xl text-muted-foreground mb-2">Aucune photo trouvée</p>
+            <p className="text-sm text-muted-foreground">
+              {searchQuery ? `pour "${searchQuery}"` : 'dans cette catégorie'}
+            </p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">

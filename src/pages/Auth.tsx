@@ -32,13 +32,23 @@ const Auth = () => {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (session) {
-        navigate('/profile');
+      if (session && event === 'SIGNED_IN') {
+        // Show toast first
+        toast({
+          title: t('auth.loginSuccess'),
+          description: t('auth.loginSuccessDesc'),
+          className: 'bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20',
+        });
+        
+        // Delay navigation to show the toast
+        setTimeout(() => {
+          navigate('/profile');
+        }, 1500);
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, t, toast]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -71,12 +81,8 @@ const Auth = () => {
         });
 
         if (error) throw error;
-
-        toast({
-          title: t('auth.loginSuccess'),
-          description: t('auth.loginSuccessDesc'),
-          className: 'bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20',
-        });
+        
+        // Toast will be shown by onAuthStateChange
       } else {
         const redirectUrl = `${window.location.origin}/`;
         
