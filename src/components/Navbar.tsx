@@ -98,10 +98,10 @@ const Navbar = () => {
               variant="ghost"
               size="sm"
               onClick={toggleLanguage}
-              className="text-primary-foreground hover:bg-primary-foreground/10"
+              className="text-primary-foreground hover:bg-primary-foreground/10 transition-all duration-300 hover:scale-105 active:scale-95"
             >
-              <Globe className="h-4 w-4 mr-1" />
-              {language.toUpperCase()}
+              <Globe className="h-4 w-4 mr-1 transition-transform duration-300 hover:rotate-12" />
+              <span className="animate-fade-in font-semibold">{language.toUpperCase()}</span>
             </Button>
 
             {/* Mobile Menu Button */}

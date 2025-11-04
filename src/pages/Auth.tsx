@@ -74,6 +74,8 @@ const Auth = () => {
 
         toast({
           title: t('auth.loginSuccess'),
+          description: t('auth.loginSuccessDesc'),
+          className: 'bg-gradient-to-r from-primary/10 to-primary/5 border-primary/20',
         });
       } else {
         const redirectUrl = `${window.location.origin}/`;
