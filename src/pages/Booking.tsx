@@ -17,23 +17,23 @@ const Booking = () => {
     { 
       icon: Phone, 
       title: 'Téléphone', 
-      value: '+212 5XX-XXXXXX', 
-      desc: 'Lun-Dim 9h-20h',
-      action: 'tel:+212XXXXXXXXX'
+      value: '+212 661 17 58 72', 
+      desc: 'Disponible 7j/7',
+      action: 'tel:+212661175872'
     },
     { 
       icon: Mail, 
       title: 'Email', 
-      value: 'contact@yasmina.ma', 
-      desc: 'Réponse sous 24h',
-      action: 'mailto:contact@yasmina.ma'
+      value: 'ReservationYasmina@gmail.com', 
+      desc: 'Réponse rapide',
+      action: 'mailto:ReservationYasmina@gmail.com'
     },
     { 
       icon: MapPin, 
-      title: 'Visite', 
-      value: 'Agadir, Maroc', 
-      desc: 'Sur rendez-vous',
-      action: '#'
+      title: 'Adresse', 
+      value: 'Rue n° 18, Secteur R2, Nouveau Talborjt, Agadir', 
+      desc: 'Agadir, Maroc',
+      action: 'https://maps.google.com/?q=Residence+Yasmina+Agadir'
     },
   ];
 
@@ -143,12 +143,18 @@ const Booking = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactMethods.map((method, index) => (
-              <Card 
-                key={index} 
-                className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-fade-in cursor-pointer"
-                style={{ animationDelay: `${index * 100}ms` }}
-                onClick={() => method.action !== '#' && window.open(method.action, '_blank')}
-              >
+                <Card 
+                  key={index} 
+                  className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-fade-in cursor-pointer"
+                  style={{ animationDelay: `${index * 100}ms` }}
+                  onClick={() => {
+                    if (method.action.startsWith('http')) {
+                      window.open(method.action, '_blank');
+                    } else if (method.action.startsWith('tel:') || method.action.startsWith('mailto:')) {
+                      window.location.href = method.action;
+                    }
+                  }}
+                >
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 
                 <CardContent className="pt-8 pb-8 text-center relative z-10">

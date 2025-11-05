@@ -306,6 +306,110 @@ const Home = () => {
         </div>
       </section>
 
+      {/* Testimonials Section */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-b from-background to-secondary/20 relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative">
+          <div className="text-center mb-12 sm:mb-16 animate-on-scroll">
+            <div className="inline-flex items-center gap-2 px-6 py-3 glass rounded-full mb-6">
+              <Star className="w-5 h-5 text-primary animate-pulse-soft" />
+              <span className="text-sm font-bold tracking-wider uppercase">Témoignages</span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold font-serif mb-6">
+              Commentaires & Avis
+            </h2>
+            <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto">
+              Ce que nos clients disent de leur séjour
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-7xl mx-auto">
+            {/* Alice - France */}
+            <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-fade-in-up opacity-0 [animation-fill-mode:forwards]">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardContent className="p-8 relative z-10">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="text-base text-foreground leading-relaxed mb-6 italic">
+                  "Super, je recommande, très beau lieu. Lieu calme, personnel accueillant, super accueil ! J&apos;ai tout apprécié"
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t border-border">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground">Alice</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      France
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Jihane - Maroc */}
+            <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-fade-in-up opacity-0 [animation-fill-mode:forwards] [animation-delay:100ms]">
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardContent className="p-8 relative z-10">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="text-base text-foreground leading-relaxed mb-6 italic">
+                  "Très bien ! L&apos;emplacement, l&apos;amabilité du personnel, studio bien pensé"
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t border-border">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground">Jihane</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      Maroc
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Mohamed - Belgique */}
+            <Card className="hover-lift-lg border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative animate-fade-in-up opacity-0 [animation-fill-mode:forwards] [animation-delay:200ms]">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <CardContent className="p-8 relative z-10">
+                <div className="flex gap-1 mb-4">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-5 h-5 fill-primary text-primary" />
+                  ))}
+                </div>
+                <p className="text-base text-foreground leading-relaxed mb-6 italic">
+                  "Excellent séjour dans un cadre magnifique. Piscine impeccable, appartements spacieux et bien équipés. À recommander sans hésitation !"
+                </p>
+                <div className="flex items-center gap-3 pt-4 border-t border-border">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                    <Users className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-bold text-foreground">Mohamed</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-1">
+                      <MapPin className="w-3 h-3" />
+                      Belgique
+                    </p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-12 sm:py-16 lg:py-20 bg-primary text-primary-foreground relative overflow-hidden">
         {/* Decorative gradient orbs */}
