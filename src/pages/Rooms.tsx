@@ -194,14 +194,14 @@ const Rooms = () => {
               Réservez dès maintenant votre logement idéal pour un séjour mémorable
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/booking" className="group">
-                <Button size="lg" variant="secondary" className="text-lg px-10 py-6 hover-lift-lg">
+              <Link to="/booking" className="group w-full sm:w-auto">
+                <Button size="xl" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform">
                   Réserver Maintenant
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </Button>
               </Link>
-              <Link to="/contact" className="group">
-                <Button size="lg" variant="outline" className="text-lg px-10 py-6 border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground/10 hover-lift-lg">
+              <Link to="/contact" className="group w-full sm:w-auto">
+                <Button size="xl" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform">
                   Nous Contacter
                 </Button>
               </Link>

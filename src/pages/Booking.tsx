@@ -115,8 +115,9 @@ const Booking = () => {
                 rel="noopener noreferrer"
               >
                 <Button 
+                  size="lg"
                   variant="outline" 
-                  className="hover-lift group border-2 hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300"
+                  className="w-full hover:scale-105 hover:border-primary hover:bg-primary hover:text-primary-foreground transition-all duration-300 group"
                 >
                   <ExternalLink className="h-5 w-5 mr-2 group-hover:rotate-12 transition-transform" />
                   {t('booking.openNewTab')}

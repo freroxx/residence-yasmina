@@ -159,21 +159,41 @@ All colors MUST be HSL.
     @apply opacity-100 translate-y-0;
   }
 
-  /* Enhanced Hover effects */
+  /* Enhanced Hover effects - optimized for performance */
   .hover-lift {
-    @apply transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-xl;
+    @apply transition-all duration-300 ease-out;
+    will-change: transform, box-shadow;
+  }
+
+  .hover-lift:hover {
+    @apply -translate-y-2 shadow-xl;
   }
 
   .hover-lift-lg {
-    @apply transition-all duration-500 ease-out hover:-translate-y-4 hover:shadow-2xl;
+    @apply transition-all duration-500 ease-out;
+    will-change: transform, box-shadow;
+  }
+
+  .hover-lift-lg:hover {
+    @apply -translate-y-4 shadow-2xl;
   }
 
   .hover-scale {
-    @apply transition-transform duration-300 ease-out hover:scale-105;
+    @apply transition-transform duration-300 ease-out;
+    will-change: transform;
+  }
+
+  .hover-scale:hover {
+    @apply scale-105;
   }
 
   .hover-scale-sm {
-    @apply transition-transform duration-300 ease-out hover:scale-102;
+    @apply transition-transform duration-300 ease-out;
+    will-change: transform;
+  }
+
+  .hover-scale-sm:hover {
+    @apply scale-102;
   }
 
   .hover-glow {

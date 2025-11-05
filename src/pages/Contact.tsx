@@ -230,11 +230,9 @@ const Contact = () => {
                   />
                 </div>
 
-                <Button type="submit" className="w-full hover-lift-lg group shadow-xl" size="lg">
-                  <span className="flex items-center justify-center">
-                    {t('contact.form.send')}
-                    <Mail className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                  </span>
+                <Button type="submit" className="w-full hover:scale-105 transition-all duration-300 group shadow-xl" size="xl">
+                  {t('contact.form.send')}
+                  <Mail className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
                 
                 <p className="text-sm text-muted-foreground text-center mt-4">

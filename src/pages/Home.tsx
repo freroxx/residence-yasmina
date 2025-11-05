@@ -94,21 +94,16 @@ const Home = () => {
             {t('hero.subtitle')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up [animation-delay:600ms] opacity-0 [animation-fill-mode:forwards]">
-            <Link to="/booking" className="group">
-              <Button size="lg" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto shadow-2xl relative overflow-hidden">
-                <span className="relative z-10 flex items-center justify-center">
-                  {t('hero.cta')}
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary via-accent/20 to-primary opacity-0 group-hover:opacity-20 transition-opacity shimmer-fast" />
+            <Link to="/booking" className="group w-full sm:w-auto">
+              <Button size="xl" className="w-full sm:w-auto hover:scale-105 transition-transform">
+                {t('hero.cta')}
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Link to="/rooms" className="group">
-              <Button size="lg" variant="outline" className="text-base sm:text-lg px-8 sm:px-10 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto border-2 border-white/50 text-white hover:bg-white/10 backdrop-blur-sm relative overflow-hidden">
-                <span className="relative z-10 flex items-center justify-center">
-                  {t('nav.rooms')}
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </span>
+            <Link to="/rooms" className="group w-full sm:w-auto">
+              <Button size="xl" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform">
+                {t('nav.rooms')}
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
           </div>
@@ -252,10 +247,10 @@ const Home = () => {
           </div>
 
           <div className="text-center">
-            <Link to="/rooms" className="group inline-block">
-              <Button size="lg" className="hover-lift-lg text-xl px-12 py-7 shadow-xl">
+            <Link to="/rooms" className="group">
+              <Button size="xl" className="hover:scale-105 transition-transform">
                 Voir Tous les Logements
-                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
           </div>
@@ -301,10 +296,10 @@ const Home = () => {
           </div>
 
           <div className="text-center mt-12">
-            <Link to="/gallery" className="group inline-block">
-              <Button size="lg" variant="outline" className="hover-lift-lg text-xl px-12 py-7 border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary">
+            <Link to="/gallery" className="group">
+              <Button size="xl" variant="outline" className="hover:scale-105 transition-transform hover:bg-primary hover:text-primary-foreground hover:border-primary">
                 Voir Toute la Galerie
-                <ArrowRight className="ml-3 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
               </Button>
             </Link>
           </div>
@@ -326,13 +321,13 @@ const Home = () => {
               Profitez d'un hébergement confortable au cœur d'Agadir avec tous les équipements nécessaires pour un séjour mémorable
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 justify-center animate-fade-in-up [animation-delay:400ms]">
-              <Link to="/booking">
-                <Button size="lg" variant="secondary" className="text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto">
+              <Link to="/booking" className="w-full sm:w-auto">
+                <Button size="xl" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform">
                   {t('hero.cta')}
                 </Button>
               </Link>
-              <Link to="/contact">
-                <Button size="lg" variant="secondary" className="text-lg sm:text-xl px-10 sm:px-12 py-5 sm:py-7 hover-lift-lg w-full sm:w-auto">
+              <Link to="/contact" className="w-full sm:w-auto">
+                <Button size="xl" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform">
                   Nous Contacter
                 </Button>
               </Link>
