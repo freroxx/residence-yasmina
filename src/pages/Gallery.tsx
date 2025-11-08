@@ -1,5 +1,5 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { X, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import aerialBuilding from '@/assets/aerial-building.jpg';
@@ -22,6 +22,16 @@ import suiteC2 from '@/assets/suite-c-2.png';
 import suiteC3 from '@/assets/suite-c-3.png';
 import suiteC4 from '@/assets/suite-c-4.png';
 import appart from '@/assets/appart.png';
+import espacePaisible from '@/assets/espace-paisible.jpg';
+import paysageExterieur from '@/assets/paysage-exterieur.jpg';
+import vueBalconNew from '@/assets/vue-balcon.jpg';
+import fontaineJardin from '@/assets/fontaine-jardin.jpg';
+import residenceExterieur from '@/assets/residence-exterieur.jpg';
+import vueJardinInterieur from '@/assets/vue-jardin-interieur.jpg';
+import espaceTranquille from '@/assets/espace-tranquille.jpg';
+import piscineIntegree from '@/assets/piscine-integree.jpg';
+import parasolsToit from '@/assets/parasols-toit.jpg';
+import vueTerrainsTennis from '@/assets/vue-terrains-tennis.jpg';
 
 const Gallery = () => {
   const { t } = useLanguage();
@@ -29,19 +39,48 @@ const Gallery = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
+  // Close modal on ESC key
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && selectedImage) {
+        setSelectedImage(null);
+      }
+    };
+    
+    if (selectedImage) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImage]);
+
   const categories = [
     { id: 'all', label: 'Toutes les photos' },
     { id: 'rooms', label: 'Chambres & Suites' },
     { id: 'pool', label: 'Piscine' },
     { id: 'residence', label: 'Résidence' },
+    { id: 'garden', label: 'Jardins & Espaces' },
   ];
 
   const images = [
     { src: aerialBuilding, alt: t('gallery.aerial'), category: 'residence' },
     { src: poolUmbrellas, alt: t('gallery.pool'), category: 'pool' },
     { src: poolPatio, alt: t('gallery.poolArea'), category: 'pool' },
+    { src: piscineIntegree, alt: 'Piscine intégrée', category: 'pool' },
     { src: tennisGardens, alt: t('gallery.tennis'), category: 'residence' },
+    { src: vueTerrainsTennis, alt: 'Vue sur terrains de tennis', category: 'residence' },
     { src: gardenPlants, alt: t('gallery.garden'), category: 'residence' },
+    { src: residenceExterieur, alt: 'La résidence de l\'extérieur', category: 'residence' },
+    { src: paysageExterieur, alt: 'Paysage de l\'extérieur', category: 'residence' },
+    { src: fontaineJardin, alt: 'Fontaine Jardin', category: 'garden' },
+    { src: vueJardinInterieur, alt: 'Vue sur jardin intérieur', category: 'garden' },
+    { src: espacePaisible, alt: 'Espace paisible', category: 'garden' },
+    { src: espaceTranquille, alt: 'Espace tranquille', category: 'garden' },
+    { src: parasolsToit, alt: 'Parasols au toit', category: 'garden' },
     { src: suiteA, alt: 'Suite A - Chambre', category: 'rooms' },
     { src: suiteA1, alt: 'Suite A - Salle de bain', category: 'rooms' },
     { src: suiteA3, alt: 'Suite A - Salon', category: 'rooms' },
@@ -57,6 +96,7 @@ const Gallery = () => {
     { src: livingRoomSofa, alt: t('gallery.livingRoom'), category: 'rooms' },
     { src: apartmentInterior, alt: t('gallery.apartment'), category: 'rooms' },
     { src: balconyView, alt: t('gallery.view'), category: 'rooms' },
+    { src: vueBalconNew, alt: 'Vue balcon', category: 'rooms' },
   ];
 
   const filteredImages = useMemo(() => {
@@ -144,12 +184,23 @@ const Gallery = () => {
               className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg hover-lift group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative cursor-pointer"
               style={{ animationDelay: `${index * 50}ms` }}
               onClick={() => setSelectedImage(image)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setSelectedImage(image);
+                }
+              }}
             >
               <img
                 src={image.src}
                 alt={image.alt}
                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                 loading="lazy"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23f3f4f6" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%239ca3af"%3EImage non disponible%3C/text%3E%3C/svg%3E';
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
                 <span className="text-white font-medium text-sm sm:text-base">{image.alt}</span>
@@ -165,10 +216,14 @@ const Gallery = () => {
         <div 
           className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fade-in"
           onClick={() => setSelectedImage(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Image en grand format"
         >
           <button
-            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
             onClick={() => setSelectedImage(null)}
+            aria-label="Fermer"
           >
             <X className="h-6 w-6 text-white" />
           </button>
@@ -178,8 +233,11 @@ const Gallery = () => {
               alt={selectedImage.alt}
               className="max-w-full max-h-full object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}
+              onError={(e) => {
+                (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"%3E%3Crect fill="%23000" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%23fff"%3EImage non disponible%3C/text%3E%3C/svg%3E';
+              }}
             />
-            <p className="text-white text-lg mt-4 text-center">{selectedImage.alt}</p>
+            <p className="text-white text-lg mt-4 text-center px-4">{selectedImage.alt}</p>
           </div>
         </div>
       )}

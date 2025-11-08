@@ -77,10 +77,22 @@ const Footer = () => {
             <div className="mt-4 sm:mt-6">
               <h5 className="text-xs sm:text-sm font-semibold mb-2 sm:mb-3">{t('footer.follow')}</h5>
               <div className="flex space-x-3 sm:space-x-4">
-                <a href="#" className="hover:opacity-75 transition-opacity" aria-label="Facebook">
+                <a 
+                  href="https://www.facebook.com/ResidenceYasmina/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-75 transition-opacity" 
+                  aria-label="Facebook"
+                >
                   <Facebook className="h-4 w-4 sm:h-5 sm:w-5" />
                 </a>
-                <a href="#" className="hover:opacity-75 transition-opacity" aria-label="Instagram">
+                <a 
+                  href="https://www.instagram.com/residenceyasmina/" 
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:opacity-75 transition-opacity" 
+                  aria-label="Instagram"
+                >
                   <Instagram className="h-4 w-4 sm:h-5 sm:w-5" />
                 </a>
               </div>
