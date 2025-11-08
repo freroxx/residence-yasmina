@@ -109,8 +109,7 @@ const Contact = () => {
                     <h3 className="font-semibold mb-1">{t('contact.address')}</h3>
                     <p className="text-muted-foreground">
                       Résidence Yasmina<br />
-                      Rue n° 18, Secteur R2<br />
-                      Nouveau Talborjt<br />
+                      Rue de la Jeunesse<br />
                       80000 Agadir, Maroc
                     </p>
                   </div>
@@ -122,11 +121,17 @@ const Contact = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold mb-1">{t('contact.phone')}</h3>
-                    <p className="text-muted-foreground">
-                      <a href="tel:+212661175872" className="hover:text-primary transition-colors">
-                        +212 661 17 58 72
+                    <div className="text-muted-foreground space-y-1">
+                      <a href="tel:+212528843131" className="hover:text-primary transition-colors block">
+                        +212 528 84 31 31
                       </a>
-                    </p>
+                      <a href="tel:+212528842660" className="hover:text-primary transition-colors block">
+                        +212 528 84 26 60
+                      </a>
+                      <a href="tel:+212528842565" className="hover:text-primary transition-colors block">
+                        +212 528 84 25 65
+                      </a>
+                    </div>
                   </div>
                 </div>
 

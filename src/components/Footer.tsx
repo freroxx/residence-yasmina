@@ -50,13 +50,21 @@ const Footer = () => {
             <ul className="space-y-2 text-xs sm:text-sm opacity-90">
               <li className="flex items-start space-x-2">
                 <MapPin className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 mt-1" />
-                <span>Rue n° 18, Secteur R2<br />Nouveau Talborjt<br />80000 Agadir, Maroc</span>
+                <span>Rue de la Jeunesse<br />80000 Agadir, Maroc</span>
               </li>
               <li className="flex items-start space-x-2">
                 <Phone className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0 mt-1" />
-                <a href="tel:+212661175872" className="hover:text-primary-foreground/80 transition-colors">
-                  +212 661 17 58 72
-                </a>
+                <div className="flex flex-col">
+                  <a href="tel:+212528843131" className="hover:text-primary-foreground/80 transition-colors">
+                    +212 528 84 31 31
+                  </a>
+                  <a href="tel:+212528842660" className="hover:text-primary-foreground/80 transition-colors">
+                    +212 528 84 26 60
+                  </a>
+                  <a href="tel:+212528842565" className="hover:text-primary-foreground/80 transition-colors">
+                    +212 528 84 25 65
+                  </a>
+                </div>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />

@@ -1,6 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExternalLink, Calendar, Users, Mail, Phone, MapPin, Clock, CheckCircle2 } from 'lucide-react';
+import { ExternalLink, Calendar, Users, Mail, Phone, MapPin, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Booking = () => {
@@ -17,9 +17,10 @@ const Booking = () => {
     { 
       icon: Phone, 
       title: 'Téléphone', 
-      value: '+212 661 17 58 72', 
-      desc: 'Disponible 7j/7',
-      action: 'tel:+212661175872'
+      value: '+212 528 84 31 31', 
+      desc: 'Plusieurs lignes disponibles',
+      action: 'tel:+212528843131',
+      additionalNumbers: ['+212 528 84 26 60', '+212 528 84 25 65']
     },
     { 
       icon: Mail, 
@@ -31,9 +32,17 @@ const Booking = () => {
     { 
       icon: MapPin, 
       title: 'Adresse', 
-      value: 'Rue n° 18, Secteur R2, Nouveau Talborjt, Agadir', 
-      desc: 'Agadir, Maroc',
+      value: 'Rue de la Jeunesse', 
+      desc: '80000 Agadir, Maroc',
       action: 'https://maps.google.com/?q=Residence+Yasmina+Agadir'
+    },
+    { 
+      icon: Calendar, 
+      title: 'Booking.com', 
+      value: 'Réserver en ligne', 
+      desc: 'Plateforme sécurisée',
+      action: 'https://www.booking.com/hotel/ma/residence-yasmina-agadir.fr.html',
+      external: true
     },
   ];
 
@@ -141,7 +150,7 @@ const Booking = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {contactMethods.map((method, index) => (
                 <Card 
                   key={index} 
@@ -167,8 +176,19 @@ const Booking = () => {
                   <p className="text-lg font-semibold text-foreground mb-1">
                     {method.value}
                   </p>
+                  {method.additionalNumbers && (
+                    <div className="text-sm text-muted-foreground space-y-0.5 mb-2">
+                      {method.additionalNumbers.map((num: string, idx: number) => (
+                        <div key={idx}>{num}</div>
+                      ))}
+                    </div>
+                  )}
                   <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    <Clock className="h-4 w-4" />
+                    {method.external ? (
+                      <ExternalLink className="h-4 w-4" />
+                    ) : (
+                      <Clock className="h-4 w-4" />
+                    )}
                     <span>{method.desc}</span>
                   </div>
                 </CardContent>
