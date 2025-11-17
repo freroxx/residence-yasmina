@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import { DollarSign, Calendar, Users, Sparkles, ArrowRight, Sun, Snowflake } from 'lucide-react';
+import PriceCalculator from '@/components/PriceCalculator';
 
 const Prices = () => {
   const { t } = useLanguage();
@@ -76,31 +77,33 @@ const Prices = () => {
   };
 
   const renderPricingTable = (data: any[], type: 'summer' | 'winter', periodIndex?: number) => (
-    <div className="overflow-hidden rounded-xl border-2 border-border">
+    <div className="overflow-hidden rounded-xl border-2 border-border shadow-lg hover:shadow-xl transition-shadow duration-300" role="region" aria-label={`${type} pricing table`}>
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className="w-full" role="table" aria-label={`Pricing for ${type} season`}>
           <thead>
             <tr className="bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10">
-              <th className="border-b-2 border-border p-4 text-left font-bold text-foreground">
+              <th scope="col" className="border-b-2 border-border p-3 sm:p-4 text-left font-bold text-foreground">
                 <div className="flex items-center gap-2">
-                  <Users className="w-4 h-4 text-primary" />
-                  {t('prices.persons')}
+                  <Users className="w-4 h-4 text-primary" aria-hidden="true" />
+                  <span className="text-sm sm:text-base">{t('prices.persons')}</span>
                 </div>
               </th>
-              <th className="border-b-2 border-border p-4 text-right font-bold text-foreground">{t('prices.basePrice')}</th>
+              <th scope="col" className="border-b-2 border-border p-3 sm:p-4 text-right font-bold text-foreground">
+                <span className="text-sm sm:text-base">{t('prices.basePrice')}</span>
+              </th>
               {type === 'summer' && (
-                <th className="border-b-2 border-border p-4 text-right font-bold text-primary">
+                <th scope="col" className="border-b-2 border-border p-3 sm:p-4 text-right font-bold text-primary">
                   <div className="flex items-center justify-end gap-2">
-                    <Sun className="w-4 h-4" />
-                    {t('prices.summerPrice')}
+                    <Sun className="w-4 h-4" aria-hidden="true" />
+                    <span className="text-sm sm:text-base">{t('prices.summerPrice')}</span>
                   </div>
                 </th>
               )}
               {type === 'winter' && periodIndex !== undefined && (
-                <th className="border-b-2 border-border p-4 text-right font-bold text-primary">
+                <th scope="col" className="border-b-2 border-border p-3 sm:p-4 text-right font-bold text-primary">
                   <div className="flex items-center justify-end gap-2">
-                    <Snowflake className="w-4 h-4" />
-                    {t('prices.price')}
+                    <Snowflake className="w-4 h-4" aria-hidden="true" />
+                    <span className="text-sm sm:text-base">{t('prices.price')}</span>
                   </div>
                 </th>
               )}
@@ -109,26 +112,30 @@ const Prices = () => {
           <tbody>
             {data.map((item, idx) => (
               <tr key={idx} className="hover:bg-muted/30 transition-all duration-300 group">
-                <td className="border-b border-border p-4 font-medium group-hover:text-primary transition-colors">
+                <td className="border-b border-border p-3 sm:p-4 font-medium group-hover:text-primary transition-colors text-sm sm:text-base">
                   {item.persons} {t('prices.person')}
                 </td>
                 {type === 'summer' ? (
                   <>
-                    <td className="border-b border-border p-4 text-right font-medium text-muted-foreground line-through">{item.base} DH</td>
-                    <td className="border-b border-border p-4 text-right">
-                      <div className="inline-flex items-center gap-2 font-bold text-lg text-primary">
+                    <td className="border-b border-border p-3 sm:p-4 text-right font-medium text-muted-foreground line-through text-sm sm:text-base">
+                      {item.base} DH
+                    </td>
+                    <td className="border-b border-border p-3 sm:p-4 text-right">
+                      <div className="inline-flex items-center gap-2 font-bold text-base sm:text-lg text-primary">
                         {item.summer} DH
-                        <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
                       </div>
                     </td>
                   </>
                 ) : (
                   <>
-                    <td className="border-b border-border p-4 text-right font-medium text-muted-foreground">-</td>
-                    <td className="border-b border-border p-4 text-right">
-                      <div className="inline-flex items-center gap-2 font-bold text-lg text-primary">
+                    <td className="border-b border-border p-3 sm:p-4 text-right font-medium text-muted-foreground text-sm sm:text-base">
+                      -
+                    </td>
+                    <td className="border-b border-border p-3 sm:p-4 text-right">
+                      <div className="inline-flex items-center gap-2 font-bold text-base sm:text-lg text-primary">
                         {item.rates[periodIndex!]} DH
-                        <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <Sparkles className="w-4 h-4 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
                       </div>
                     </td>
                   </>
@@ -165,6 +172,11 @@ const Prices = () => {
               {t('prices.note')}
             </p>
           </div>
+        </div>
+
+        {/* Price Calculator */}
+        <div className="max-w-2xl mx-auto mb-12 sm:mb-16 animate-fade-in">
+          <PriceCalculator summerPricing={summerPricing} winterPricing={winterPricing} />
         </div>
 
         <Tabs defaultValue="summer" className="max-w-7xl mx-auto">
@@ -323,26 +335,29 @@ const Prices = () => {
         </div>
 
         {/* CTA Section */}
-        <div className="mt-16 text-center">
-          <div className="inline-block p-10 sm:p-12 bg-gradient-to-br from-primary to-primary/80 rounded-3xl shadow-2xl hover-lift-lg">
-            <h3 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
-              Prêt à Réserver ?
-            </h3>
-            <p className="text-lg sm:text-xl text-primary-foreground/90 mb-8 max-w-2xl">
-              Réservez dès maintenant au meilleur tarif pour votre séjour
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/booking" className="group w-full sm:w-auto">
-                <Button size="xl" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform">
-                  Réserver Maintenant
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                </Button>
-              </Link>
-              <Link to="/contact" className="group w-full sm:w-auto">
-                <Button size="xl" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform">
-                  Questions ? Contactez-nous
-                </Button>
-              </Link>
+        <div className="mt-16 text-center animate-fade-in">
+          <div className="inline-block p-8 sm:p-12 bg-gradient-to-br from-primary via-primary to-primary/80 rounded-3xl shadow-2xl hover-lift-lg relative overflow-hidden">
+            <div className="absolute inset-0 bg-gradient-to-br from-accent/10 to-transparent" />
+            <div className="relative">
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold text-primary-foreground mb-4">
+                {t('home.cta.title')}
+              </h3>
+              <p className="text-base sm:text-lg md:text-xl text-primary-foreground/90 mb-8 max-w-2xl mx-auto">
+                {t('home.cta.subtitle')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <Link to="/booking" className="group w-full sm:w-auto">
+                  <Button size="lg" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform shadow-lg">
+                    {t('home.cta.book')}
+                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                  </Button>
+                </Link>
+                <Link to="/contact" className="group w-full sm:w-auto">
+                  <Button size="lg" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform shadow-lg">
+                    {t('home.cta.contact')}
+                  </Button>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

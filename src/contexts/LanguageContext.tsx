@@ -127,6 +127,22 @@ const translations = {
     'prices.terms.discounts': 'Les réductions sont accordées aux nationaux et étrangers à partir de la 2ème nuit.',
     'prices.terms.longStay': 'Les tarifs avantageux pour les habitués longs séjours et clients fidèles de la résidence sont également disponibles, il suffit de le signaler à la réservation.',
     
+    // Price Calculator
+    'prices.calculator.title': 'Calculateur de Prix',
+    'prices.calculator.dates': 'Sélectionnez vos dates',
+    'prices.calculator.selectDates': 'Choisir les dates',
+    'prices.calculator.roomType': 'Type de logement',
+    'prices.calculator.persons': 'Nombre de personnes',
+    'prices.calculator.calculate': 'Calculer le prix',
+    'prices.calculator.totalPrice': 'Prix Total',
+    'prices.calculator.pricePerNight': 'Prix par nuit',
+    'prices.calculator.night': 'nuit',
+    'prices.calculator.nights': 'nuits',
+    'prices.calculator.summerSeason': 'Saison Été (01/07 - 31/08)',
+    'prices.calculator.highSeason': 'Haute Saison (18/12 - 16/04)',
+    'prices.calculator.midSeason': 'Moyenne Saison (17/04 - 30/06 | 01/09 - 17/12)',
+    'prices.calculator.lowSeason': 'Basse Saison (01/09 - 17/12)',
+    
     // Gallery
     'gallery.title': 'Galerie Photos',
     'gallery.subtitle': 'Découvrez notre résidence',
@@ -331,6 +347,22 @@ const translations = {
     'prices.terms.baby': 'Baby cot rental on request: 38 dhs including tax / day.',
     'prices.terms.discounts': 'Discounts are granted to nationals and foreigners from the 2nd night.',
     'prices.terms.longStay': 'Advantageous rates for regular long-stay guests and loyal customers of the residence are also available, just mention it when booking.',
+    
+    // Price Calculator
+    'prices.calculator.title': 'Price Calculator',
+    'prices.calculator.dates': 'Select your dates',
+    'prices.calculator.selectDates': 'Choose dates',
+    'prices.calculator.roomType': 'Room type',
+    'prices.calculator.persons': 'Number of persons',
+    'prices.calculator.calculate': 'Calculate price',
+    'prices.calculator.totalPrice': 'Total Price',
+    'prices.calculator.pricePerNight': 'Price per night',
+    'prices.calculator.night': 'night',
+    'prices.calculator.nights': 'nights',
+    'prices.calculator.summerSeason': 'Summer Season (07/01 - 08/31)',
+    'prices.calculator.highSeason': 'High Season (12/18 - 04/16)',
+    'prices.calculator.midSeason': 'Mid Season (04/17 - 06/30 | 09/01 - 12/17)',
+    'prices.calculator.lowSeason': 'Low Season (09/01 - 12/17)',
     
     // Gallery
     'gallery.title': 'Photo Gallery',
