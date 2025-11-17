@@ -1,4 +1,5 @@
 import { useState, memo } from 'react';
+import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -62,7 +63,12 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     return { season: 'winter', periodIndex: 2 };
   };
 
-  const calculatePrice = (): { total: number; perNight: number; nights: number; season: string } | null => {
+  const getMaxPersonsForRoom = (roomKey: string): number => {
+    const pricing = summerPricing[roomKey as keyof typeof summerPricing];
+    return Math.max(...pricing.map(p => p.persons));
+  };
+
+  const calculatePrice = (): { total: number; perNight: number; nights: number; season: string; warning?: string } | null => {
     if (!dateRange.from || !dateRange.to || !persons || !roomType) return null;
 
     const nights = differenceInDays(dateRange.to, dateRange.from);
@@ -73,20 +79,39 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
 
     let pricePerWeek = 0;
     let seasonName = '';
+    let warning = '';
+
+    // Check if person count exceeds room capacity
+    const maxPersons = getMaxPersonsForRoom(roomType);
+    if (personCount > maxPersons) {
+      warning = t('prices.calculator.exceedsCapacity');
+    }
 
     if (season === 'summer') {
       const pricing = summerPricing[roomType as keyof typeof summerPricing];
-      const personPricing = pricing.find(p => p.persons === personCount);
+      // Find exact match or use the highest capacity if exceeds
+      let personPricing = pricing.find(p => p.persons === personCount);
+      if (!personPricing && personCount > maxPersons) {
+        personPricing = pricing[pricing.length - 1]; // Use max capacity pricing
+      }
+      
       if (personPricing && personPricing.summer) {
-        pricePerWeek = parseFloat(personPricing.summer.replace(/\s/g, '').replace(',', '.'));
+        const cleanedPrice = personPricing.summer.replace(/\s+/g, '').replace(',', '.');
+        pricePerWeek = parseFloat(cleanedPrice);
         seasonName = t('prices.calculator.summerSeason');
       }
     } else if (periodIndex !== undefined) {
       const pricingData = winterPricing[roomType as keyof Omit<typeof winterPricing, 'periods'>];
       if (Array.isArray(pricingData)) {
-        const personPricing = pricingData.find(p => p.persons === personCount);
+        // Find exact match or use the highest capacity if exceeds
+        let personPricing = pricingData.find(p => p.persons === personCount);
+        if (!personPricing && personCount > maxPersons) {
+          personPricing = pricingData[pricingData.length - 1]; // Use max capacity pricing
+        }
+        
         if (personPricing && personPricing.rates && personPricing.rates[periodIndex]) {
-          pricePerWeek = parseFloat(personPricing.rates[periodIndex].replace(/\s/g, '').replace(',', '.'));
+          const cleanedPrice = personPricing.rates[periodIndex].replace(/\s+/g, '').replace(',', '.');
+          pricePerWeek = parseFloat(cleanedPrice);
           const seasonNames = [
             t('prices.calculator.highSeason'),
             t('prices.calculator.midSeason'),
@@ -97,12 +122,12 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
       }
     }
 
-    if (pricePerWeek === 0) return null;
+    if (pricePerWeek === 0 || isNaN(pricePerWeek)) return null;
 
     const pricePerNight = pricePerWeek / 7;
     const total = pricePerNight * nights;
 
-    return { total, perNight: pricePerNight, nights, season: seasonName };
+    return { total, perNight: pricePerNight, nights, season: seasonName, warning };
   };
 
   const result = calculatePrice();
@@ -200,29 +225,64 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
 
         {/* Result Display */}
         {result && (
-          <div className="mt-6 p-6 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 rounded-xl border-2 border-primary/20 space-y-3">
+          <div className="mt-6 p-6 bg-gradient-to-br from-primary/5 via-accent/5 to-primary/5 rounded-xl border-2 border-primary/20 space-y-4 animate-fade-in">
+            {result.warning && (
+              <div className="p-3 bg-accent/10 border border-accent/30 rounded-lg">
+                <p className="text-xs text-center text-muted-foreground">
+                  ⚠️ {result.warning}
+                </p>
+              </div>
+            )}
             <div className="text-center space-y-2">
-              <p className="text-sm text-muted-foreground">{result.season}</p>
+              <p className="text-sm font-medium text-muted-foreground">{result.season}</p>
               <p className="text-sm text-muted-foreground">
                 {result.nights} {result.nights === 1 ? t('prices.calculator.night') : t('prices.calculator.nights')}
               </p>
             </div>
-            <div className="text-center space-y-1">
-              <p className="text-sm font-medium text-foreground">
-                {t('prices.calculator.pricePerNight')}
-              </p>
-              <p className="text-2xl font-bold text-primary">
-                {result.perNight.toFixed(2)} DH
-              </p>
+            <div className="grid grid-cols-2 gap-4 py-3 border-y border-primary/20">
+              <div className="text-center">
+                <p className="text-xs font-medium text-muted-foreground mb-1">
+                  {t('prices.calculator.pricePerNight')}
+                </p>
+                <p className="text-xl font-bold text-primary">
+                  {result.perNight.toFixed(2)} DH
+                </p>
+              </div>
+              <div className="text-center">
+                <p className="text-xs font-medium text-muted-foreground mb-1">
+                  {t('prices.calculator.pricePerWeek')}
+                </p>
+                <p className="text-xl font-bold text-primary">
+                  {(result.perNight * 7).toFixed(2)} DH
+                </p>
+              </div>
             </div>
-            <div className="text-center pt-3 border-t border-primary/20">
-              <p className="text-sm font-medium text-foreground mb-1">
+            <div className="text-center pt-2">
+              <p className="text-sm font-semibold text-foreground mb-2">
                 {t('prices.calculator.totalPrice')}
               </p>
-              <p className="text-3xl font-bold text-primary">
+              <p className="text-4xl font-bold text-primary mb-1">
                 {result.total.toFixed(2)} DH
               </p>
+              <p className="text-xs text-muted-foreground">
+                {t('prices.calculator.includingTax')}
+              </p>
             </div>
+            <div className="pt-3">
+              <Link to="/booking" className="w-full block">
+                <Button className="w-full" size="lg">
+                  {t('prices.calculator.bookNow')}
+                </Button>
+              </Link>
+            </div>
+          </div>
+        )}
+        
+        {!result && dateRange.from && dateRange.to && (
+          <div className="mt-6 p-4 bg-muted/30 rounded-lg text-center">
+            <p className="text-sm text-muted-foreground">
+              {t('prices.calculator.selectOptions')}
+            </p>
           </div>
         )}
       </CardContent>
