@@ -129,6 +129,7 @@ const translations = {
     
     // Price Calculator
     'prices.calculator.title': 'Calculateur de Prix',
+    'prices.calculator.subtitle': 'Estimez le coût de votre séjour',
     'prices.calculator.dates': 'Sélectionnez vos dates',
     'prices.calculator.selectDates': 'Choisir les dates',
     'prices.calculator.roomType': 'Type de logement',
@@ -355,6 +356,7 @@ const translations = {
     
     // Price Calculator
     'prices.calculator.title': 'Price Calculator',
+    'prices.calculator.subtitle': 'Estimate the cost of your stay',
     'prices.calculator.dates': 'Select your dates',
     'prices.calculator.selectDates': 'Choose dates',
     'prices.calculator.roomType': 'Room type',

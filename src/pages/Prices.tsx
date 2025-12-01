@@ -180,29 +180,31 @@ const Prices = () => {
         </div>
 
         <Tabs defaultValue="summer" className="max-w-7xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2 mb-10 p-2 glass h-auto">
-            <TabsTrigger value="summer" className="text-lg py-4 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 hover-lift">
+          <TabsList className="grid w-full grid-cols-2 mb-10 p-1.5 bg-muted/50 backdrop-blur-sm border-2 border-border rounded-2xl h-auto">
+            <TabsTrigger value="summer" className="text-base sm:text-lg py-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-amber-500 data-[state=active]:to-orange-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300">
               <Sun className="w-5 h-5 mr-2" />
               {t('prices.summerRates')}
             </TabsTrigger>
-            <TabsTrigger value="winter" className="text-lg py-4 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground transition-all duration-300 hover-lift">
+            <TabsTrigger value="winter" className="text-base sm:text-lg py-4 rounded-xl data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-lg transition-all duration-300">
               <Snowflake className="w-5 h-5 mr-2" />
               {t('prices.winterRates')}
             </TabsTrigger>
           </TabsList>
 
           <TabsContent value="summer" className="space-y-8 animate-fade-in">
-            <Card className="border-2 hover:border-primary/30 transition-all duration-500 overflow-hidden relative">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-accent/10 to-primary/10 rounded-full blur-3xl" />
+            <Card className="border-2 border-amber-200/50 hover:border-amber-300/70 transition-all duration-500 overflow-hidden relative shadow-xl">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-amber-200/20 to-orange-200/20 rounded-full blur-3xl" />
               
-              <CardHeader className="bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 relative">
+              <CardHeader className="bg-gradient-to-r from-amber-50 via-orange-50/50 to-amber-50 dark:from-amber-950/30 dark:via-orange-950/20 dark:to-amber-950/30 relative border-b border-amber-200/30">
                 <div className="flex items-center justify-center gap-3 mb-2">
-                  <Sun className="w-8 h-8 text-primary animate-pulse-soft" />
+                  <div className="p-2 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl shadow-lg">
+                    <Sun className="w-6 h-6 text-white" />
+                  </div>
                   <CardTitle className="text-center text-2xl sm:text-3xl font-bold">
                     {t('prices.summerPeriod')}
                   </CardTitle>
                 </div>
-                <p className="text-center text-lg font-semibold text-primary">{summerPricing.period}</p>
+                <p className="text-center text-lg font-semibold text-amber-600 dark:text-amber-400">{summerPricing.period}</p>
               </CardHeader>
               <CardContent className="pt-8 space-y-10 relative">
                 <div className="animate-fade-in-up [animation-delay:100ms] opacity-0 [animation-fill-mode:forwards]">
@@ -247,17 +249,19 @@ const Prices = () => {
 
           <TabsContent value="winter" className="space-y-8 animate-fade-in">
             {winterPricing.periods.map((period, periodIdx) => (
-              <Card key={periodIdx} className="border-2 hover:border-primary/30 transition-all duration-500 overflow-hidden relative animate-fade-in-up opacity-0 [animation-fill-mode:forwards]" style={{ animationDelay: `${periodIdx * 100}ms` }}>
-                <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-primary/10 to-accent/10 rounded-full blur-3xl" />
+              <Card key={periodIdx} className="border-2 border-blue-200/50 hover:border-blue-300/70 transition-all duration-500 overflow-hidden relative animate-fade-in-up opacity-0 [animation-fill-mode:forwards] shadow-xl" style={{ animationDelay: `${periodIdx * 100}ms` }}>
+                <div className="absolute top-0 left-0 w-64 h-64 bg-gradient-to-br from-blue-200/20 to-cyan-200/20 rounded-full blur-3xl" />
                 
-                <CardHeader className="bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 relative">
+                <CardHeader className="bg-gradient-to-r from-blue-50 via-cyan-50/50 to-blue-50 dark:from-blue-950/30 dark:via-cyan-950/20 dark:to-blue-950/30 relative border-b border-blue-200/30">
                   <div className="flex items-center justify-center gap-3 mb-2">
-                    <Snowflake className="w-8 h-8 text-primary animate-pulse-soft" />
+                    <div className="p-2 bg-gradient-to-br from-blue-400 to-cyan-500 rounded-xl shadow-lg">
+                      <Snowflake className="w-6 h-6 text-white" />
+                    </div>
                     <CardTitle className="text-center text-2xl sm:text-3xl font-bold">
-                      {t('prices.period')}
+                      {periodIdx === 0 ? t('prices.calculator.highSeason') : periodIdx === 1 ? t('prices.calculator.midSeason') : t('prices.calculator.lowSeason')}
                     </CardTitle>
                   </div>
-                  <p className="text-center text-lg font-semibold text-primary">{period}</p>
+                  <p className="text-center text-lg font-semibold text-blue-600 dark:text-blue-400">{period}</p>
                 </CardHeader>
                 <CardContent className="pt-8 space-y-10 relative">
                   <div>
