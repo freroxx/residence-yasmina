@@ -16,16 +16,38 @@ interface DateRange {
   to: Date | undefined;
 }
 
-interface PricingData {
-  appartement: { persons: number; rates?: string[]; base?: string; summer?: string }[];
-  suiteA: { persons: number; rates?: string[]; base?: string; summer?: string }[];
-  suiteB: { persons: number; rates?: string[]; base?: string; summer?: string }[];
-  suiteC: { persons: number; rates?: string[]; base?: string; summer?: string }[];
+interface SummerPricingItem {
+  persons: number;
+  base: string;
+  summer: string;
 }
 
+interface WinterPricingItem {
+  persons: number;
+  rates: string[];
+}
+
+interface SummerPricing {
+  period: string;
+  appartement: SummerPricingItem[];
+  suiteA: SummerPricingItem[];
+  suiteB: SummerPricingItem[];
+  suiteC: SummerPricingItem[];
+}
+
+interface WinterPricing {
+  periods: string[];
+  appartement: WinterPricingItem[];
+  suiteA: WinterPricingItem[];
+  suiteB: WinterPricingItem[];
+  suiteC: WinterPricingItem[];
+}
+
+type RoomKey = 'appartement' | 'suiteA' | 'suiteB' | 'suiteC';
+
 interface PriceCalculatorProps {
-  summerPricing: PricingData;
-  winterPricing: PricingData & { periods: string[] };
+  summerPricing: SummerPricing;
+  winterPricing: WinterPricing;
 }
 
 const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps) => {
@@ -63,9 +85,16 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     return { season: 'winter', periodIndex: 2 };
   };
 
-  const getMaxPersonsForRoom = (roomKey: string): number => {
-    const pricing = summerPricing[roomKey as keyof typeof summerPricing];
+  const getMaxPersonsForRoom = (roomKey: RoomKey): number => {
+    const pricing = summerPricing[roomKey];
+    if (!pricing || !Array.isArray(pricing)) return 1;
     return Math.max(...pricing.map(p => p.persons));
+  };
+
+  const parsePrice = (priceStr: string): number => {
+    // Remove all spaces and replace comma with dot for decimal
+    const cleaned = priceStr.replace(/\s+/g, '').replace(',', '.');
+    return parseFloat(cleaned);
   };
 
   const calculatePrice = (): { total: number; perNight: number; nights: number; season: string; warning?: string } | null => {
@@ -75,6 +104,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     if (nights <= 0) return null;
 
     const personCount = parseInt(persons);
+    const room = roomType as RoomKey;
     const { season, periodIndex } = getSeason(dateRange.from);
 
     let pricePerWeek = 0;
@@ -82,43 +112,43 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     let warning = '';
 
     // Check if person count exceeds room capacity
-    const maxPersons = getMaxPersonsForRoom(roomType);
+    const maxPersons = getMaxPersonsForRoom(room);
     if (personCount > maxPersons) {
       warning = t('prices.calculator.exceedsCapacity');
     }
 
     if (season === 'summer') {
-      const pricing = summerPricing[roomType as keyof typeof summerPricing];
+      const pricing = summerPricing[room];
+      if (!pricing) return null;
+      
       // Find exact match or use the highest capacity if exceeds
       let personPricing = pricing.find(p => p.persons === personCount);
       if (!personPricing && personCount > maxPersons) {
-        personPricing = pricing[pricing.length - 1]; // Use max capacity pricing
+        personPricing = pricing[pricing.length - 1];
       }
       
-      if (personPricing && personPricing.summer) {
-        const cleanedPrice = personPricing.summer.replace(/\s+/g, '').replace(',', '.');
-        pricePerWeek = parseFloat(cleanedPrice);
+      if (personPricing?.summer) {
+        pricePerWeek = parsePrice(personPricing.summer);
         seasonName = t('prices.calculator.summerSeason');
       }
     } else if (periodIndex !== undefined) {
-      const pricingData = winterPricing[roomType as keyof Omit<typeof winterPricing, 'periods'>];
-      if (Array.isArray(pricingData)) {
-        // Find exact match or use the highest capacity if exceeds
-        let personPricing = pricingData.find(p => p.persons === personCount);
-        if (!personPricing && personCount > maxPersons) {
-          personPricing = pricingData[pricingData.length - 1]; // Use max capacity pricing
-        }
-        
-        if (personPricing && personPricing.rates && personPricing.rates[periodIndex]) {
-          const cleanedPrice = personPricing.rates[periodIndex].replace(/\s+/g, '').replace(',', '.');
-          pricePerWeek = parseFloat(cleanedPrice);
-          const seasonNames = [
-            t('prices.calculator.highSeason'),
-            t('prices.calculator.midSeason'),
-            t('prices.calculator.lowSeason')
-          ];
-          seasonName = seasonNames[periodIndex];
-        }
+      const pricing = winterPricing[room];
+      if (!pricing) return null;
+      
+      // Find exact match or use the highest capacity if exceeds
+      let personPricing = pricing.find(p => p.persons === personCount);
+      if (!personPricing && personCount > maxPersons) {
+        personPricing = pricing[pricing.length - 1];
+      }
+      
+      if (personPricing?.rates?.[periodIndex]) {
+        pricePerWeek = parsePrice(personPricing.rates[periodIndex]);
+        const seasonNames = [
+          t('prices.calculator.highSeason'),
+          t('prices.calculator.midSeason'),
+          t('prices.calculator.lowSeason')
+        ];
+        seasonName = seasonNames[periodIndex];
       }
     }
 
