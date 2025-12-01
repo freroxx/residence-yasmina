@@ -97,7 +97,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     return parseFloat(cleaned);
   };
 
-  const calculatePrice = (): { total: number; perNight: number; nights: number; season: string; warning?: string } | null => {
+  const calculatePrice = (): { total: number; perNight: number; pricePerWeek: number; nights: number; season: string; periodDates: string; warning?: string } | null => {
     if (!dateRange.from || !dateRange.to || !persons || !roomType) return null;
 
     const nights = differenceInDays(dateRange.to, dateRange.from);
@@ -109,6 +109,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
 
     let pricePerWeek = 0;
     let seasonName = '';
+    let periodDates = '';
     let warning = '';
 
     // Check if person count exceeds room capacity
@@ -130,6 +131,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
       if (personPricing?.summer) {
         pricePerWeek = parsePrice(personPricing.summer);
         seasonName = t('prices.calculator.summerSeason');
+        periodDates = summerPricing.period; // '01/07 - 31/08'
       }
     } else if (periodIndex !== undefined) {
       const pricing = winterPricing[room];
@@ -149,6 +151,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
           t('prices.calculator.lowSeason')
         ];
         seasonName = seasonNames[periodIndex];
+        periodDates = winterPricing.periods[periodIndex];
       }
     }
 
@@ -157,7 +160,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     const pricePerNight = pricePerWeek / 7;
     const total = pricePerNight * nights;
 
-    return { total, perNight: pricePerNight, nights, season: seasonName, warning };
+    return { total, perNight: pricePerNight, pricePerWeek, nights, season: seasonName, periodDates, warning };
   };
 
   const result = calculatePrice();
@@ -263,9 +266,10 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
                 </p>
               </div>
             )}
-            <div className="text-center space-y-2">
-              <p className="text-sm font-medium text-muted-foreground">{result.season}</p>
-              <p className="text-sm text-muted-foreground">
+            <div className="text-center space-y-1">
+              <p className="text-sm font-semibold text-primary">{result.season}</p>
+              <p className="text-xs text-muted-foreground">{result.periodDates}</p>
+              <p className="text-sm text-muted-foreground mt-2">
                 {result.nights} {result.nights === 1 ? t('prices.calculator.night') : t('prices.calculator.nights')}
               </p>
             </div>
@@ -283,7 +287,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
                   {t('prices.calculator.pricePerWeek')}
                 </p>
                 <p className="text-xl font-bold text-primary">
-                  {(result.perNight * 7).toFixed(2)} DH
+                  {result.pricePerWeek.toFixed(2)} DH
                 </p>
               </div>
             </div>
