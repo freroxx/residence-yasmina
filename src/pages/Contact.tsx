@@ -25,15 +25,16 @@ const Contact = () => {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (session?.user) {
-        const { data: profile } = await supabase
+        const { data: profile } = await (supabase as any)
           .from('profiles')
           .select('full_name')
           .eq('user_id', session.user.id)
           .maybeSingle();
 
+        const profileData = profile as { full_name: string | null } | null;
         setFormData(prev => ({
           ...prev,
-          name: profile?.full_name || '',
+          name: profileData?.full_name || '',
           email: session.user.email || '',
         }));
       }
