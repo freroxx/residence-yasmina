@@ -107,7 +107,7 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
     const room = roomType as RoomKey;
     const { season, periodIndex } = getSeason(dateRange.from);
 
-    let pricePerWeek = 0;
+    let pricePerNight = 0;
     let seasonName = '';
     let periodDates = '';
     let warning = '';
@@ -129,9 +129,10 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
       }
       
       if (personPricing?.summer) {
-        pricePerWeek = parsePrice(personPricing.summer);
+        // Table prices are NIGHTLY rates
+        pricePerNight = parsePrice(personPricing.summer);
         seasonName = t('prices.calculator.summerSeason');
-        periodDates = summerPricing.period; // '01/07 - 31/08'
+        periodDates = summerPricing.period;
       }
     } else if (periodIndex !== undefined) {
       const pricing = winterPricing[room];
@@ -144,7 +145,8 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
       }
       
       if (personPricing?.rates?.[periodIndex]) {
-        pricePerWeek = parsePrice(personPricing.rates[periodIndex]);
+        // Table prices are NIGHTLY rates
+        pricePerNight = parsePrice(personPricing.rates[periodIndex]);
         const seasonNames = [
           t('prices.calculator.highSeason'),
           t('prices.calculator.midSeason'),
@@ -155,9 +157,9 @@ const PriceCalculator = ({ summerPricing, winterPricing }: PriceCalculatorProps)
       }
     }
 
-    if (pricePerWeek === 0 || isNaN(pricePerWeek)) return null;
+    if (pricePerNight === 0 || isNaN(pricePerNight)) return null;
 
-    const pricePerNight = pricePerWeek / 7;
+    const pricePerWeek = pricePerNight * 7;
     const total = pricePerNight * nights;
 
     return { total, perNight: pricePerNight, pricePerWeek, nights, season: seasonName, periodDates, warning };
