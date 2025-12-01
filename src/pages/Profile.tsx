@@ -54,7 +54,7 @@ const Profile = () => {
 
   const fetchProfile = async (userId: string) => {
     try {
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('profiles')
         .select('full_name, description, avatar_url')
         .eq('user_id', userId)
@@ -62,7 +62,7 @@ const Profile = () => {
 
       if (error) throw error;
       if (data) {
-        setProfile(data);
+        setProfile(data as Profile);
       }
     } catch (error: any) {
       console.error('Error fetching profile:', error);
@@ -97,7 +97,7 @@ const Profile = () => {
 
     setSaving(true);
     try {
-      const { error } = await supabase
+      const { error } = await (supabase as any)
         .from('profiles')
         .update({
           full_name: result.data.full_name,
