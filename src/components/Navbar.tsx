@@ -123,19 +123,24 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Mobile Menu */}
-        {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-primary-foreground/20">
-            {navLinks.map((link) => (
+        {/* Mobile Menu - Enhanced with animations */}
+        <div 
+          className={`lg:hidden overflow-hidden transition-all duration-300 ease-out ${
+            mobileMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0'
+          }`}
+        >
+          <div className="py-4 border-t border-primary-foreground/20 stagger-children">
+            {navLinks.map((link, index) => (
               <Link
                 key={link.path}
                 to={link.path}
                 onClick={() => setMobileMenuOpen(false)}
-                className={`block px-4 py-3 text-sm font-medium transition-colors ${
+                className={`block px-4 py-3 text-sm font-medium transition-all duration-300 touch-target ${
                   location.pathname === link.path
-                    ? 'bg-primary-foreground/20'
-                    : 'hover:bg-primary-foreground/10'
+                    ? 'bg-primary-foreground/20 border-l-4 border-primary-foreground'
+                    : 'hover:bg-primary-foreground/10 hover:translate-x-2'
                 }`}
+                style={{ animationDelay: `${index * 50}ms` }}
               >
                 {link.label}
               </Link>
@@ -145,23 +150,23 @@ const Navbar = () => {
                 <Link
                   to="/profile"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-3 text-sm font-medium hover:bg-primary-foreground/10"
+                  className="flex items-center px-4 py-3 text-sm font-medium hover:bg-primary-foreground/10 hover:translate-x-2 transition-all duration-300 touch-target"
                 >
-                  <User className="h-4 w-4 inline mr-2" />
+                  <User className="h-4 w-4 mr-2" />
                   {t('nav.profile')}
                 </Link>
               ) : (
                 <Link
                   to="/auth"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block px-4 py-3 text-sm font-medium hover:bg-primary-foreground/10"
+                  className="block px-4 py-3 text-sm font-medium hover:bg-primary-foreground/10 hover:translate-x-2 transition-all duration-300 touch-target"
                 >
                   {t('nav.login')}
                 </Link>
               )}
             </div>
           </div>
-        )}
+        </div>
       </div>
     </nav>
   );
