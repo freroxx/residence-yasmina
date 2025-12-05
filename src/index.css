@@ -10,17 +10,17 @@ All colors MUST be HSL.
   :root {
     /* Elegant beige and earth tones for Résidence Yasmina */
     --background: 42 45% 97%;
-    --foreground: 25 30% 25%;
+    --foreground: 25 30% 20%;
 
     --card: 0 0% 100%;
-    --card-foreground: 25 30% 25%;
+    --card-foreground: 25 30% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 25 30% 25%;
+    --popover-foreground: 25 30% 20%;
 
-    /* Burgundy primary color inspired by reference site */
-    --primary: 0 45% 35%;
-    --primary-foreground: 42 45% 97%;
+    /* Darker burgundy primary color for better contrast */
+    --primary: 0 50% 25%;
+    --primary-foreground: 42 45% 98%;
 
     /* Soft beige secondary */
     --secondary: 38 35% 88%;
