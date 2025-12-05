@@ -2,7 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import RoomDetailCard from '@/components/RoomDetailCard';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Home, Users, Bed, Maximize2, ArrowRight } from 'lucide-react';
+import { Home, Users, Maximize2, ArrowRight, Star, Sparkles } from 'lucide-react';
 import suiteA from '@/assets/suite-a.png';
 import suiteA1 from '@/assets/suite-a-1.png';
 import suiteA3 from '@/assets/suite-a-3.png';
@@ -90,125 +90,154 @@ const Rooms = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-muted/5 to-background py-16 sm:py-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Enhanced Header Section */}
-        <div className="text-center mb-16 sm:mb-20 animate-fade-in-up relative">
-          {/* Decorative elements */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
-          
-          <div className="inline-flex items-center gap-2 mb-6 px-6 py-3 glass rounded-full">
-            <Home className="w-5 h-5 text-primary" />
-            <span className="text-sm font-bold text-primary tracking-wider uppercase">Nos Hébergements Premium</span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-foreground mb-6 sm:mb-8 leading-tight">
-            {t('rooms.title')}
-          </h1>
-          <p className="text-xl sm:text-2xl text-muted-foreground max-w-3xl mx-auto px-4 leading-relaxed mb-10">
-            {t('rooms.subtitle')}
-          </p>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative py-20 sm:py-28 overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5" />
+        <div className="absolute top-20 left-10 w-72 h-72 bg-primary/10 rounded-full blur-3xl animate-float-slow" />
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-accent/10 rounded-full blur-3xl animate-float-slower" />
+        
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center max-w-4xl mx-auto animate-fade-in-up">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 mb-8 px-5 py-2.5 bg-card border border-border rounded-full shadow-sm">
+              <Sparkles className="w-4 h-4 text-accent" />
+              <span className="text-sm font-semibold text-primary tracking-wide uppercase">
+                Hébergements Premium
+              </span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-foreground mb-6 leading-tight">
+              {t('rooms.title')}
+            </h1>
+            
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12">
+              {t('rooms.subtitle')}
+            </p>
 
-          {/* Quick Stats */}
-          <div className="flex flex-wrap justify-center gap-6 sm:gap-8 mt-8">
-            {[
-              { icon: Home, label: '4 types', sublabel: 'de logements' },
-              { icon: Users, label: '1-7', sublabel: 'personnes' },
-              { icon: Maximize2, label: '42-64m²', sublabel: 'superficie' },
-            ].map((stat, index) => (
-              <div 
-                key={index} 
-                className="flex items-center gap-3 px-5 py-3 bg-card border-2 border-border rounded-xl hover-lift"
+            {/* Stats */}
+            <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
+              {[
+                { icon: Home, value: '4', label: 'Types de logements' },
+                { icon: Users, value: '1-7', label: 'Personnes' },
+                { icon: Maximize2, value: '42-64', label: 'm² superficie' },
+                { icon: Star, value: '4.8', label: 'Note moyenne' },
+              ].map((stat, index) => (
+                <div 
+                  key={index}
+                  className="flex items-center gap-3 px-5 py-3 bg-card border border-border rounded-2xl hover-lift group"
+                >
+                  <div className="p-2.5 bg-primary/10 rounded-xl group-hover:bg-primary/20 transition-colors">
+                    <stat.icon className="w-5 h-5 text-primary" />
+                  </div>
+                  <div className="text-left">
+                    <div className="font-bold text-lg text-foreground">{stat.value}</div>
+                    <div className="text-xs text-muted-foreground">{stat.label}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Rooms Section */}
+      <section className="py-12 sm:py-16">
+        <div className="container mx-auto px-4">
+          <div className="space-y-16 max-w-7xl mx-auto">
+            {rooms.map((room, index) => (
+              <div
+                key={index}
+                className="animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative"
+                style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="p-2 bg-primary/10 rounded-lg">
-                  <stat.icon className="w-5 h-5 text-primary" />
+                {/* Room indicator */}
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="flex items-center justify-center w-12 h-12 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-2xl font-bold text-lg shadow-lg">
+                    {index + 1}
+                  </div>
+                  <div className="h-px flex-1 bg-gradient-to-r from-border to-transparent" />
                 </div>
-                <div className="text-left">
-                  <div className="font-bold text-lg">{stat.label}</div>
-                  <div className="text-xs text-muted-foreground">{stat.sublabel}</div>
-                </div>
+                <RoomDetailCard {...room} />
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Rooms Grid with Enhanced Spacing */}
-        <div className="space-y-12 max-w-7xl mx-auto">
-          {rooms.map((room, index) => (
-            <div
-              key={index}
-              className="animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative group"
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              {/* Room number badge with enhanced animation */}
-              <div className="absolute -top-4 -left-4 z-20 w-14 h-14 bg-gradient-to-br from-primary to-primary/80 text-primary-foreground rounded-full flex items-center justify-center font-bold text-xl shadow-xl group-hover:scale-110 group-hover:rotate-12 transition-all duration-500">
-                {index + 1}
-              </div>
-              <RoomDetailCard {...room} />
-            </div>
-          ))}
-        </div>
-
-        {/* Enhanced Additional Information */}
-        <div className="mt-16 sm:mt-20 max-w-5xl mx-auto">
-          <div className="bg-gradient-to-br from-card to-muted/20 border-2 border-primary/20 rounded-2xl p-8 sm:p-10 shadow-xl relative overflow-hidden">
-            {/* Decorative corner */}
-            <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-primary/20 to-accent/20 rounded-bl-full" />
-            
-            <div className="relative">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="p-3 bg-primary/10 rounded-xl">
-                  <Bed className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-2xl font-bold text-foreground">
+      {/* Info Section */}
+      <section className="py-16 sm:py-20 bg-muted/30">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-card border border-border rounded-3xl p-8 sm:p-10 shadow-lg relative overflow-hidden">
+              {/* Decorative */}
+              <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-br from-primary/10 to-accent/10 rounded-bl-[100px]" />
+              
+              <div className="relative">
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-8 flex items-center gap-3">
+                  <div className="p-3 bg-primary/10 rounded-xl">
+                    <Star className="w-6 h-6 text-primary" />
+                  </div>
                   {t('rooms.additionalInfo.title')}
                 </h3>
-              </div>
-              
-              <div className="grid sm:grid-cols-2 gap-4 text-base">
-                {[
-                  t('prices.terms.ttc'),
-                  t('prices.terms.baby'),
-                  t('prices.terms.discounts'),
-                  t('prices.terms.longStay'),
-                ].map((term, index) => (
-                  <div 
-                    key={index}
-                    className="flex items-start gap-3 p-4 bg-background/50 rounded-xl hover:bg-background transition-colors"
-                  >
-                    <div className="mt-1 w-2 h-2 rounded-full bg-primary flex-shrink-0" />
-                    <span className="text-muted-foreground leading-relaxed">{term}</span>
-                  </div>
-                ))}
+                
+                <div className="grid sm:grid-cols-2 gap-4">
+                  {[
+                    t('prices.terms.ttc'),
+                    t('prices.terms.baby'),
+                    t('prices.terms.discounts'),
+                    t('prices.terms.longStay'),
+                  ].map((term, index) => (
+                    <div 
+                      key={index}
+                      className="flex items-start gap-3 p-4 bg-background rounded-xl hover:shadow-md transition-all group"
+                    >
+                      <div className="mt-1.5 w-2 h-2 rounded-full bg-primary group-hover:scale-125 transition-transform" />
+                      <span className="text-muted-foreground leading-relaxed">{term}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </div>
+      </section>
 
-        {/* CTA Section */}
-        <div className="mt-16 sm:mt-20 text-center">
-          <div className="inline-block p-10 sm:p-12 bg-gradient-to-br from-primary to-primary/80 rounded-3xl shadow-2xl">
-            <h3 className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4">
-              Prêt à Réserver ?
-            </h3>
-            <p className="text-lg sm:text-xl text-primary-foreground/90 mb-8 max-w-2xl">
-              Réservez dès maintenant votre logement idéal pour un séjour mémorable
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/booking" className="group w-full sm:w-auto">
-                <Button size="xl" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform">
-                  Réserver Maintenant
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
-                </Button>
-              </Link>
-              <Link to="/contact" className="group w-full sm:w-auto">
-                <Button size="xl" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform">
-                  Nous Contacter
-                </Button>
-              </Link>
+      {/* CTA Section */}
+      <section className="py-20 sm:py-24">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center">
+            <div className="relative p-10 sm:p-14 bg-gradient-to-br from-primary via-primary to-primary/90 rounded-[2rem] shadow-2xl overflow-hidden">
+              {/* Decorative elements */}
+              <div className="absolute top-0 left-0 w-64 h-64 bg-white/5 rounded-full -translate-x-1/2 -translate-y-1/2" />
+              <div className="absolute bottom-0 right-0 w-48 h-48 bg-accent/20 rounded-full translate-x-1/4 translate-y-1/4" />
+              
+              <div className="relative">
+                <h3 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primary-foreground mb-4">
+                  Prêt à Réserver ?
+                </h3>
+                <p className="text-lg sm:text-xl text-primary-foreground/80 mb-10 max-w-2xl mx-auto">
+                  Réservez dès maintenant votre logement idéal pour un séjour mémorable
+                </p>
+                <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                  <Link to="/booking" className="group">
+                    <Button size="xl" variant="secondary" className="w-full sm:w-auto hover:scale-105 transition-transform shadow-xl">
+                      Réserver Maintenant
+                      <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                    </Button>
+                  </Link>
+                  <Link to="/contact" className="group">
+                    <Button size="xl" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform">
+                      Nous Contacter
+                    </Button>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   );
 };
