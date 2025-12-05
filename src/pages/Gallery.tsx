@@ -1,6 +1,6 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useState, useMemo, useEffect } from 'react';
-import { X, Search } from 'lucide-react';
+import { X, Search, Camera, Grid3X3, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import aerialBuilding from '@/assets/aerial-building.jpg';
 import poolUmbrellas from '@/assets/pool-umbrellas.jpg';
@@ -35,35 +35,16 @@ import vueTerrainsTennis from '@/assets/vue-terrains-tennis.jpg';
 
 const Gallery = () => {
   const { t } = useLanguage();
-  const [selectedImage, setSelectedImage] = useState<{ src: string; alt: string } | null>(null);
+  const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
 
-  // Close modal on ESC key
-  useEffect(() => {
-    const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && selectedImage) {
-        setSelectedImage(null);
-      }
-    };
-    
-    if (selectedImage) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedImage]);
-
   const categories = [
-    { id: 'all', label: 'Toutes les photos' },
-    { id: 'rooms', label: 'Chambres & Suites' },
-    { id: 'pool', label: 'Piscine' },
-    { id: 'residence', label: 'Résidence' },
-    { id: 'garden', label: 'Jardins & Espaces' },
+    { id: 'all', label: 'Tout', icon: Grid3X3 },
+    { id: 'rooms', label: 'Chambres', icon: LayoutGrid },
+    { id: 'pool', label: 'Piscine', icon: Camera },
+    { id: 'residence', label: 'Résidence', icon: Camera },
+    { id: 'garden', label: 'Jardins', icon: Camera },
   ];
 
   const images = [
@@ -101,13 +82,9 @@ const Gallery = () => {
 
   const filteredImages = useMemo(() => {
     let filtered = [...images];
-    
-    // Filter by category
     if (selectedCategory !== 'all') {
       filtered = filtered.filter(img => img.category === selectedCategory);
     }
-    
-    // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(img => 
@@ -115,129 +92,202 @@ const Gallery = () => {
         img.category.toLowerCase().includes(query)
       );
     }
-    
     return filtered;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory]);
 
-  return (
-    <div className="min-h-screen bg-background py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-8 animate-fade-in-up">
-          <div className="inline-block mb-4 px-4 py-2 bg-primary/10 rounded-full">
-            <span className="text-sm font-medium text-primary tracking-wide">
-              {images.length} Photos
-            </span>
-          </div>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-4">
-            {t('gallery.title')}
-          </h1>
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            {t('gallery.subtitle')}
-          </p>
-          
-          {/* Search Bar */}
-          <div className="max-w-md mx-auto relative mb-8">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input
-              type="text"
-              placeholder="Rechercher dans la galerie..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 h-12 text-base shadow-lg hover:shadow-xl transition-shadow"
-            />
-          </div>
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (selectedImageIndex === null) return;
+      
+      if (e.key === 'Escape') setSelectedImageIndex(null);
+      if (e.key === 'ArrowRight') setSelectedImageIndex((prev) => 
+        prev !== null ? (prev + 1) % filteredImages.length : null
+      );
+      if (e.key === 'ArrowLeft') setSelectedImageIndex((prev) => 
+        prev !== null ? (prev - 1 + filteredImages.length) % filteredImages.length : null
+      );
+    };
+    
+    if (selectedImageIndex !== null) {
+      document.addEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'hidden';
+    }
+    
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = 'unset';
+    };
+  }, [selectedImageIndex, filteredImages.length]);
 
-          {/* Category Filters */}
-          <div className="flex flex-wrap justify-center gap-3 mb-8">
+  const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
+
+  return (
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
+      <section className="relative py-16 sm:py-24 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
+        <div className="absolute top-10 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+        
+        <div className="container mx-auto px-4 relative">
+          <div className="text-center max-w-3xl mx-auto animate-fade-in-up">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full mb-6">
+              <Camera className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-primary">{images.length} Photos</span>
+            </div>
+            
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-4">
+              {t('gallery.title')}
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-10">
+              {t('gallery.subtitle')}
+            </p>
+            
+            {/* Search */}
+            <div className="max-w-md mx-auto relative">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+              <Input
+                type="text"
+                placeholder="Rechercher..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-12 h-14 text-base rounded-2xl border-2 focus:border-primary shadow-lg"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Category Filters */}
+      <section className="sticky top-16 lg:top-20 z-40 bg-background/95 backdrop-blur-lg border-b border-border py-4">
+        <div className="container mx-auto px-4">
+          <div className="flex justify-center gap-2 flex-wrap">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setSelectedCategory(category.id)}
-                className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
+                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
                   selectedCategory === category.id
-                    ? 'bg-primary text-primary-foreground shadow-lg scale-105'
-                    : 'bg-card border-2 border-border hover:border-primary/40 hover:scale-105'
+                    ? 'bg-primary text-primary-foreground shadow-lg'
+                    : 'bg-card border border-border hover:border-primary/50 text-foreground'
                 }`}
               >
                 {category.label}
+                {selectedCategory === category.id && (
+                  <span className="ml-2 text-xs opacity-80">
+                    ({filteredImages.length})
+                  </span>
+                )}
               </button>
             ))}
           </div>
         </div>
+      </section>
 
-        {filteredImages.length === 0 ? (
-          <div className="text-center py-16 animate-fade-in">
-            <div className="inline-flex p-6 bg-muted rounded-full mb-4">
-              <Search className="h-12 w-12 text-muted-foreground" />
-            </div>
-            <p className="text-xl text-muted-foreground mb-2">Aucune photo trouvée</p>
-            <p className="text-sm text-muted-foreground">
-              {searchQuery ? `pour "${searchQuery}"` : 'dans cette catégorie'}
-            </p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-4 max-w-7xl mx-auto">
-            {filteredImages.map((image, index) => (
-            <div
-              key={index}
-              className="aspect-[4/3] overflow-hidden rounded-xl shadow-lg hover-lift group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] relative cursor-pointer"
-              style={{ animationDelay: `${index * 50}ms` }}
-              onClick={() => setSelectedImage(image)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  setSelectedImage(image);
-                }
-              }}
-            >
-              <img
-                src={image.src}
-                alt={image.alt}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                loading="lazy"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300"%3E%3Crect fill="%23f3f4f6" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%239ca3af"%3EImage non disponible%3C/text%3E%3C/svg%3E';
-                }}
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-3 sm:p-4">
-                <span className="text-white font-medium text-sm sm:text-base">{image.alt}</span>
+      {/* Gallery Grid */}
+      <section className="py-10 sm:py-16">
+        <div className="container mx-auto px-4">
+          {filteredImages.length === 0 ? (
+            <div className="text-center py-20 animate-fade-in">
+              <div className="inline-flex p-6 bg-muted rounded-full mb-4">
+                <Search className="h-12 w-12 text-muted-foreground" />
               </div>
+              <p className="text-xl text-foreground font-medium mb-2">Aucune photo trouvée</p>
+              <p className="text-sm text-muted-foreground">
+                {searchQuery ? `pour "${searchQuery}"` : 'dans cette catégorie'}
+              </p>
             </div>
-            ))}
-          </div>
-        )}
-      </div>
+          ) : (
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+              {filteredImages.map((image, index) => (
+                <div
+                  key={index}
+                  className="break-inside-avoid animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+                  style={{ animationDelay: `${Math.min(index * 30, 300)}ms` }}
+                >
+                  <button
+                    onClick={() => setSelectedImageIndex(index)}
+                    className="relative w-full overflow-hidden rounded-2xl group cursor-pointer block"
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt}
+                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
+                      loading="lazy"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+                      <div className="absolute bottom-0 left-0 right-0 p-4">
+                        <p className="text-white font-medium text-sm">{image.alt}</p>
+                      </div>
+                    </div>
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Lightbox Modal */}
       {selectedImage && (
         <div 
-          className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4 animate-fade-in"
-          onClick={() => setSelectedImage(null)}
-          role="dialog"
-          aria-modal="true"
-          aria-label="Image en grand format"
+          className="fixed inset-0 z-50 bg-black flex items-center justify-center animate-fade-in"
+          onClick={() => setSelectedImageIndex(null)}
         >
+          {/* Close button */}
           <button
-            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
-            onClick={() => setSelectedImage(null)}
+            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
+            onClick={() => setSelectedImageIndex(null)}
             aria-label="Fermer"
           >
             <X className="h-6 w-6 text-white" />
           </button>
-          <div className="max-w-7xl max-h-[90vh] w-full h-full flex flex-col items-center justify-center">
+
+          {/* Navigation */}
+          <button
+            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImageIndex((prev) => 
+                prev !== null ? (prev - 1 + filteredImages.length) % filteredImages.length : null
+              );
+            }}
+            aria-label="Image précédente"
+          >
+            <ChevronLeft className="h-6 w-6 text-white" />
+          </button>
+          
+          <button
+            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
+            onClick={(e) => {
+              e.stopPropagation();
+              setSelectedImageIndex((prev) => 
+                prev !== null ? (prev + 1) % filteredImages.length : null
+              );
+            }}
+            aria-label="Image suivante"
+          >
+            <ChevronRight className="h-6 w-6 text-white" />
+          </button>
+
+          {/* Image */}
+          <div className="max-w-6xl max-h-[85vh] w-full h-full flex flex-col items-center justify-center px-16">
             <img
               src={selectedImage.src}
               alt={selectedImage.alt}
               className="max-w-full max-h-full object-contain rounded-lg"
               onClick={(e) => e.stopPropagation()}
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600"%3E%3Crect fill="%23000" width="800" height="600"/%3E%3Ctext x="50%25" y="50%25" text-anchor="middle" fill="%23fff"%3EImage non disponible%3C/text%3E%3C/svg%3E';
-              }}
             />
-            <p className="text-white text-lg mt-4 text-center px-4">{selectedImage.alt}</p>
+            <div className="mt-4 text-center">
+              <p className="text-white text-lg font-medium">{selectedImage.alt}</p>
+              <p className="text-white/60 text-sm mt-1">
+                {selectedImageIndex !== null ? selectedImageIndex + 1 : 0} / {filteredImages.length}
+              </p>
+            </div>
           </div>
         </div>
       )}
