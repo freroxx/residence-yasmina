@@ -51,20 +51,27 @@ const Gallery = () => {
   ];
 
   const images = [
+    // Residence - exterior views of the building
     { src: aerialBuilding, alt: t('gallery.aerial'), category: 'residence' },
+    { src: residenceExterieur, alt: 'La résidence de l\'extérieur', category: 'residence' },
+    { src: paysageExterieur, alt: 'Paysage de l\'extérieur', category: 'residence' },
+    { src: tennisGardens, alt: t('gallery.tennis'), category: 'residence' },
+    { src: vueTerrainsTennis, alt: 'Vue sur terrains de tennis', category: 'residence' },
+    
+    // Pool
     { src: poolUmbrellas, alt: t('gallery.pool'), category: 'pool' },
     { src: poolPatio, alt: t('gallery.poolArea'), category: 'pool' },
     { src: piscineIntegree, alt: 'Piscine intégrée', category: 'pool' },
-    { src: tennisGardens, alt: t('gallery.tennis'), category: 'residence' },
-    { src: vueTerrainsTennis, alt: 'Vue sur terrains de tennis', category: 'residence' },
-    { src: gardenPlants, alt: t('gallery.garden'), category: 'residence' },
-    { src: residenceExterieur, alt: 'La résidence de l\'extérieur', category: 'residence' },
-    { src: paysageExterieur, alt: 'Paysage de l\'extérieur', category: 'residence' },
-    { src: fontaineJardin, alt: 'Fontaine Jardin', category: 'garden' },
+    { src: parasolsToit, alt: 'Parasols au toit-terrasse', category: 'pool' },
+    
+    // Gardens
+    { src: gardenPlants, alt: t('gallery.garden'), category: 'garden' },
+    { src: fontaineJardin, alt: 'Fontaine du jardin', category: 'garden' },
     { src: vueJardinInterieur, alt: 'Vue sur jardin intérieur', category: 'garden' },
     { src: espacePaisible, alt: 'Espace paisible', category: 'garden' },
     { src: espaceTranquille, alt: 'Espace tranquille', category: 'garden' },
-    { src: parasolsToit, alt: 'Parasols au toit', category: 'garden' },
+    
+    // Rooms & Suites
     { src: suiteA, alt: 'Suite A - Chambre', category: 'rooms' },
     { src: suiteA1, alt: 'Suite A - Salle de bain', category: 'rooms' },
     { src: suiteA3, alt: 'Suite A - Salon', category: 'rooms' },
@@ -80,7 +87,7 @@ const Gallery = () => {
     { src: livingRoomSofa, alt: t('gallery.livingRoom'), category: 'rooms' },
     { src: apartmentInterior, alt: t('gallery.apartment'), category: 'rooms' },
     { src: balconyView, alt: t('gallery.view'), category: 'rooms' },
-    { src: vueBalconNew, alt: 'Vue balcon', category: 'rooms' },
+    { src: vueBalconNew, alt: 'Vue depuis le balcon', category: 'rooms' },
   ];
 
   const filteredImages = useMemo(() => {
@@ -197,14 +204,16 @@ const Gallery = () => {
           ) : (
             <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5">
               {filteredImages.map((image, index) => {
-                const isLoaded = loadedImages.has(index);
-                const hasError = errorImages.has(index);
+                // Use the original image index for tracking load/error state
+                const originalIndex = images.findIndex(img => img.src === image.src);
+                const isLoaded = loadedImages.has(originalIndex);
+                const hasError = errorImages.has(originalIndex);
                 
                 if (hasError) return null;
                 
                 return (
                   <div
-                    key={index}
+                    key={`${image.src}-${index}`}
                     className="break-inside-avoid mb-5 animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
                     style={{ animationDelay: `${Math.min(index * 50, 500)}ms` }}
                   >
@@ -224,8 +233,8 @@ const Gallery = () => {
                           isLoaded ? 'opacity-100' : 'opacity-0'
                         }`}
                         loading="lazy"
-                        onLoad={() => handleImageLoad(index)}
-                        onError={() => handleImageError(index)}
+                        onLoad={() => handleImageLoad(originalIndex)}
+                        onError={() => handleImageError(originalIndex)}
                       />
                       
                       {/* Hover overlay */}
