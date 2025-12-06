@@ -15,6 +15,12 @@ const ImageLightbox = ({ images, currentIndex, onClose, onNavigate }: ImageLight
   const [isLoading, setIsLoading] = useState(true);
 
   const currentImage = images[currentIndex];
+  
+  // Safety check - close if no valid image
+  if (!currentImage) {
+    onClose();
+    return null;
+  }
 
   const goToPrevious = useCallback(() => {
     const newIndex = (currentIndex - 1 + images.length) % images.length;
