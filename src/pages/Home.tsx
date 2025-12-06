@@ -83,27 +83,27 @@ const Home = () => {
         </div>
         
         <div className="relative z-10 text-center text-white px-4 sm:px-6 max-w-4xl">
-          <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-4 sm:px-5 py-2.5 glass rounded-full animate-fade-in hover-scale-sm">
+          <div className="inline-flex items-center gap-2 mb-4 sm:mb-6 px-4 sm:px-5 py-2.5 glass rounded-full animate-fade-in">
             <Sparkles className="w-4 h-4 animate-pulse-soft" />
             <span className="text-xs sm:text-sm font-semibold tracking-wider uppercase">Appart'Hotel</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 animate-fade-in-up [animation-delay:200ms] opacity-0 [animation-fill-mode:forwards] leading-tight hover-brightness">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif mb-4 sm:mb-6 opacity-0 animate-fade-in-up [animation-delay:200ms] [animation-fill-mode:forwards] leading-tight">
             {t('hero.title')}
           </h1>
-          <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 opacity-95 animate-fade-in-up [animation-delay:400ms] opacity-0 [animation-fill-mode:forwards] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl md:text-2xl mb-8 sm:mb-10 text-white/90 opacity-0 animate-fade-in-up [animation-delay:400ms] [animation-fill-mode:forwards] max-w-2xl mx-auto leading-relaxed">
             {t('hero.subtitle')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up [animation-delay:600ms] opacity-0 [animation-fill-mode:forwards]">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center opacity-0 animate-fade-in-up [animation-delay:600ms] [animation-fill-mode:forwards]">
             <Link to="/booking" className="group w-full sm:w-auto">
-              <Button size="xl" className="w-full sm:w-auto hover:scale-105 transition-transform">
+              <Button size="xl" className="w-full sm:w-auto">
                 {t('hero.cta')}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
             </Link>
             <Link to="/rooms" className="group w-full sm:w-auto">
-              <Button size="xl" variant="hero" className="w-full sm:w-auto hover:scale-105 transition-transform">
+              <Button size="xl" variant="hero" className="w-full sm:w-auto">
                 {t('nav.rooms')}
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </Button>
             </Link>
           </div>
@@ -143,10 +143,10 @@ const Home = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="text-center p-8 bg-card rounded-xl hover-lift-lg animate-on-scroll border border-border"
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="text-center p-8 bg-card rounded-xl border border-border opacity-0 animate-fade-in-up [animation-fill-mode:forwards] hover:-translate-y-2 hover:shadow-xl transition-all duration-500"
+                style={{ animationDelay: `${index * 150}ms` }}
               >
-                <div className="inline-flex p-4 sm:p-5 bg-primary/10 rounded-full mb-4 sm:mb-5">
+                <div className="inline-flex p-4 sm:p-5 bg-primary/10 rounded-full mb-4 sm:mb-5 group-hover:scale-110 transition-transform duration-300">
                   <stat.icon className="h-7 w-7 sm:h-9 sm:w-9 text-primary" />
                 </div>
                 <div className="text-3xl sm:text-4xl font-bold text-primary mb-2">{stat.value}</div>
@@ -179,8 +179,8 @@ const Home = () => {
             {features.map((feature, index) => (
               <div
                 key={index}
-                className="animate-on-scroll relative flex flex-col items-center text-center space-y-5 p-8 lg:p-10 bg-card rounded-2xl hover-lift-lg group border-2 border-border hover:border-primary/30 transition-all duration-500 overflow-hidden"
-                style={{ animationDelay: `${index * 150}ms` }}
+                className="relative flex flex-col items-center text-center space-y-5 p-8 lg:p-10 bg-card rounded-2xl group border-2 border-border hover:border-primary/30 overflow-hidden opacity-0 animate-fade-in-up [animation-fill-mode:forwards] hover:-translate-y-3 hover:shadow-2xl transition-all duration-500"
+                style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Hover gradient effect */}
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -226,7 +226,7 @@ const Home = () => {
             ].map((room, index) => (
               <Card 
                 key={index} 
-                className="hover-lift-lg animate-fade-in-up opacity-0 [animation-fill-mode:forwards] border-2 hover:border-primary/40 transition-all duration-500 group overflow-hidden relative" 
+                className="opacity-0 animate-fade-in-up [animation-fill-mode:forwards] border-2 hover:border-primary/40 group overflow-hidden relative hover:-translate-y-3 hover:shadow-2xl transition-all duration-500" 
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 {/* Gradient background overlay */}
@@ -236,7 +236,7 @@ const Home = () => {
                   <div className="inline-flex p-6 bg-gradient-to-br from-primary/10 to-accent/10 rounded-2xl mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500">
                     <room.icon className="h-10 w-10 text-primary" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{room.title}</h3>
+                  <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors duration-300">{room.title}</h3>
                   <p className="text-muted-foreground mb-3 text-lg">{room.desc}</p>
                   <div className="inline-block px-4 py-2 bg-primary/10 rounded-full">
                     <p className="text-lg text-primary font-bold">{room.size}</p>
@@ -248,9 +248,9 @@ const Home = () => {
 
           <div className="text-center">
             <Link to="/rooms" className="group">
-              <Button size="xl" className="hover:scale-105 transition-transform">
+              <Button size="xl">
                 Voir Tous les Logements
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
               </Button>
             </Link>
           </div>
@@ -277,7 +277,7 @@ const Home = () => {
             ].map((img, index) => (
               <div 
                 key={index}
-                className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl group animate-fade-in-up opacity-0 [animation-fill-mode:forwards] hover-lift-lg"
+                className="relative aspect-[4/3] overflow-hidden rounded-2xl shadow-2xl group opacity-0 animate-fade-in-up [animation-fill-mode:forwards] hover:-translate-y-3 hover:shadow-3xl transition-all duration-500"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
                 <img
@@ -297,9 +297,9 @@ const Home = () => {
 
           <div className="text-center mt-12">
             <Link to="/gallery" className="group">
-              <Button size="xl" variant="outline" className="hover:scale-105 transition-transform hover:bg-primary hover:text-primary-foreground hover:border-primary">
+              <Button size="xl" variant="outline" className="hover:bg-primary hover:text-primary-foreground hover:border-primary">
                 Voir Toute la Galerie
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-2 transition-transform duration-300" />
               </Button>
             </Link>
           </div>

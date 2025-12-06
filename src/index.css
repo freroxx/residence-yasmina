@@ -50,33 +50,40 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 25 30% 15%;
-    --foreground: 42 45% 97%;
+    /* Deep, rich dark background with warm undertones */
+    --background: 20 20% 8%;
+    --foreground: 40 30% 95%;
 
-    --card: 25 25% 18%;
-    --card-foreground: 42 45% 97%;
+    /* Elevated card surfaces */
+    --card: 20 18% 12%;
+    --card-foreground: 40 30% 95%;
 
-    --popover: 25 25% 18%;
-    --popover-foreground: 42 45% 97%;
+    --popover: 20 18% 14%;
+    --popover-foreground: 40 30% 95%;
 
-    --primary: 0 55% 45%;
-    --primary-foreground: 42 45% 97%;
+    /* Vibrant burgundy primary for dark mode */
+    --primary: 0 60% 55%;
+    --primary-foreground: 40 30% 98%;
 
-    --secondary: 25 20% 25%;
-    --secondary-foreground: 42 45% 97%;
+    /* Rich secondary tones */
+    --secondary: 20 15% 18%;
+    --secondary-foreground: 40 30% 90%;
 
-    --muted: 25 20% 25%;
-    --muted-foreground: 38 15% 65%;
+    /* Balanced muted colors */
+    --muted: 20 12% 20%;
+    --muted-foreground: 35 20% 60%;
 
-    --accent: 45 80% 55%;
-    --accent-foreground: 25 30% 15%;
+    /* Golden accent with high visibility */
+    --accent: 42 85% 58%;
+    --accent-foreground: 20 20% 10%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 42 45% 97%;
+    --destructive: 0 65% 50%;
+    --destructive-foreground: 40 30% 98%;
 
-    --border: 25 20% 30%;
-    --input: 25 20% 30%;
-    --ring: 0 55% 45%;
+    /* Subtle but visible borders */
+    --border: 20 15% 22%;
+    --input: 20 15% 22%;
+    --ring: 0 60% 55%;
   }
 }
 

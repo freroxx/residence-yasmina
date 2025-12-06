@@ -1,7 +1,8 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useState, useMemo, useEffect } from 'react';
-import { X, Search, Camera, Grid3X3, LayoutGrid, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState, useMemo } from 'react';
+import { Search, Camera, Grid3X3, LayoutGrid, Bed, Droplets, Building, Trees, ImageOff } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import ImageLightbox from '@/components/ImageLightbox';
 import aerialBuilding from '@/assets/aerial-building.jpg';
 import poolUmbrellas from '@/assets/pool-umbrellas.jpg';
 import poolPatio from '@/assets/pool-patio.jpg';
@@ -38,13 +39,15 @@ const Gallery = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState<number | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
+  const [errorImages, setErrorImages] = useState<Set<number>>(new Set());
 
   const categories = [
     { id: 'all', label: 'Tout', icon: Grid3X3 },
-    { id: 'rooms', label: 'Chambres', icon: LayoutGrid },
-    { id: 'pool', label: 'Piscine', icon: Camera },
-    { id: 'residence', label: 'Résidence', icon: Camera },
-    { id: 'garden', label: 'Jardins', icon: Camera },
+    { id: 'rooms', label: 'Chambres', icon: Bed },
+    { id: 'pool', label: 'Piscine', icon: Droplets },
+    { id: 'residence', label: 'Résidence', icon: Building },
+    { id: 'garden', label: 'Jardins', icon: Trees },
   ];
 
   const images = [
@@ -96,63 +99,51 @@ const Gallery = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (selectedImageIndex === null) return;
-      
-      if (e.key === 'Escape') setSelectedImageIndex(null);
-      if (e.key === 'ArrowRight') setSelectedImageIndex((prev) => 
-        prev !== null ? (prev + 1) % filteredImages.length : null
-      );
-      if (e.key === 'ArrowLeft') setSelectedImageIndex((prev) => 
-        prev !== null ? (prev - 1 + filteredImages.length) % filteredImages.length : null
-      );
-    };
-    
-    if (selectedImageIndex !== null) {
-      document.addEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'hidden';
-    }
-    
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-      document.body.style.overflow = 'unset';
-    };
-  }, [selectedImageIndex, filteredImages.length]);
+  const handleImageLoad = (index: number) => {
+    setLoadedImages(prev => new Set(prev).add(index));
+  };
 
-  const selectedImage = selectedImageIndex !== null ? filteredImages[selectedImageIndex] : null;
+  const handleImageError = (index: number) => {
+    setErrorImages(prev => new Set(prev).add(index));
+  };
+
+  const getCategoryCount = (categoryId: string) => {
+    if (categoryId === 'all') return images.length;
+    return images.filter(img => img.category === categoryId).length;
+  };
 
   return (
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
-      <section className="relative py-16 sm:py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-transparent" />
-        <div className="absolute top-10 right-10 w-64 h-64 bg-accent/10 rounded-full blur-3xl" />
+      <section className="relative py-20 sm:py-28 overflow-hidden">
+        {/* Background decorations */}
+        <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-transparent" />
+        <div className="absolute top-20 right-20 w-80 h-80 bg-accent/10 rounded-full blur-3xl animate-pulse-soft" />
+        <div className="absolute bottom-20 left-20 w-64 h-64 bg-primary/10 rounded-full blur-3xl animate-pulse-soft [animation-delay:1s]" />
         
         <div className="container mx-auto px-4 relative">
-          <div className="text-center max-w-3xl mx-auto animate-fade-in-up">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-full mb-6">
-              <Camera className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-primary">{images.length} Photos</span>
+          <div className="text-center max-w-3xl mx-auto">
+            <div className="inline-flex items-center gap-3 px-5 py-2.5 bg-card border border-border rounded-full mb-8 animate-fade-in shadow-lg">
+              <Camera className="w-5 h-5 text-primary" />
+              <span className="text-base font-semibold text-primary">{images.length} Photos</span>
             </div>
             
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-serif text-foreground mb-4">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold font-serif text-foreground mb-6 animate-fade-in-up [animation-delay:100ms]">
               {t('gallery.title')}
             </h1>
-            <p className="text-lg text-muted-foreground max-w-xl mx-auto mb-10">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-xl mx-auto mb-12 animate-fade-in-up [animation-delay:200ms]">
               {t('gallery.subtitle')}
             </p>
             
             {/* Search */}
-            <div className="max-w-md mx-auto relative">
-              <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
+            <div className="max-w-lg mx-auto relative animate-fade-in-up [animation-delay:300ms]">
+              <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
               <Input
                 type="text"
-                placeholder="Rechercher..."
+                placeholder="Rechercher une photo..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 h-14 text-base rounded-2xl border-2 focus:border-primary shadow-lg"
+                className="pl-14 h-16 text-lg rounded-2xl border-2 focus:border-primary shadow-xl bg-card"
               />
             </div>
           </div>
@@ -160,136 +151,114 @@ const Gallery = () => {
       </section>
 
       {/* Category Filters */}
-      <section className="sticky top-16 lg:top-20 z-40 bg-background/95 backdrop-blur-lg border-b border-border py-4">
+      <section className="sticky top-16 lg:top-20 z-40 bg-background/95 backdrop-blur-xl border-b border-border py-5">
         <div className="container mx-auto px-4">
-          <div className="flex justify-center gap-2 flex-wrap">
-            {categories.map((category) => (
-              <button
-                key={category.id}
-                onClick={() => setSelectedCategory(category.id)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
-                  selectedCategory === category.id
-                    ? 'bg-primary text-primary-foreground shadow-lg'
-                    : 'bg-card border border-border hover:border-primary/50 text-foreground'
-                }`}
-              >
-                {category.label}
-                {selectedCategory === category.id && (
-                  <span className="ml-2 text-xs opacity-80">
-                    ({filteredImages.length})
+          <div className="flex justify-center gap-3 flex-wrap">
+            {categories.map((category) => {
+              const Icon = category.icon;
+              const isActive = selectedCategory === category.id;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300 ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25 scale-105'
+                      : 'bg-card border-2 border-border hover:border-primary/40 text-foreground hover:bg-primary/5'
+                  }`}
+                >
+                  <Icon className={`w-4 h-4 ${isActive ? '' : 'text-muted-foreground'}`} />
+                  {category.label}
+                  <span className={`ml-1 text-xs px-2 py-0.5 rounded-full ${
+                    isActive ? 'bg-white/20' : 'bg-muted'
+                  }`}>
+                    {getCategoryCount(category.id)}
                   </span>
-                )}
-              </button>
-            ))}
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
 
       {/* Gallery Grid */}
-      <section className="py-10 sm:py-16">
+      <section className="py-12 sm:py-20">
         <div className="container mx-auto px-4">
           {filteredImages.length === 0 ? (
-            <div className="text-center py-20 animate-fade-in">
-              <div className="inline-flex p-6 bg-muted rounded-full mb-4">
-                <Search className="h-12 w-12 text-muted-foreground" />
+            <div className="text-center py-24 animate-fade-in">
+              <div className="inline-flex p-8 bg-muted rounded-full mb-6">
+                <ImageOff className="h-16 w-16 text-muted-foreground" />
               </div>
-              <p className="text-xl text-foreground font-medium mb-2">Aucune photo trouvée</p>
-              <p className="text-sm text-muted-foreground">
-                {searchQuery ? `pour "${searchQuery}"` : 'dans cette catégorie'}
+              <p className="text-2xl text-foreground font-semibold mb-3">Aucune photo trouvée</p>
+              <p className="text-muted-foreground">
+                {searchQuery ? `Aucun résultat pour "${searchQuery}"` : 'Aucune photo dans cette catégorie'}
               </p>
             </div>
           ) : (
-            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
-              {filteredImages.map((image, index) => (
-                <div
-                  key={index}
-                  className="break-inside-avoid animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
-                  style={{ animationDelay: `${Math.min(index * 30, 300)}ms` }}
-                >
-                  <button
-                    onClick={() => setSelectedImageIndex(index)}
-                    className="relative w-full overflow-hidden rounded-2xl group cursor-pointer block"
+            <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-5">
+              {filteredImages.map((image, index) => {
+                const isLoaded = loadedImages.has(index);
+                const hasError = errorImages.has(index);
+                
+                if (hasError) return null;
+                
+                return (
+                  <div
+                    key={index}
+                    className="break-inside-avoid mb-5 animate-fade-in-up opacity-0 [animation-fill-mode:forwards]"
+                    style={{ animationDelay: `${Math.min(index * 50, 500)}ms` }}
                   >
-                    <img
-                      src={image.src}
-                      alt={image.alt}
-                      className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-700"
-                      loading="lazy"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
-                      <div className="absolute bottom-0 left-0 right-0 p-4">
-                        <p className="text-white font-medium text-sm">{image.alt}</p>
+                    <button
+                      onClick={() => setSelectedImageIndex(index)}
+                      className="relative w-full overflow-hidden rounded-2xl group cursor-pointer block shadow-lg hover:shadow-2xl transition-all duration-500"
+                    >
+                      {/* Loading skeleton */}
+                      {!isLoaded && (
+                        <div className="absolute inset-0 bg-muted animate-pulse rounded-2xl" />
+                      )}
+                      
+                      <img
+                        src={image.src}
+                        alt={image.alt}
+                        className={`w-full h-auto object-cover group-hover:scale-110 transition-all duration-700 ${
+                          isLoaded ? 'opacity-100' : 'opacity-0'
+                        }`}
+                        loading="lazy"
+                        onLoad={() => handleImageLoad(index)}
+                        onError={() => handleImageError(index)}
+                      />
+                      
+                      {/* Hover overlay */}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                        <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                          <p className="text-white font-semibold text-base">{image.alt}</p>
+                          <p className="text-white/60 text-sm mt-1 capitalize">{image.category}</p>
+                        </div>
+                        
+                        {/* View icon */}
+                        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300 delay-100">
+                          <div className="w-14 h-14 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center">
+                            <LayoutGrid className="w-6 h-6 text-white" />
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </button>
-                </div>
-              ))}
+                    </button>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
       </section>
 
       {/* Lightbox Modal */}
-      {selectedImage && (
-        <div 
-          className="fixed inset-0 z-50 bg-black flex items-center justify-center animate-fade-in"
-          onClick={() => setSelectedImageIndex(null)}
-        >
-          {/* Close button */}
-          <button
-            className="absolute top-4 right-4 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
-            onClick={() => setSelectedImageIndex(null)}
-            aria-label="Fermer"
-          >
-            <X className="h-6 w-6 text-white" />
-          </button>
-
-          {/* Navigation */}
-          <button
-            className="absolute left-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedImageIndex((prev) => 
-                prev !== null ? (prev - 1 + filteredImages.length) % filteredImages.length : null
-              );
-            }}
-            aria-label="Image précédente"
-          >
-            <ChevronLeft className="h-6 w-6 text-white" />
-          </button>
-          
-          <button
-            className="absolute right-4 top-1/2 -translate-y-1/2 p-3 bg-white/10 hover:bg-white/20 rounded-full transition-colors z-10"
-            onClick={(e) => {
-              e.stopPropagation();
-              setSelectedImageIndex((prev) => 
-                prev !== null ? (prev + 1) % filteredImages.length : null
-              );
-            }}
-            aria-label="Image suivante"
-          >
-            <ChevronRight className="h-6 w-6 text-white" />
-          </button>
-
-          {/* Image */}
-          <div className="max-w-6xl max-h-[85vh] w-full h-full flex flex-col items-center justify-center px-16">
-            <img
-              src={selectedImage.src}
-              alt={selectedImage.alt}
-              className="max-w-full max-h-full object-contain rounded-lg"
-              onClick={(e) => e.stopPropagation()}
-            />
-            <div className="mt-4 text-center">
-              <p className="text-white text-lg font-medium">{selectedImage.alt}</p>
-              <p className="text-white/60 text-sm mt-1">
-                {selectedImageIndex !== null ? selectedImageIndex + 1 : 0} / {filteredImages.length}
-              </p>
-            </div>
-          </div>
-        </div>
+      {selectedImageIndex !== null && (
+        <ImageLightbox
+          images={filteredImages}
+          currentIndex={selectedImageIndex}
+          onClose={() => setSelectedImageIndex(null)}
+          onNavigate={setSelectedImageIndex}
+        />
       )}
     </div>
   );
