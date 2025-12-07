@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Facebook, Instagram, Mail, Phone, MapPin, ArrowRight, ExternalLink } from 'lucide-react';
+import { Facebook, Instagram, Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
 
 const Footer = () => {
   const { t } = useLanguage();
@@ -120,26 +120,17 @@ const Footer = () => {
 
           {/* Book Now CTA */}
           <div className="bg-background/5 rounded-2xl p-6 border border-background/10">
-            <h4 className="text-lg font-semibold mb-3">Réservez maintenant</h4>
+            <h4 className="text-lg font-semibold mb-3">{t('footer.bookNow')}</h4>
             <p className="text-sm text-background/70 mb-5">
-              Planifiez votre séjour idéal à Agadir
+              {t('footer.planStay')}
             </p>
             <Link 
               to="/booking"
               className="inline-flex items-center gap-2 px-5 py-3 bg-accent text-accent-foreground rounded-xl font-semibold text-sm hover:bg-accent/90 transition-all hover:gap-3 w-full justify-center"
             >
-              Réserver
+              {t('footer.book')}
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <a 
-              href="https://www.booking.com/hotel/ma/residence-yasmina-agadir.fr.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-3 inline-flex items-center gap-2 px-5 py-3 bg-background/10 text-background rounded-xl font-medium text-sm hover:bg-background/20 transition-all w-full justify-center"
-            >
-              Booking.com
-              <ExternalLink className="h-4 w-4" />
-            </a>
           </div>
         </div>
       </div>
