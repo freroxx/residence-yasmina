@@ -1,48 +1,40 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ExternalLink, Calendar, Users, Mail, Phone, MapPin, Clock, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ExternalLink, Calendar, Users, Mail, Phone, MapPin, Clock, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 const Booking = () => {
   const { t } = useLanguage();
 
   const bookingSteps = [
-    { icon: Calendar, label: 'Choisissez vos dates', desc: 'Sélectionnez vos dates d\'arrivée et de départ' },
-    { icon: Users, label: 'Nombre de personnes', desc: 'Indiquez le nombre de voyageurs' },
-    { icon: Mail, label: 'Coordonnées', desc: 'Partagez vos informations de contact' },
-    { icon: CheckCircle2, label: 'Confirmation', desc: 'Recevez votre confirmation par email' },
+    { icon: Calendar, label: t('booking.steps.dates'), desc: t('booking.steps.datesDesc') },
+    { icon: Users, label: t('booking.steps.guests'), desc: t('booking.steps.guestsDesc') },
+    { icon: Mail, label: t('booking.steps.contact'), desc: t('booking.steps.contactDesc') },
+    { icon: CheckCircle2, label: t('booking.steps.confirm'), desc: t('booking.steps.confirmDesc') },
   ];
 
   const contactMethods = [
     { 
       icon: Phone, 
-      title: 'Téléphone', 
+      title: t('contact.phone'), 
       value: '+212 528 84 31 31', 
-      desc: 'Plusieurs lignes disponibles',
+      desc: t('booking.multipleLines'),
       action: 'tel:+212528843131',
       additionalNumbers: ['+212 528 84 26 60', '+212 528 84 25 65']
     },
     { 
       icon: Mail, 
-      title: 'Email', 
+      title: t('contact.email'), 
       value: 'ReservationYasmina@gmail.com', 
-      desc: 'Réponse rapide',
+      desc: t('booking.quickResponse'),
       action: 'mailto:ReservationYasmina@gmail.com'
     },
     { 
       icon: MapPin, 
-      title: 'Adresse', 
+      title: t('contact.address'), 
       value: 'Rue de la Jeunesse', 
       desc: '80000 Agadir, Maroc',
       action: 'https://maps.google.com/?q=Residence+Yasmina+Agadir'
-    },
-    { 
-      icon: Calendar, 
-      title: 'Booking.com', 
-      value: 'Réserver en ligne', 
-      desc: 'Plateforme sécurisée',
-      action: 'https://www.booking.com/hotel/ma/residence-yasmina-agadir.fr.html',
-      external: true
     },
   ];
 
@@ -57,7 +49,7 @@ const Booking = () => {
         <div className="text-center mb-12 sm:mb-16 animate-fade-in max-w-4xl mx-auto">
           <div className="inline-flex items-center gap-2 px-6 py-3 glass rounded-full mb-6">
             <Calendar className="w-4 h-4 text-primary" />
-            <span className="text-sm font-bold tracking-wider uppercase">Réservation</span>
+            <span className="text-sm font-bold tracking-wider uppercase">{t('booking.title')}</span>
           </div>
           <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-serif text-foreground mb-6 leading-tight">
             {t('booking.title')}
@@ -77,7 +69,7 @@ const Booking = () => {
                   <step.icon className="h-8 w-8 text-primary" />
                 </div>
                 <div className="mb-3 px-3 py-1 bg-primary/10 rounded-full inline-block">
-                  <span className="text-sm font-bold text-primary">Étape {index + 1}</span>
+                  <span className="text-sm font-bold text-primary">{t('booking.step')} {index + 1}</span>
                 </div>
                 <h3 className="text-lg font-bold mb-2 group-hover:text-primary transition-colors">{step.label}</h3>
                 <p className="text-sm text-muted-foreground">{step.desc}</p>
@@ -105,7 +97,7 @@ const Booking = () => {
               <iframe
                 src="https://docs.google.com/forms/d/e/1FAIpQLSfnp64jbdhSWsZqQQciqin96KKwzJQE42nBFpWTEOrGCGDgcQ/viewform?embedded=true"
                 width="100%"
-                height="1200"
+                height="1600"
                 frameBorder="0"
                 marginHeight={0}
                 marginWidth={0}
@@ -140,17 +132,17 @@ const Booking = () => {
         <div className="max-w-6xl mx-auto mt-12 sm:mt-16">
           <div className="text-center mb-10">
             <div className="inline-block px-5 py-2.5 bg-primary/10 rounded-full mb-4">
-              <span className="text-sm font-bold text-primary tracking-wide uppercase">Besoin d'aide?</span>
+              <span className="text-sm font-bold text-primary tracking-wide uppercase">{t('booking.needHelp')}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold font-serif mb-4">
-              Contactez-nous directement
+              {t('booking.contactDirectly')}
             </h2>
             <p className="text-lg text-muted-foreground">
-              Notre équipe est à votre disposition pour toute question
+              {t('booking.teamAvailable')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {contactMethods.map((method, index) => (
                 <Card 
                   key={index} 
@@ -184,11 +176,7 @@ const Booking = () => {
                     </div>
                   )}
                   <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
-                    {method.external ? (
-                      <ExternalLink className="h-4 w-4" />
-                    ) : (
-                      <Clock className="h-4 w-4" />
-                    )}
+                    <Clock className="h-4 w-4" />
                     <span>{method.desc}</span>
                   </div>
                 </CardContent>
@@ -205,11 +193,9 @@ const Booking = () => {
                 <CheckCircle2 className="h-8 w-8 text-primary" />
               </div>
               <div>
-                <h3 className="text-xl font-bold mb-3">Confirmation instantanée</h3>
+                <h3 className="text-xl font-bold mb-3">{t('booking.instantConfirmation')}</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  Votre demande de réservation sera traitée dans les plus brefs délais. 
-                  Vous recevrez un email de confirmation avec tous les détails de votre séjour, 
-                  les modalités de paiement et les instructions d'arrivée.
+                  {t('booking.confirmationText')}
                 </p>
               </div>
             </div>
